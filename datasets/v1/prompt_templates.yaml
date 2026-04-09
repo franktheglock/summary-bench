@@ -1,0 +1,83 @@
+# Prompt Templates for Summary Arena v1
+# Each category has a system prompt and a user prompt template.
+# Use {input_text} as the placeholder for the actual content to summarize.
+
+news:
+  system: >-
+    Write a concise, factual news summary that captures only the key facts.
+    Do not add information that is not present in the article.
+  user: >-
+    Summarize the following news article in 1-2 sentences.
+    Focus on the who, what, when, where, and why. Keep it tight.
+
+
+    {input_text}
+
+code:
+  system: >-
+    Write a precise technical summary of the code's purpose and key logic.
+    Use correct terminology and avoid filler.
+  user: >-
+    Summarize this code in 2-4 sentences focusing on its purpose
+    and key logic. Be concise and technical.
+
+
+    {input_text}
+
+agentic:
+  system: >-
+    Summarize agent interaction logs by extracting the goal, key actions,
+    tools used, decisions made, and outcome. Be structured and concise.
+  user: >-
+    Summarize the following multi-turn agent interaction log.
+    Include: the agent's goal, key actions/tool calls, decisions made,
+    and the final outcome. Keep it to 3-6 sentences.
+
+
+    {input_text}
+
+meeting:
+  system: >-
+    Summarize meeting transcripts by capturing key discussion points,
+    decisions, action items, and open questions. Be structured and concise.
+  user: >-
+    Summarize the following meeting transcript. Include:
+    key topics discussed, decisions made, and any action items.
+    Keep it to 3-5 sentences.
+
+
+    {input_text}
+
+legal:
+  system: >-
+    Summarize legal text with precision. Cover obligations, conditions,
+    parties involved, and notable terms using plain language.
+  user: >-
+    Summarize the following contract clause or legal text in 2-4 sentences.
+    Focus on the key obligations, conditions, and implications for the parties involved.
+
+
+    {input_text}
+
+scientific:
+  system: >-
+    Summarize scientific text clearly, covering the problem, method,
+    key findings, and significance. Use appropriate technical terminology.
+  user: >-
+    Summarize the following scientific text in 3-5 sentences.
+    Cover the research problem, approach, key findings, and their significance.
+
+
+    {input_text}
+
+reviews:
+  system: >-
+    Summarize product reviews to capture overall sentiment, key pros and cons,
+    and recurring themes. Be balanced and factual.
+  user: >-
+    Summarize the following product review(s) in 2-4 sentences.
+    Capture the overall sentiment, main pros and cons, and any
+    notable patterns.
+
+
+    {input_text}

@@ -1,0 +1,13 @@
+This dataset collection is released under CC0 1.0 Universal (Public Domain Dedication).
+
+Individual test cases are sourced from various datasets with their own licenses:
+- CNN/DailyMail: Apache 2.0
+- QMSum: MIT
+- CUAD: CC BY 4.0
+- scientific_papers (arXiv): CC BY-SA
+- Amazon Reviews: Apache 2.0
+- Code snippets: Public Domain / MIT
+- Agentic traces: CC0 (original synthetic content)
+
+The source field in each test case indicates the original dataset.
+Please refer to the original dataset licenses for redistribution terms.

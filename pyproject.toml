@@ -1,0 +1,9 @@
+[project]
+name = "summaryarena-workspace"
+version = "0.1.0"
+description = "Summarization Arena — benchmark & compare LLM summarization quality"
+license = "MIT"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["script/tests"]

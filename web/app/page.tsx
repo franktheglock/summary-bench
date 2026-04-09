@@ -107,33 +107,23 @@ export default function HomePage() {
   const chartRows = useMemo(() => {
     return rows
       .slice(0, 12)
-      .map((row, index) => {
+      .map((row) => {
         // Better ELO calculation that considers confidence (number of votes)
-        // Formula: 1000 + win_rate * confidence_factor
-        // where confidence_factor grows logarithmically with votes
-        // This prevents single-vote models from shooting to the top
-        // 
-        // Examples with 100% win rate:
-        // - 0 votes: 1000
-        // - 1 vote:  1000 + 100 * 10 = 1100 (small boost)
-        // - 5 votes: 1000 + 100 * 22 = 1220 (moderate)
-        // - 20 votes: 1000 + 100 * 43 = 1430 (good confidence)
-        // - 100 votes: 1000 + 100 * 70 = 1700 (high confidence)
         const confidenceFactor = row.votes > 0
-          ? 100 * (1 - Math.exp(-row.votes / 30))  // Exponential growth that caps at ~100
+          ? 100 * (1 - Math.exp(-row.votes / 30))
           : 0;
         const eloScore = Math.round(1000 + (row.win_rate / 100) * confidenceFactor);
         
         return {
           ...row,
-          rank: index + 1,
           score: metric === "elo" ? eloScore : row.win_rate,
           displayValue: metric === "elo" 
             ? eloScore.toString()
             : `${Math.round(row.win_rate)}%`,
         };
       })
-      .sort((left, right) => right.score - left.score);
+      .sort((left, right) => right.score - left.score)
+      .map((row, index) => ({ ...row, rank: index + 1 }));
   }, [metric, rows]);
 
   const maxScore = chartRows.reduce((maximum, row) => Math.max(maximum, row.score), 0);

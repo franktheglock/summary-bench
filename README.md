@@ -79,6 +79,22 @@ summaryarena run --provider openrouter --model meta-llama/llama-3.1-70b-instruct
 # Multiple runs for consistency
 summaryarena run --provider groq --model llama-3.3-70b-versatile --runs 3
 ```
+ 
+### Quick Windows test (run.bat)
+
+If you're on Windows and want an easy interactive test, run the bundled `run.bat` from the repository root. It will check for Python and required packages, install locally if needed, verify test data, and launch the interactive benchmark TUI.
+
+Open a Command Prompt in the project folder and run:
+
+```cmd
+run.bat
+```
+
+Or double-click `run.bat` in File Explorer.
+
+Note: `run.bat` requires Python on `PATH` and the `datasets/v1/test_cases.json` file to be present.
+
+(it will fail just keep running it till it works)
 
 ### Validate Results
 

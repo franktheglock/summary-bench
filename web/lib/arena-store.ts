@@ -640,6 +640,30 @@ export async function getLeaderboardRows(category?: string): Promise<Leaderboard
   });
 }
 
+export type ModelCategoryStat = LeaderboardRow & { category: string; rank: number; totalModels: number };
+
+export async function getModelStats(modelName: string): Promise<ModelCategoryStat[]> {
+  const categories = await getCategories();
+  const allCategories = ["all", ...categories];
+  const stats: ModelCategoryStat[] = [];
+
+  for (const cat of allCategories) {
+    const rows = await getLeaderboardRows(cat);
+    const index = rows.findIndex((r) => r.model.toLowerCase() === modelName.toLowerCase());
+    
+    if (index !== -1) {
+      stats.push({
+        ...rows[index],
+        category: cat,
+        rank: index + 1,
+        totalModels: rows.length,
+      });
+    }
+  }
+
+  return stats;
+}
+
 export async function saveBenchmarkUpload(upload: BenchmarkUpload): Promise<number> {
   const datasetSourceTexts = await getDatasetSourceTexts();
 

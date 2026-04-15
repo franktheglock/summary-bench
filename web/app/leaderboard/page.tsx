@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
 import { ModelIcon } from "@lobehub/icons";
+import Link from "next/link";
 
 type LeaderboardRow = {
   model: string;
@@ -194,7 +195,9 @@ export default function LeaderboardPage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <h3 className="font-semibold text-ink text-sm flex items-center gap-1.5 leading-tight truncate">
-                    {model.model}
+                    <Link href={`/model/${encodeURIComponent(model.model)}`} className="hover:text-terracotta hover:underline transition-colors">
+                      {model.model}
+                    </Link>
                     {isProvisional && (
                       <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold tracking-wider uppercase bg-stone-100 text-stone-500 border border-stone-200" title="Provisional Score (Needs more votes)">
                         Prov
@@ -241,7 +244,9 @@ export default function LeaderboardPage() {
                 </div>
                 <div className="w-40 shrink-0">
                   <h3 className="font-semibold text-ink text-sm flex items-center gap-1.5 leading-tight truncate">
-                    {model.model}
+                    <Link href={`/model/${encodeURIComponent(model.model)}`} className="hover:text-terracotta hover:underline transition-colors">
+                      {model.model}
+                    </Link>
                     {isProvisional && (
                       <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold tracking-wider uppercase bg-stone-100 text-stone-500 border border-stone-200" title="Provisional Score (Needs more votes)">
                         Prov

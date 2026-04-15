@@ -106,14 +106,14 @@ summaryarena validate results.json
 
 | Provider | Prefix | Example Model |
 |---|---|---|
-| Ollama | `ollama` | `llama3.1` |
-| LM Studio | `lm_studio` | `my-model` |
-| OpenRouter | `openrouter` | `meta-llama/llama-3.1-70b-instruct` |
-| vLLM | `vllm` | `my-deployed-model` |
-| Groq | `groq` | `llama-3.3-70b-versatile` |
-| Together AI | `together_ai` | `meta-llama/Llama-3.3-70B-Instruct-Turbo` |
-| NVIDIA NIM | `nvidia_nim` | `meta/llama3-70b-instruct` |
-| OpenAI | `openai` | `gpt-4o` |
+| Ollama | `ollama` | `llama3.2` |
+| LM Studio | `lm_studio` | `local-model` |
+| OpenRouter | `openrouter` | `qwen/qwen3.6-plus` |
+| vLLM | `vllm` | `qwen3.5-35b-a3b` |
+| Groq | `groq` | `gpt-oss-120b` |
+| Together AI | `together_ai` | `zai-org/GLM-5.1` |
+| NVIDIA NIM | `nvidia_nim` | `nvidia/nemotron-3-super-120b-a12b` |
+| OpenAI | `openai` | `gpt-5.4` |
 
 ## Test Categories
 

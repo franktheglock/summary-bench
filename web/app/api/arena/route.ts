@@ -5,10 +5,21 @@ import {
   recordVote,
   type VoteChoice,
 } from "@/lib/arena-store";
+import { checkRateLimit, createRateLimitResponse } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
 
 export async function GET(request: Request) {
+  const rateLimit = checkRateLimit(request, {
+    id: "arena:get",
+    maxRequests: 90,
+    windowMs: 60_000,
+  });
+
+  if (rateLimit.limited) {
+    return createRateLimitResponse(rateLimit, "Too many arena requests. Please slow down.");
+  }
+
   const { searchParams } = new URL(request.url);
   const category = searchParams.get("category") || undefined;
   
@@ -28,6 +39,16 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  const rateLimit = checkRateLimit(request, {
+    id: "arena:post",
+    maxRequests: 30,
+    windowMs: 60_000,
+  });
+
+  if (rateLimit.limited) {
+    return createRateLimitResponse(rateLimit, "Too many vote submissions. Please wait a moment.");
+  }
+
   let payload: unknown;
   try {
     payload = await request.json();

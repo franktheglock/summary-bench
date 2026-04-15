@@ -11,6 +11,7 @@ export const benchmarkUploadSchema = z.object({
     z.object({
       test_id: z.string(),
       category: z.string(),
+      source_text: z.string().optional(),
       summary: z.string(),
       input_tokens: z.number().optional(),
       output_tokens: z.number().optional(),

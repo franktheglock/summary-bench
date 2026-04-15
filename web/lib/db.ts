@@ -22,6 +22,7 @@ const schema = `
     run_id TEXT NOT NULL,
     test_id TEXT NOT NULL,
     category TEXT NOT NULL,
+    source_text TEXT,
     summary TEXT NOT NULL,
     input_tokens INTEGER,
     output_tokens INTEGER,
@@ -92,6 +93,11 @@ export async function getDatabase(): Promise<InstanceType<typeof Database>> {
       const database = new DatabaseConstructor(databasePath);
       database.pragma("foreign_keys = ON");
       database.exec(schema);
+      try {
+        database.exec("ALTER TABLE test_results ADD COLUMN source_text TEXT");
+      } catch {
+        // Column already exists.
+      }
       return database;
     })();
   }

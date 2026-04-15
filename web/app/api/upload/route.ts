@@ -3,9 +3,20 @@ export const runtime = "nodejs";
 import { NextResponse } from "next/server";
 
 import { saveBenchmarkUpload } from "@/lib/arena-store";
+import { checkRateLimit, createRateLimitResponse } from "@/lib/rate-limit";
 import { benchmarkUploadSchema } from "@/lib/upload-schema";
 
 export async function POST(request: Request) {
+  const rateLimit = checkRateLimit(request, {
+    id: "upload:post",
+    maxRequests: 10,
+    windowMs: 15 * 60_000,
+  });
+
+  if (rateLimit.limited) {
+    return createRateLimitResponse(rateLimit, "Too many uploads. Please wait before trying again.");
+  }
+
   let payload: unknown;
   try {
     payload = await request.json();

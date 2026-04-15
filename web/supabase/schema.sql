@@ -23,6 +23,7 @@ create table public.test_results (
     run_id uuid not null references public.runs(run_id) on delete cascade,
     test_id text not null,
     category text not null,
+    source_text text,
     summary text not null,
     input_tokens integer,
     output_tokens integer,

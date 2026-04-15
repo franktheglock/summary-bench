@@ -107,7 +107,7 @@ export default function HomePage() {
 
   const chartRows = useMemo(() => {
     return rows
-      .slice(0, 12)
+      .slice(0, 11)
       .map((row) => {
         // Prefer server-provided Elo when available, otherwise fall back to the
         // previous confidence-shaped heuristic for backward compatibility.
@@ -211,66 +211,68 @@ export default function HomePage() {
       {/* Bar Chart */}
       {!loading && chartRows.length > 0 ? (
         <div className="panel p-8 overflow-x-auto">
-          <div 
-            className="flex items-end gap-6" 
-            style={{ height: "420px", minWidth: "max-content" }}
-          >
-            {chartRows.map((row, idx) => {
-              const barHeight = maxScore > 0 ? (row.score / maxScore) * 100 : 15;
-              const barColor = BAR_COLORS[Math.min(idx, BAR_COLORS.length - 1)];
-              
-              return (
-                <div
-                  key={row.model}
-                  className="flex flex-col items-center gap-3"
-                  style={{ width: "80px" }}
-                >
-                  {/* Value Label */}
-                  <span className="text-xs font-mono font-semibold text-ink text-center h-5">
-                    {row.displayValue}
-                  </span>
-                  
-                  {/* Bar Container */}
-                  <div className="relative w-full" style={{ height: "280px" }}>
-                    <motion.div 
-                      initial={{ height: 0 }}
-                      animate={{ height: `${Math.max(barHeight * 2.8, 40)}px` }}
-                      transition={{ delay: idx * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                      className="absolute bottom-0 left-0 right-0 group cursor-pointer transition-opacity duration-200 hover:opacity-90"
-                      style={{ backgroundColor: barColor }}
-                    >
-                      {/* Rank badge for top 3 */}
-                      {row.rank <= 3 && (
-                        <div className="absolute -top-2 -right-2 w-5 h-5 bg-ink text-white text-[10px] font-bold flex items-center justify-center shadow-sm">
-                          {row.rank}
-                        </div>
-                      )}
-                    </motion.div>
-                  </div>
-                  
-                  {/* Icon */}
-                  <div className="w-8 h-8 flex items-center justify-center shrink-0">
-                    <ModelIcon model={row.model} size={24} />
-                  </div>
-                  
-                  {/* Model Name */}
-                  <div className="h-10 flex items-start justify-center">
-                    <span 
-                      className="text-[10px] text-stone text-center leading-tight"
-                      style={{ 
-                        display: '-webkit-box', 
-                        WebkitLineClamp: 2, 
-                        WebkitBoxOrient: 'vertical', 
-                        overflow: 'hidden',
-                        maxWidth: "80px"
-                      }}
-                    >
-                      {row.model}
+          <div className="flex min-w-full justify-center">
+            <div 
+              className="flex items-end gap-6" 
+              style={{ height: "420px", minWidth: "max-content" }}
+            >
+              {chartRows.map((row, idx) => {
+                const barHeight = maxScore > 0 ? (row.score / maxScore) * 100 : 15;
+                const barColor = BAR_COLORS[Math.min(idx, BAR_COLORS.length - 1)];
+                
+                return (
+                  <div
+                    key={row.model}
+                    className="flex flex-col items-center gap-3"
+                    style={{ width: "80px" }}
+                  >
+                    {/* Value Label */}
+                    <span className="text-xs font-mono font-semibold text-ink text-center h-5">
+                      {row.displayValue}
                     </span>
+                    
+                    {/* Bar Container */}
+                    <div className="relative w-full" style={{ height: "280px" }}>
+                      <motion.div 
+                        initial={{ height: 0 }}
+                        animate={{ height: `${Math.max(barHeight * 2.8, 40)}px` }}
+                        transition={{ delay: idx * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                        className="absolute bottom-0 left-0 right-0 group cursor-pointer transition-opacity duration-200 hover:opacity-90"
+                        style={{ backgroundColor: barColor }}
+                      >
+                        {/* Rank badge for top 3 */}
+                        {row.rank <= 3 && (
+                          <div className="absolute -top-2 -right-2 w-5 h-5 bg-ink text-white text-[10px] font-bold flex items-center justify-center shadow-sm">
+                            {row.rank}
+                          </div>
+                        )}
+                      </motion.div>
+                    </div>
+                    
+                    {/* Icon */}
+                    <div className="w-8 h-8 flex items-center justify-center shrink-0">
+                      <ModelIcon model={row.model} size={24} />
+                    </div>
+                    
+                    {/* Model Name */}
+                    <div className="h-10 flex items-start justify-center">
+                      <span 
+                        className="text-[10px] text-stone text-center leading-tight"
+                        style={{ 
+                          display: '-webkit-box', 
+                          WebkitLineClamp: 2, 
+                          WebkitBoxOrient: 'vertical', 
+                          overflow: 'hidden',
+                          maxWidth: "80px"
+                        }}
+                      >
+                        {row.model}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
       ) : !loading && (

@@ -33,6 +33,7 @@ type SummaryRow = {
   summary: string;
   test_id: string;
   category: string;
+  source_text: string | null;
   run_id: string;
   timestamp: string;
   latency_ms: number | null;
@@ -165,6 +166,14 @@ async function getSourceText(testId: string): Promise<string> {
   return datasetTestCases.get(testId) || "";
 }
 
+async function getDatasetSourceTexts(): Promise<Map<string, string>> {
+  if (!datasetTestCasesPromise) {
+    datasetTestCasesPromise = loadDatasetTestCases();
+  }
+
+  return datasetTestCasesPromise;
+}
+
 function isNonEmptySummary(summary: string): boolean {
   return summary.trim().length > 0;
 }
@@ -173,7 +182,7 @@ function compareTimestampsDescending(left: string, right: string): number {
   return new Date(right).getTime() - new Date(left).getTime();
 }
 
-function computeVoteCandidate(summaryRows: SummaryRow[], votes: VoteRow[]): Omit<VoteCandidate, "source_text"> | null {
+function computeVoteCandidate(summaryRows: SummaryRow[], votes: VoteRow[]): VoteCandidate | null {
   const votesByTestId = new Map<string, number>();
   for (const vote of votes) {
     votesByTestId.set(vote.test_id, (votesByTestId.get(vote.test_id) ?? 0) + 1);
@@ -241,6 +250,7 @@ function computeVoteCandidate(summaryRows: SummaryRow[], votes: VoteRow[]): Omit
   return {
     test_id: selectedTest.test_id,
     category: selectedTest.category,
+    source_text: selectedPair[0].source_text || selectedPair[1].source_text || "",
     model_a: selectedPair[0].model,
     provider_a: selectedPair[0].provider,
     summary_a: selectedPair[0].summary,
@@ -398,6 +408,7 @@ async function loadSqliteArenaData(category?: string): Promise<ArenaData> {
           tr.summary as summary,
           tr.test_id as test_id,
           tr.category as category,
+          tr.source_text as source_text,
           tr.run_id as run_id,
           r.timestamp as timestamp,
           tr.latency_ms as latency_ms
@@ -438,7 +449,7 @@ async function loadSupabaseArenaData(category?: string): Promise<ArenaData> {
 
   let testResultsQuery = supabase
     .from("test_results")
-    .select("run_id, test_id, category, summary, latency_ms");
+    .select("run_id, test_id, category, source_text, summary, latency_ms");
 
   if (category && category !== "all") {
     testResultsQuery = testResultsQuery.eq("category", category);
@@ -479,6 +490,7 @@ async function loadSupabaseArenaData(category?: string): Promise<ArenaData> {
       summary: row.summary,
       test_id: row.test_id,
       category: row.category,
+      source_text: row.source_text,
       run_id: row.run_id,
       timestamp: run.timestamp,
       latency_ms: row.latency_ms,
@@ -528,7 +540,7 @@ export async function getVoteCandidate(category?: string): Promise<VoteCandidate
 
   return {
     ...candidate,
-    source_text: await getSourceText(candidate.test_id),
+    source_text: candidate.source_text || await getSourceText(candidate.test_id),
   };
 }
 
@@ -607,6 +619,8 @@ export async function getLeaderboardRows(category?: string): Promise<Leaderboard
 }
 
 export async function saveBenchmarkUpload(upload: BenchmarkUpload): Promise<number> {
+  const datasetSourceTexts = await getDatasetSourceTexts();
+
   if (getStorageMode() === "supabase") {
     const supabase = getSupabaseClient();
     if (!supabase) {
@@ -639,6 +653,7 @@ export async function saveBenchmarkUpload(upload: BenchmarkUpload): Promise<numb
           run_id: upload.run_id,
           test_id: result.test_id,
           category: result.category,
+          source_text: result.source_text ?? datasetSourceTexts.get(result.test_id) ?? null,
           summary: result.summary,
           input_tokens: result.input_tokens ?? null,
           output_tokens: result.output_tokens ?? null,
@@ -681,13 +696,15 @@ export async function saveBenchmarkUpload(upload: BenchmarkUpload): Promise<numb
         run_id,
         test_id,
         category,
+        source_text,
         summary,
         input_tokens,
         output_tokens,
         latency_ms
-      ) values (?, ?, ?, ?, ?, ?, ?)
+      ) values (?, ?, ?, ?, ?, ?, ?, ?)
       on conflict(run_id, test_id) do update set
         category = excluded.category,
+        source_text = excluded.source_text,
         summary = excluded.summary,
         input_tokens = excluded.input_tokens,
         output_tokens = excluded.output_tokens,
@@ -712,6 +729,7 @@ export async function saveBenchmarkUpload(upload: BenchmarkUpload): Promise<numb
         currentUpload.run_id,
         result.test_id,
         result.category,
+        result.source_text ?? datasetSourceTexts.get(result.test_id) ?? null,
         result.summary,
         result.input_tokens ?? null,
         result.output_tokens ?? null,

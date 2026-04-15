@@ -22,8 +22,9 @@ export async function GET(request: Request) {
 
   const { searchParams } = new URL(request.url);
   const category = searchParams.get("category") || undefined;
+  const excludeTestId = searchParams.get("excludeTestId") || undefined;
   
-  const candidate = await getVoteCandidate(category);
+  const candidate = await getVoteCandidate(category, { excludeTestId });
 
   if (!candidate) {
     return NextResponse.json(

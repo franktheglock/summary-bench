@@ -530,12 +530,29 @@ async function loadArenaData(category?: string): Promise<ArenaData> {
   });
 }
 
-export async function getVoteCandidate(category?: string): Promise<VoteCandidate | null> {
+export async function getVoteCandidate(
+  category?: string,
+  options?: { excludeTestId?: string }
+): Promise<VoteCandidate | null> {
   const { summaryRows, votes } = await loadArenaData(category);
   const candidate = computeVoteCandidate(summaryRows, votes);
 
   if (!candidate) {
     return null;
+  }
+
+  if (options?.excludeTestId && candidate.test_id === options.excludeTestId) {
+    const alternativeRows = summaryRows.filter((row) => row.test_id !== options.excludeTestId);
+    const alternativeCandidate = computeVoteCandidate(alternativeRows, votes);
+
+    if (!alternativeCandidate) {
+      return null;
+    }
+
+    return {
+      ...alternativeCandidate,
+      source_text: alternativeCandidate.source_text || await getSourceText(alternativeCandidate.test_id),
+    };
   }
 
   return {

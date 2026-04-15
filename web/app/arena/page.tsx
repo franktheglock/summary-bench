@@ -76,6 +76,39 @@ export default function ArenaPage() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [showFilter, setShowFilter] = useState(false);
   const requestIdRef = useRef(0);
+  const preloadRequestIdRef = useRef(0);
+  const preloadedCandidateRef = useRef<{ category: string; candidate: ArenaCandidate } | null>(null);
+
+  const resetVoteState = () => {
+    setHasVoted(false);
+    setVotedFor(null);
+    setRevealedModelA(false);
+    setRevealedModelB(false);
+  };
+
+  const preloadNextCandidate = async (category: string, excludeTestId?: string) => {
+    const requestId = ++preloadRequestIdRef.current;
+
+    try {
+      const params = new URLSearchParams({ category });
+      if (excludeTestId) {
+        params.set("excludeTestId", excludeTestId);
+      }
+
+      const response = await fetch(`/api/arena?${params.toString()}`, { cache: "no-store" });
+      const data = await response.json().catch(() => null);
+
+      if (!response.ok || !data?.candidate) {
+        return;
+      }
+
+      if (requestId === preloadRequestIdRef.current && category === selectedCategory) {
+        preloadedCandidateRef.current = { category, candidate: data.candidate as ArenaCandidate };
+      }
+    } catch {
+      // Prefetch failures should never interrupt the current vote flow.
+    }
+  };
 
   const loadCandidate = async (category: string) => {
     const requestId = ++requestIdRef.current;
@@ -83,10 +116,8 @@ export default function ArenaPage() {
     setLoading(true);
     setError(null);
     setCandidate(null);
-    setHasVoted(false);
-    setVotedFor(null);
-    setRevealedModelA(false);
-    setRevealedModelB(false);
+    resetVoteState();
+    preloadedCandidateRef.current = null;
 
     try {
       const url = `/api/arena?category=${encodeURIComponent(category)}`;
@@ -99,6 +130,7 @@ export default function ArenaPage() {
 
       if (requestId === requestIdRef.current) {
         setCandidate(data.candidate);
+        void preloadNextCandidate(category, data.candidate.test_id);
       }
     } catch (loadError) {
       if (requestId === requestIdRef.current) {
@@ -148,6 +180,17 @@ export default function ArenaPage() {
   };
 
   const handleNext = async () => {
+    const preloaded = preloadedCandidateRef.current;
+    if (preloaded && preloaded.category === selectedCategory) {
+      preloadedCandidateRef.current = null;
+      setLoading(false);
+      setError(null);
+      setCandidate(preloaded.candidate);
+      resetVoteState();
+      void preloadNextCandidate(selectedCategory, preloaded.candidate.test_id);
+      return;
+    }
+
     await loadCandidate(selectedCategory);
   };
 

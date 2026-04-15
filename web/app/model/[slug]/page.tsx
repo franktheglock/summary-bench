@@ -4,8 +4,9 @@ import { ModelIcon } from "@lobehub/icons";
 import Link from "next/link";
 import { ArrowLeft, ExternalLink, Cpu, BarChart3 } from "lucide-react";
 
-export default async function ModelDetailsPage({ params }: { params: { slug: string } }) {
-  const modelName = decodeURIComponent(params.slug);
+export default async function ModelDetailsPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const modelName = decodeURIComponent(slug);
   const stats = await getModelStats(modelName);
 
   if (!stats || stats.length === 0) {

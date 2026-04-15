@@ -68,8 +68,49 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## Deployment
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Recommended: Vercel
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+For this app, Vercel is the better free-tier target.
+
+Why:
+
+- This is a full-stack Next.js app with server routes, which Vercel supports directly.
+- Vercel's current hobby guidelines are much more forgiving for this type of workload than Cloudflare Workers Free.
+- Cloudflare Free is tighter for SSR apps because Workers Free has a 100,000 requests per day cap and a 10 ms CPU limit per request, while full-stack Next.js on Cloudflare also needs an extra Workers adapter setup.
+
+Current docs references:
+
+- Vercel hobby fair-use guidance includes roughly `100 GB` fast data transfer, `100 GB-hours` function execution, and `100 build hours` per month.
+- Cloudflare Pages Free allows `500` builds per month, but Pages Functions usage still counts against Workers Free limits.
+
+### Vercel settings
+
+When creating the project in Vercel:
+
+1. Import the repository.
+2. Set the Root Directory to `web`.
+3. Framework Preset should auto-detect as `Next.js`.
+4. Build Command: `npm run build`
+5. Install Command: `npm install`
+6. Leave Output Directory empty.
+
+Add these environment variables in Vercel:
+
+- `SUMMARYARENA_STORAGE=supabase`
+- `SUPABASE_URL=...`
+- `SUPABASE_ANON_KEY=...`
+- `SUPABASE_SERVICE_ROLE_KEY=...`
+- `NEXT_PUBLIC_SUPABASE_URL=...`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY=...`
+
+Do not add `SQLITE_PATH` in production.
+
+### Cloudflare alternative
+
+Cloudflare is still possible, but it is not the shortest path for this repo.
+
+For a full SSR Next.js deployment there, you would want the Next.js Workers path rather than plain Pages static hosting. That means adding the Cloudflare Next.js adapter and validating the app against Workers limits.
+
+If you want the fastest launch, use Vercel first and revisit Cloudflare only if you specifically want its network model or pricing after hobby limits.

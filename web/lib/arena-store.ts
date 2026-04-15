@@ -56,7 +56,18 @@ type ArenaData = {
   votes: VoteRow[];
 };
 
+type CacheEntry<T> = {
+  expiresAt: number;
+  value?: T;
+  promise?: Promise<T>;
+};
+
+const CACHE_TTL_MS = 60_000;
+
 let datasetTestCasesPromise: Promise<Map<string, string>> | null = null;
+const arenaDataCache = new Map<string, CacheEntry<ArenaData>>();
+const leaderboardCache = new Map<string, CacheEntry<LeaderboardRow[]>>();
+let categoriesCache: CacheEntry<string[]> | null = null;
 
 function getStorageMode(): "sqlite" | "supabase" {
   const configuredMode = process.env.SUMMARYARENA_STORAGE?.trim().toLowerCase();
@@ -74,6 +85,60 @@ function getStorageMode(): "sqlite" | "supabase" {
   }
 
   return hasSupabaseConfig() ? "supabase" : "sqlite";
+}
+
+function getCategoryCacheKey(category?: string): string {
+  return category && category !== "all" ? category : "all";
+}
+
+function getCachedValue<T>(entry: CacheEntry<T> | null | undefined): T | null {
+  if (!entry || entry.expiresAt <= Date.now() || typeof entry.value === "undefined") {
+    return null;
+  }
+
+  return entry.value;
+}
+
+function invalidateStoreCaches(): void {
+  arenaDataCache.clear();
+  leaderboardCache.clear();
+  categoriesCache = null;
+}
+
+async function readThroughCache<T>(
+  cache: Map<string, CacheEntry<T>>,
+  key: string,
+  load: () => Promise<T>
+): Promise<T> {
+  const cached = cache.get(key);
+  const cachedValue = getCachedValue(cached);
+  if (cachedValue) {
+    return cachedValue;
+  }
+
+  if (cached?.promise) {
+    return cached.promise;
+  }
+
+  const promise = load()
+    .then((value) => {
+      cache.set(key, {
+        expiresAt: Date.now() + CACHE_TTL_MS,
+        value,
+      });
+      return value;
+    })
+    .catch((error) => {
+      cache.delete(key);
+      throw error;
+    });
+
+  cache.set(key, {
+    expiresAt: Date.now() + CACHE_TTL_MS,
+    promise,
+  });
+
+  return promise;
 }
 
 async function loadDatasetTestCases(): Promise<Map<string, string>> {
@@ -445,9 +510,12 @@ async function loadSupabaseArenaData(category?: string): Promise<ArenaData> {
 }
 
 async function loadArenaData(category?: string): Promise<ArenaData> {
-  return getStorageMode() === "supabase"
-    ? loadSupabaseArenaData(category)
-    : loadSqliteArenaData(category);
+  const cacheKey = getCategoryCacheKey(category);
+  return readThroughCache(arenaDataCache, cacheKey, async () => {
+    return getStorageMode() === "supabase"
+      ? loadSupabaseArenaData(category)
+      : loadSqliteArenaData(category);
+  });
 }
 
 export async function getVoteCandidate(category?: string): Promise<VoteCandidate | null> {
@@ -482,6 +550,7 @@ export async function recordVote(candidate: VoteCandidate, vote: VoteChoice): Pr
       throw new Error(error.message);
     }
 
+    invalidateStoreCaches();
     return;
   }
 
@@ -494,16 +563,47 @@ export async function recordVote(candidate: VoteCandidate, vote: VoteChoice): Pr
   );
 
   insertVote.run(candidate.test_id, candidate.model_a, candidate.model_b, vote);
+  invalidateStoreCaches();
 }
 
 export async function getCategories(): Promise<string[]> {
-  const { summaryRows } = await loadArenaData();
-  return [...new Set(summaryRows.map((row) => row.category))].sort((left, right) => left.localeCompare(right));
+  const cachedValue = getCachedValue(categoriesCache);
+  if (cachedValue) {
+    return cachedValue;
+  }
+
+  if (categoriesCache?.promise) {
+    return categoriesCache.promise;
+  }
+
+  const promise = (async () => {
+    const { summaryRows } = await loadArenaData();
+    const categories = [...new Set(summaryRows.map((row) => row.category))]
+      .sort((left, right) => left.localeCompare(right));
+    categoriesCache = {
+      expiresAt: Date.now() + CACHE_TTL_MS,
+      value: categories,
+    };
+    return categories;
+  })().catch((error) => {
+    categoriesCache = null;
+    throw error;
+  });
+
+  categoriesCache = {
+    expiresAt: Date.now() + CACHE_TTL_MS,
+    promise,
+  };
+
+  return promise;
 }
 
 export async function getLeaderboardRows(category?: string): Promise<LeaderboardRow[]> {
-  const { summaryRows, votes } = await loadArenaData(category);
-  return computeLeaderboardRows(summaryRows, votes);
+  const cacheKey = getCategoryCacheKey(category);
+  return readThroughCache(leaderboardCache, cacheKey, async () => {
+    const { summaryRows, votes } = await loadArenaData(category);
+    return computeLeaderboardRows(summaryRows, votes);
+  });
 }
 
 export async function saveBenchmarkUpload(upload: BenchmarkUpload): Promise<number> {
@@ -551,6 +651,7 @@ export async function saveBenchmarkUpload(upload: BenchmarkUpload): Promise<numb
       }
     }
 
+    invalidateStoreCaches();
     return upload.results.length;
   }
 
@@ -621,5 +722,7 @@ export async function saveBenchmarkUpload(upload: BenchmarkUpload): Promise<numb
     return currentUpload.results.length;
   });
 
-  return persistUpload(upload);
+  const savedResults = persistUpload(upload);
+  invalidateStoreCaches();
+  return savedResults;
 }

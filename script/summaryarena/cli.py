@@ -213,7 +213,9 @@ def run(
         if runs > 1:
             out = out.with_stem(f"{out.stem}-run{run_num}")
 
-        runner.run(output_path=out)
+        result = runner.run(output_path=out)
+        if result.quantization:
+            console.print(f"   Quantization: [cyan]{result.quantization}[/]")
 
 
 @app.command()

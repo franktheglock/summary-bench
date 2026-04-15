@@ -2,10 +2,13 @@
 
 from __future__ import annotations
 
+import json
 import logging
 import time
 from dataclasses import dataclass
 from typing import Any
+from urllib.error import HTTPError, URLError
+from urllib.request import Request, urlopen
 
 import litellm
 
@@ -42,6 +45,7 @@ class GenerationResult:
     input_tokens: int
     output_tokens: int
     latency_ms: int
+    quantization: str | None = None
 
 
 def strip_thinking_text(text: str) -> str:
@@ -184,6 +188,7 @@ class SummaryProvider:
         self.model = model
         self.temperature = temperature
         self.api_key = api_key
+        self.quantization: str | None = None
 
         # Build the full LiteLLM model string
         prefix = PROVIDER_PREFIXES.get(self.provider, "")
@@ -198,6 +203,87 @@ class SummaryProvider:
             self.litellm_model,
             self.base_url,
         )
+
+    def refresh_model_metadata(self) -> None:
+        """Refresh provider-specific metadata when the backend exposes it."""
+        if self.provider != "lm_studio":
+            return
+
+        try:
+            self.quantization = self._fetch_lm_studio_quantization()
+        except Exception as exc:
+            logger.debug("Unable to fetch LM Studio model metadata: %s", exc)
+            self.quantization = None
+
+    def _lm_studio_rest_base_url(self) -> str | None:
+        """Convert an OpenAI-compatible base URL into the LM Studio REST API base."""
+        if not self.base_url:
+            return None
+
+        base_url = self.base_url.rstrip("/")
+        if base_url.endswith("/api/v1"):
+            return base_url
+        if base_url.endswith("/v1"):
+            return f"{base_url.removesuffix('/v1')}/api/v1"
+        return f"{base_url}/api/v1"
+
+    def _fetch_lm_studio_quantization(self) -> str | None:
+        """Fetch quantization metadata from LM Studio's native REST API."""
+        rest_base_url = self._lm_studio_rest_base_url()
+        if not rest_base_url:
+            return None
+
+        endpoints = [
+            f"{rest_base_url}/models/{self.model}",
+            f"{rest_base_url}/models",
+        ]
+
+        for endpoint in endpoints:
+            try:
+                request = Request(endpoint)
+                if self.api_key:
+                    request.add_header("Authorization", f"Bearer {self.api_key}")
+
+                with urlopen(request, timeout=5) as response:
+                    payload = json.loads(response.read().decode("utf-8"))
+            except (HTTPError, URLError, TimeoutError, json.JSONDecodeError):
+                continue
+
+            quantization = self._extract_quantization_from_lm_studio_payload(payload)
+            if quantization:
+                return quantization
+
+        return None
+
+    def _extract_quantization_from_lm_studio_payload(self, payload: Any) -> str | None:
+        """Extract a quantization string from LM Studio REST payloads."""
+        if not isinstance(payload, dict):
+            return None
+
+        for key in ("quantization", "quant"):
+            value = payload.get(key)
+            if isinstance(value, str) and value.strip():
+                return value.strip()
+
+        model_info = payload.get("model_info")
+        if isinstance(model_info, dict):
+            for key in ("quantization", "quant"):
+                value = model_info.get(key)
+                if isinstance(value, str) and value.strip():
+                    return value.strip()
+
+        models = payload.get("data")
+        if isinstance(models, list):
+            for model in models:
+                if not isinstance(model, dict):
+                    continue
+                model_id = model.get("id")
+                if model_id in {self.model, self.litellm_model, self.model.split("/")[-1]}:
+                    quantization = self._extract_quantization_from_lm_studio_payload(model)
+                    if quantization:
+                        return quantization
+
+        return None
 
     def generate_summary(
         self,
@@ -257,6 +343,7 @@ class SummaryProvider:
             input_tokens=usage.prompt_tokens if usage else 0,
             output_tokens=usage.completion_tokens if usage else 0,
             latency_ms=elapsed_ms,
+            quantization=self.quantization,
         )
 
     def test_connection(self) -> bool:

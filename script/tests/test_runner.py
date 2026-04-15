@@ -130,6 +130,7 @@ class TestBenchmarkRunner:
         assert len(result.results) == 2
         assert result.model == "mock-model"
         assert result.provider == "mock"
+        assert result.quantization is None
 
         # Check the output file
         assert output_path.exists()
@@ -140,6 +141,42 @@ class TestBenchmarkRunner:
         parsed = BenchmarkResult(**data)
         assert parsed.run_id == result.run_id
         assert len(parsed.results) == 2
+
+    def test_full_run_includes_lm_studio_quantization(
+        self,
+        mock_provider: MagicMock,
+        sample_test_cases,
+        tmp_path: Path,
+    ):
+        """Test that LM Studio quantization is included when available."""
+        config = SummaryArenaConfig(
+            provider="lm_studio",
+            model="meta-llama-3.1-8b-instruct",
+            temperature=0.0,
+            dataset_version="v1",
+        )
+        mock_provider.quantization = "Q4_K_M"
+
+        runner = BenchmarkRunner(
+            provider=mock_provider,
+            config=config,
+            categories=["news", "code"],
+            auto_metrics=False,
+        )
+
+        output_path = tmp_path / "lmstudio_results.json"
+
+        with patch("summaryarena.runner.load_test_cases", return_value=sample_test_cases):
+            result = runner.run(output_path=output_path)
+
+        assert result.quantization == "Q4_K_M"
+        assert result.config.quantization == "Q4_K_M"
+
+        with open(output_path) as f:
+            data = json.load(f)
+
+        assert data["quantization"] == "Q4_K_M"
+        assert data["config"]["quantization"] == "Q4_K_M"
 
     def test_run_retries_provider_connection(
         self,
@@ -279,6 +316,10 @@ class TestProviderMapping:
         p = SummaryProvider(provider="lm_studio", model="test")
         assert p.base_url == "http://localhost:1234/v1"
 
+    def test_lm_studio_rest_base_url_conversion(self):
+        p = SummaryProvider(provider="lm_studio", model="test")
+        assert p._lm_studio_rest_base_url() == "http://localhost:1234/api/v1"
+
     def test_custom_base_url_override(self):
         p = SummaryProvider(
             provider="ollama", model="test", base_url="http://remote:11434"
@@ -325,6 +366,24 @@ class TestProviderMapping:
         assert result.text == ""
         assert result.input_tokens == 12
         assert result.output_tokens == 7
+
+    def test_refresh_model_metadata_fetches_lm_studio_quantization(self):
+        p = SummaryProvider(provider="lm_studio", model="meta-llama-3.1-8b-instruct")
+
+        class _Response:
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc, tb):
+                return False
+
+            def read(self):
+                return b'{"id":"meta-llama-3.1-8b-instruct","quantization":"Q4_K_M"}'
+
+        with patch("summaryarena.providers.urlopen", return_value=_Response()):
+            p.refresh_model_metadata()
+
+        assert p.quantization == "Q4_K_M"
 
     def test_generate_summary_uses_cleaned_reasoning_fallback_when_answer_is_appended(self):
         p = SummaryProvider(provider="lm_studio", model="test")

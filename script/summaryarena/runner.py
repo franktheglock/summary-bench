@@ -103,6 +103,10 @@ class BenchmarkRunner:
             raise SystemExit(1)
         console.print("[green]   ✓ Provider is reachable[/]")
 
+        refresh_metadata = getattr(self.provider, "refresh_model_metadata", None)
+        if callable(refresh_metadata):
+            refresh_metadata()
+
         # Run benchmarks
         parallel_requests = self._parallel_requests()
         if parallel_requests > 1:
@@ -138,10 +142,12 @@ class BenchmarkRunner:
             run_id=self.run_id,
             model=self.config.model,
             provider=self.config.provider,
+            quantization=getattr(self.provider, "quantization", None),
             timestamp=datetime.now(timezone.utc),
             config=RunConfig(
                 provider=self.config.provider,
                 model=self.config.model,
+                quantization=getattr(self.provider, "quantization", None),
                 base_url=self.config.base_url,
                 temperature=self.config.temperature,
                 categories=list(cat_counts.keys()),
@@ -155,6 +161,8 @@ class BenchmarkRunner:
         console.print(f"\n[bold green]✅ Benchmark complete![/]")
         console.print(f"   Tests run: {stats['total_tests']}")
         console.print(f"   Categories: {', '.join(stats['categories'])}")
+        if benchmark_result.quantization:
+            console.print(f"   Quantization: {benchmark_result.quantization}")
         console.print(f"   Total input tokens: {stats['total_input_tokens']:,}")
         console.print(f"   Total output tokens: {stats['total_output_tokens']:,}")
         console.print(f"   Avg latency: {stats['avg_latency_ms']:,}ms")

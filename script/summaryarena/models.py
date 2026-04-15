@@ -36,6 +36,7 @@ class RunConfig(BaseModel):
 
     provider: str = Field(..., description="Provider name (e.g. 'ollama', 'openrouter')")
     model: str = Field(..., description="Model identifier")
+    quantization: str | None = Field(None, description="Model quantization, if available")
     base_url: str | None = Field(None, description="Custom API base URL")
     temperature: float = Field(0.0, ge=0.0, le=2.0)
     categories: list[str] = Field(..., description="Categories benchmarked")
@@ -49,6 +50,7 @@ class BenchmarkResult(BaseModel):
     run_id: str = Field(..., description="Unique run identifier (UUID)")
     model: str = Field(..., description="Model identifier")
     provider: str = Field(..., description="Provider name")
+    quantization: str | None = Field(None, description="Model quantization, if available")
     timestamp: datetime = Field(
         default_factory=datetime.utcnow, description="Run timestamp (UTC)"
     )

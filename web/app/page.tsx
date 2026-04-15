@@ -139,14 +139,14 @@ export default function HomePage() {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="flex justify-between items-start">
+      <div className="flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-start">
         <div>
           <p className="label mb-2">Crowdsourced Benchmark</p>
           <h1 className="font-serif text-4xl md:text-5xl font-semibold tracking-tight text-ink">
             Summary Arena
           </h1>
         </div>
-        <div className="text-right">
+        <div className="sm:text-right">
           <p className="text-xs text-stone-light uppercase tracking-wider">Updated hourly</p>
           <p className="text-sm text-stone mt-1">{stats.evaluations.toLocaleString()} evaluations</p>
         </div>
@@ -210,11 +210,11 @@ export default function HomePage() {
 
       {/* Bar Chart */}
       {!loading && chartRows.length > 0 ? (
-        <div className="panel p-8 overflow-x-auto">
-          <div className="flex min-w-full justify-center">
+        <div className="panel py-8 overflow-x-auto -mx-4 md:mx-0">
+          <div className="px-4 md:px-8 min-w-max mx-auto">
             <div 
               className="flex items-end gap-6" 
-              style={{ height: "420px", minWidth: "max-content" }}
+              style={{ height: "420px" }}
             >
               {chartRows.map((row, idx) => {
                 const barHeight = maxScore > 0 ? (row.score / maxScore) * 100 : 15;

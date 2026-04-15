@@ -121,8 +121,8 @@ export default function LeaderboardPage() {
       </div>
 
       {/* Category Tabs */}
-      <div className="border-b border-border">
-        <div className="flex gap-1 flex-wrap">
+      <div className="border-b border-border overflow-x-auto -mx-4 md:mx-0 px-4 md:px-0">
+        <div className="flex gap-1 whitespace-nowrap min-w-max md:flex-wrap md:min-w-0">
           {availableCategories.map((cat) => (
             <button
               key={cat}
@@ -180,6 +180,10 @@ export default function LeaderboardPage() {
           const displayValue = metric === "elo" ? model.elo : model.win_rate;
           const maxValue = metric === "elo" ? maxElo : maxWinRate;
           const barWidth = maxValue > 0 ? (displayValue / maxValue) * 100 : 0;
+          const rankClass = idx === 0 ? 'bg-terracotta text-white' :
+            idx === 1 ? 'bg-ink-light text-white' :
+            idx === 2 ? 'bg-stone text-white' :
+            'bg-paper-dark text-stone';
           
           return (
             <motion.div
@@ -187,67 +191,89 @@ export default function LeaderboardPage() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: idx * 0.05, duration: 0.3 }}
-              className="panel flex items-center gap-4 p-4 hover:border-terracotta transition-colors"
+              className="panel p-4 hover:border-terracotta transition-colors"
             >
-              {/* Rank */}
-              <div className="w-10 shrink-0">
-                <span className={`inline-flex items-center justify-center w-8 h-8 text-sm font-bold
-                  ${idx === 0 ? 'bg-terracotta text-white' :
-                    idx === 1 ? 'bg-ink-light text-white' :
-                    idx === 2 ? 'bg-stone text-white' :
-                    'bg-paper-dark text-stone'}
-                `}>
+              {/* Mobile layout */}
+              <div className="flex items-center gap-3 md:hidden">
+                <span className={`inline-flex items-center justify-center w-7 h-7 text-xs font-bold shrink-0 ${rankClass}`}>
                   {idx + 1}
                 </span>
-              </div>
-
-              {/* Icon */}
-              <div className="w-10 h-10 flex items-center justify-center shrink-0">
-                <ModelIcon model={model.model} size={32} />
-              </div>
-
-              {/* Model Info */}
-              <div className="w-40 shrink-0">
-                <h3 className="font-semibold text-ink text-sm leading-tight">{model.model}</h3>
-                <span className="text-stone text-xs capitalize">{model.provider}</span>
-              </div>
-
-              {/* Stats */}
-              <div className="flex-1 flex items-center gap-8">
-                {/* ELO */}
-                <div className="w-24 shrink-0">
-                  <span className="label block mb-1">ELO</span>
-                  <span className="font-mono font-semibold text-ink text-base">{model.elo.toLocaleString()}</span>
+                <div className="w-8 h-8 flex items-center justify-center shrink-0">
+                  <ModelIcon model={model.model} size={24} />
                 </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold text-ink text-sm leading-tight truncate">{model.model}</h3>
+                  <span className="text-stone text-xs capitalize">{model.provider}</span>
+                </div>
+                <div className="text-right shrink-0">
+                  <span className="font-mono font-semibold text-ink">{model.elo.toLocaleString()}</span>
+                  <span className="block text-[10px] text-stone-light uppercase tracking-wide">ELO</span>
+                </div>
+              </div>
+              <div className="mt-2.5 md:hidden">
+                <div className="flex justify-between text-xs mb-1">
+                  <span className="label">{metric === "elo" ? "ELO Score" : "Win Rate"}</span>
+                  <span className="font-mono text-ink">
+                    {metric === "elo" ? model.elo.toLocaleString() : `${model.win_rate}%`}
+                  </span>
+                </div>
+                <div className="h-1.5 bg-paper-dark overflow-hidden">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${barWidth}%` }}
+                    transition={{ delay: idx * 0.1, duration: 0.5 }}
+                    className="h-full bg-terracotta"
+                  />
+                </div>
+                <div className="flex gap-4 mt-2 text-xs text-stone-light font-mono">
+                  <span>{model.votes.toLocaleString()} votes</span>
+                  <span>{model.tests.toLocaleString()} tests</span>
+                </div>
+              </div>
 
-                {/* Win Rate with Bar */}
-                <div className="flex-1 min-w-[200px]">
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className="label">{metric === "elo" ? "ELO Score" : "Win Rate"}</span>
-                    <span className="font-mono text-ink text-sm">
-                      {metric === "elo" ? model.elo.toLocaleString() : `${model.win_rate}%`}
-                    </span>
+              {/* Desktop layout */}
+              <div className="hidden md:flex items-center gap-4">
+                <div className="w-10 shrink-0">
+                  <span className={`inline-flex items-center justify-center w-8 h-8 text-sm font-bold ${rankClass}`}>
+                    {idx + 1}
+                  </span>
+                </div>
+                <div className="w-10 h-10 flex items-center justify-center shrink-0">
+                  <ModelIcon model={model.model} size={32} />
+                </div>
+                <div className="w-40 shrink-0">
+                  <h3 className="font-semibold text-ink text-sm leading-tight">{model.model}</h3>
+                  <span className="text-stone text-xs capitalize">{model.provider}</span>
+                </div>
+                <div className="flex-1 flex items-center gap-8">
+                  <div className="w-24 shrink-0">
+                    <span className="label block mb-1">ELO</span>
+                    <span className="font-mono font-semibold text-ink text-base">{model.elo.toLocaleString()}</span>
                   </div>
-                  <div className="h-2 bg-paper-dark overflow-hidden">
-                    <motion.div 
-                      initial={{ width: 0 }}
-                      animate={{ width: `${barWidth}%` }}
-                      transition={{ delay: idx * 0.1, duration: 0.5 }}
-                      className="h-full bg-terracotta"
-                    />
+                  <div className="flex-1 min-w-[200px]">
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="label">{metric === "elo" ? "ELO Score" : "Win Rate"}</span>
+                      <span className="font-mono text-ink text-sm">
+                        {metric === "elo" ? model.elo.toLocaleString() : `${model.win_rate}%`}
+                      </span>
+                    </div>
+                    <div className="h-2 bg-paper-dark overflow-hidden">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: `${barWidth}%` }}
+                        transition={{ delay: idx * 0.1, duration: 0.5 }}
+                        className="h-full bg-terracotta"
+                      />
+                    </div>
                   </div>
-                </div>
-
-                {/* Votes */}
-                <div className="w-20 text-right shrink-0">
-                  <span className="label block mb-1">Votes</span>
-                  <span className="font-mono text-stone text-sm">{model.votes.toLocaleString()}</span>
-                </div>
-
-                {/* Tests */}
-                <div className="w-20 text-right shrink-0">
-                  <span className="label block mb-1">Tests</span>
-                  <span className="font-mono text-stone text-sm">{model.tests.toLocaleString()}</span>
+                  <div className="w-20 text-right shrink-0">
+                    <span className="label block mb-1">Votes</span>
+                    <span className="font-mono text-stone text-sm">{model.votes.toLocaleString()}</span>
+                  </div>
+                  <div className="w-20 text-right shrink-0">
+                    <span className="label block mb-1">Tests</span>
+                    <span className="font-mono text-stone text-sm">{model.tests.toLocaleString()}</span>
+                  </div>
                 </div>
               </div>
             </motion.div>

@@ -167,14 +167,14 @@ export default function ArenaPage() {
         : `No ${activeCategoryLabel.toLowerCase()} comparisons available`;
 
   return (
-    <div className="space-y-8 max-w-6xl">
-      <div className="flex justify-between items-end">
+    <div className="space-y-6 md:space-y-8 max-w-6xl">
+      <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-end">
         <div>
           <p className="label mb-3">Blind Evaluation</p>
-          <h1 className="font-serif text-5xl font-semibold tracking-tight text-ink">Arena</h1>
+          <h1 className="font-serif text-4xl md:text-5xl font-semibold tracking-tight text-ink">Arena</h1>
         </div>
-        <div className="text-right">
-          <div className="flex items-center gap-2 justify-end mb-2">
+        <div className="sm:text-right flex sm:flex-col gap-3 sm:gap-0 items-center sm:items-end">
+          <div className="flex items-center gap-2">
             <span className="badge bg-terracotta-light text-terracotta-dark px-2.5 py-1">
               {activeCategoryLabel}
             </span>
@@ -186,7 +186,7 @@ export default function ArenaPage() {
               <Filter className="w-4 h-4 text-stone" />
             </button>
           </div>
-          <p className="text-xs text-stone-light mt-1 font-mono">
+          <p className="text-xs text-stone-light mt-0 sm:mt-1 font-mono">
             {statusText}
           </p>
         </div>
@@ -282,9 +282,6 @@ export default function ArenaPage() {
                 <div className="flex-1 text-ink-light text-[15px] min-h-[160px]">
                   <MarkdownContent>{currentTest.summary_a}</MarkdownContent>
                 </div>
-                <p className="mt-4 text-xs uppercase tracking-wider text-stone-light">
-                  {currentTest.provider_a}
-                </p>
                 {!hasVoted && (
                   <div className="mt-6 pt-4 border-t border-border">
                     <button
@@ -315,9 +312,6 @@ export default function ArenaPage() {
                 <div className="flex-1 text-ink-light text-[15px] min-h-[160px]">
                   <MarkdownContent>{currentTest.summary_b}</MarkdownContent>
                 </div>
-                <p className="mt-4 text-xs uppercase tracking-wider text-stone-light">
-                  {currentTest.provider_b}
-                </p>
                 {!hasVoted && (
                   <div className="mt-6 pt-4 border-t border-border">
                     <button
@@ -333,21 +327,20 @@ export default function ArenaPage() {
             </div>
 
             {!hasVoted && (
-              <div className="flex justify-center gap-4 pt-4">
+              <div className="flex flex-wrap justify-center gap-3 pt-4">
                 <button onClick={() => handleVote("tie")} className="btn-secondary" disabled={savingVote}>
                   <Minus className="w-4 h-4 mr-2" strokeWidth={1.5} /> Tie
                 </button>
                 <button
                   onClick={() => handleVote("both_bad")}
-                  className="btn-secondary hover:border-rose-light"
+                  className="btn-secondary"
                   disabled={savingVote}
-                  style={{ ["--tw-border-opacity" as string]: undefined }}
                 >
                   <ThumbsDown className="w-4 h-4 mr-2" strokeWidth={1.5} /> Both Bad
                 </button>
                 <button
                   onClick={() => handleVote("both_bad")}
-                  className="px-6 py-2.5 text-stone-light hover:text-ink transition-colors text-xs flex items-center gap-2 uppercase tracking-wider font-medium"
+                  className="px-4 py-2.5 text-stone-light hover:text-ink transition-colors text-xs flex items-center gap-2 uppercase tracking-wider font-medium"
                   disabled={savingVote}
                 >
                   <RefreshCcw className="w-4 h-4" strokeWidth={1.5} /> Skip

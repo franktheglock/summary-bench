@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Newsreader, Outfit } from "next/font/google";
-import Link from "next/link";
+import Header from "./_components/Header";
 import "./globals.css";
 
 const newsreader = Newsreader({
@@ -30,28 +30,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${newsreader.variable} ${outfit.variable} antialiased font-sans`}>
         <div className="relative flex min-h-screen flex-col">
-          <header className="sticky top-0 z-50 border-b border-border bg-paper">
-            <div className="max-w-7xl mx-auto flex h-16 items-center px-6 justify-between">
-              <Link href="/" className="flex items-center gap-3 group">
-                <span className="font-serif text-2xl font-semibold tracking-tight text-ink group-hover:text-terracotta transition-colors">
-                  Summary Arena
-                </span>
-              </Link>
-              <nav className="flex items-center gap-6">
-                <Link href="/leaderboard" className="text-sm font-medium text-stone uppercase tracking-wider hover:text-ink transition-colors">
-                  Leaderboard
-                </Link>
-                <Link href="/arena" className="text-sm font-medium text-stone uppercase tracking-wider hover:text-ink transition-colors">
-                  Arena
-                </Link>
-                <div className="divider-vertical h-6 mx-2"></div>
-                <Link href="/upload" className="btn-primary">
-                  Upload
-                </Link>
-              </nav>
-            </div>
-          </header>
-          <main className="flex-1 max-w-7xl mx-auto w-full px-6 py-12">
+          <Header />
+          <main className="flex-1 max-w-7xl mx-auto w-full px-4 md:px-6 py-6 md:py-12">
             {children}
           </main>
           <footer className="border-t border-border py-8">

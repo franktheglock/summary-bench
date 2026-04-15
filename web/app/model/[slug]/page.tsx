@@ -98,20 +98,38 @@ export default async function ModelDetailsPage({ params }: { params: Promise<{ s
                 <span className="font-mono font-medium text-ink">${(parseFloat(orModel.pricing.completion) * 1000000).toPrecision(3)} <span className="opacity-50">/ 1M</span></span>
               </div>
             </div>
-            <a 
-              href={`https://openrouter.ai/models/${orModel.id}`} 
-              target="_blank" 
-              rel="noreferrer"
-              className="w-full flex items-center justify-center gap-2 bg-ink text-white py-2.5 px-4 rounded text-sm font-semibold hover:bg-stone-800 transition-colors"
-            >
-              View on OpenRouter <ExternalLink className="w-4 h-4" />
-            </a>
+            <div className="flex flex-col gap-2">
+              <a 
+                href={`https://openrouter.ai/models/${orModel.id}`} 
+                target="_blank" 
+                rel="noreferrer"
+                className="w-full flex items-center justify-center gap-2 bg-ink text-white py-2.5 px-4 rounded text-sm font-semibold hover:bg-stone-800 transition-colors"
+              >
+                View on OpenRouter <ExternalLink className="w-4 h-4" />
+              </a>
+              <a 
+                href={`https://huggingface.co/models?search=${encodeURIComponent(modelName)}`} 
+                target="_blank" 
+                rel="noreferrer"
+                className="w-full flex items-center justify-center gap-2 border border-border text-stone py-2.5 px-4 rounded text-sm font-semibold hover:bg-paper-dark transition-colors"
+              >
+                Search on Hugging Face <ExternalLink className="w-4 h-4" />
+              </a>
+            </div>
           </div>
         ) : (
           <div className="panel p-6 flex flex-col items-center justify-center text-center">
              <Cpu className="w-8 h-8 text-border mb-3" />
              <h3 className="font-semibold text-ink mb-1">Not on OpenRouter</h3>
-             <p className="text-xs text-stone">This model may be private, local, or uses a non-standard API alias.</p>
+             <p className="text-xs text-stone mb-6">This model may be private, local, or uses a non-standard API alias.</p>
+             <a 
+                href={`https://huggingface.co/models?search=${encodeURIComponent(modelName)}`} 
+                target="_blank" 
+                rel="noreferrer"
+                className="w-full flex items-center justify-center gap-2 border border-border text-stone py-2.5 px-4 rounded text-sm font-semibold hover:bg-paper-dark transition-colors"
+              >
+                Search on Hugging Face <ExternalLink className="w-4 h-4" />
+              </a>
           </div>
         )}
       </div>

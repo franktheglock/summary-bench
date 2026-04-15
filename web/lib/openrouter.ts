@@ -43,8 +43,11 @@ export async function findOpenRouterModel(modelName: string, providerName?: stri
   const models = await getOpenRouterModels();
   if (!models || models.length === 0) return null;
   
-  const cleanModel = modelName.toLowerCase().trim();
+  let cleanModel = modelName.toLowerCase().trim();
   const cleanProvider = (providerName || "").toLowerCase().trim();
+
+  // Handle specific model name discrepancies
+  if (cleanModel === "lfm2-24b-a2b") cleanModel = "lfm-2-24b-a2b";
 
   // Try exact combo if provider is known
   if (cleanProvider) {

@@ -330,7 +330,7 @@ function computeLeaderboardRows(summaryRows: SummaryRow[], votes: VoteRow[]): Le
   }
 
   function kFor(count: number) {
-    const baseK = 40;
+    const baseK = 32;
     return Math.max(8, Math.round(baseK / (1 + count / 50)));
   }
 
@@ -373,6 +373,11 @@ function computeLeaderboardRows(summaryRows: SummaryRow[], votes: VoteRow[]): Le
       const appearanceCount = voteSummary?.appearance_count ?? 0;
       const score = voteSummary?.score ?? 0;
       const win_rate = appearanceCount > 0 ? Math.round((score / appearanceCount) * 100) : 0;
+      
+      const rawElo = ratings.get(row.model) ?? BASE_RATING;
+      // Bayesian Smoothing (Shrinkage) to prevent lucky low-vote models from hitting Rank 1
+      const smoothingFactor = appearanceCount / (appearanceCount + 20);
+      const smoothedElo = Math.round(BASE_RATING + (rawElo - BASE_RATING) * smoothingFactor);
 
       return {
         model: row.model,
@@ -382,7 +387,7 @@ function computeLeaderboardRows(summaryRows: SummaryRow[], votes: VoteRow[]): Le
         win_rate,
         avg_latency_ms: row.tests > 0 ? Math.round(row.latencySum / row.tests) : 0,
         latest_run: row.latest_run,
-        elo: Math.round(ratings.get(row.model) ?? BASE_RATING),
+        elo: smoothedElo,
       } satisfies LeaderboardRow;
     })
     .sort((left, right) => {

@@ -82,25 +82,14 @@ export default function LeaderboardPage() {
     return ["all", ...categories];
   }, [categories]);
 
-  // Calculate ELO scores with confidence weighting
-  const rowsWithElo = useMemo(() => {
-    return rows.map((row) => {
-      const confidenceFactor = row.votes > 0
-        ? 100 * (1 - Math.exp(-row.votes / 30))
-        : 0;
-      const fallbackElo = Math.round(1000 + (row.win_rate / 100) * confidenceFactor);
-      const eloScore = typeof row.elo === "number" ? row.elo : fallbackElo;
-
-      return {
-        ...row,
-        elo: eloScore,
-      };
-    }).sort((a, b) => b.elo - a.elo);
+  // Sort rows by ELO score (smoothed Elo from backend)
+  const sortedRows = useMemo(() => {
+    return [...rows].sort((a, b) => (b.elo ?? 0) - (a.elo ?? 0));
   }, [rows]);
 
   const maxElo = useMemo(() => {
-    return Math.max(...rowsWithElo.map((row) => row.elo), 1000);
-  }, [rowsWithElo]);
+    return Math.max(...sortedRows.map((row) => row.elo ?? 1000), 1000);
+  }, [sortedRows]);
 
   const maxWinRate = 100;
 
@@ -176,8 +165,8 @@ export default function LeaderboardPage() {
 
       {/* Leaderboard List */}
       <div className="space-y-3">
-        {rowsWithElo.map((model, idx) => {
-          const displayValue = metric === "elo" ? model.elo : model.win_rate;
+        {sortedRows.map((model, idx) => {
+          const displayValue = metric === "elo" ? (model.elo ?? 0) : model.win_rate;
           const maxValue = metric === "elo" ? maxElo : maxWinRate;
           const barWidth = maxValue > 0 ? (displayValue / maxValue) * 100 : 0;
           const rankClass = idx === 0 ? 'bg-terracotta text-white' :
@@ -185,13 +174,15 @@ export default function LeaderboardPage() {
             idx === 2 ? 'bg-stone text-white' :
             'bg-paper-dark text-stone';
           
+          const isProvisional = model.votes < 20;
+
           return (
             <motion.div
               key={model.model}
               initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
+              animate={{ opacity: isProvisional ? 0.6 : 1, x: 0 }}
               transition={{ delay: idx * 0.05, duration: 0.3 }}
-              className="panel p-4 hover:border-terracotta transition-colors"
+              className={`panel p-4 transition-colors ${isProvisional ? 'hover:opacity-100 border-transparent hover:border-border' : 'hover:border-terracotta'}`}
             >
               {/* Mobile layout */}
               <div className="flex items-center gap-3 md:hidden">
@@ -202,11 +193,18 @@ export default function LeaderboardPage() {
                   <ModelIcon model={model.model} size={24} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-ink text-sm leading-tight truncate">{model.model}</h3>
+                  <h3 className="font-semibold text-ink text-sm flex items-center gap-1.5 leading-tight truncate">
+                    {model.model}
+                    {isProvisional && (
+                      <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold tracking-wider uppercase bg-stone-100 text-stone-500 border border-stone-200" title="Provisional Score (Needs more votes)">
+                        Prov
+                      </span>
+                    )}
+                  </h3>
                   <span className="text-stone text-xs capitalize">{model.provider}</span>
                 </div>
                 <div className="text-right shrink-0">
-                  <span className="font-mono font-semibold text-ink">{model.elo.toLocaleString()}</span>
+                  <span className="font-mono font-semibold text-ink">{(model.elo ?? 0).toLocaleString()}</span>
                   <span className="block text-[10px] text-stone-light uppercase tracking-wide">ELO</span>
                 </div>
               </div>
@@ -214,7 +212,7 @@ export default function LeaderboardPage() {
                 <div className="flex justify-between text-xs mb-1">
                   <span className="label">{metric === "elo" ? "ELO Score" : "Win Rate"}</span>
                   <span className="font-mono text-ink">
-                    {metric === "elo" ? model.elo.toLocaleString() : `${model.win_rate}%`}
+                    {metric === "elo" ? (model.elo ?? 0).toLocaleString() : `${model.win_rate}%`}
                   </span>
                 </div>
                 <div className="h-1.5 bg-paper-dark overflow-hidden">
@@ -242,19 +240,26 @@ export default function LeaderboardPage() {
                   <ModelIcon model={model.model} size={32} />
                 </div>
                 <div className="w-40 shrink-0">
-                  <h3 className="font-semibold text-ink text-sm leading-tight">{model.model}</h3>
+                  <h3 className="font-semibold text-ink text-sm flex items-center gap-1.5 leading-tight truncate">
+                    {model.model}
+                    {isProvisional && (
+                      <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold tracking-wider uppercase bg-stone-100 text-stone-500 border border-stone-200" title="Provisional Score (Needs more votes)">
+                        Prov
+                      </span>
+                    )}
+                  </h3>
                   <span className="text-stone text-xs capitalize">{model.provider}</span>
                 </div>
                 <div className="flex-1 flex items-center gap-8">
                   <div className="w-24 shrink-0">
                     <span className="label block mb-1">ELO</span>
-                    <span className="font-mono font-semibold text-ink text-base">{model.elo.toLocaleString()}</span>
+                    <span className="font-mono font-semibold text-ink text-base">{(model.elo ?? 0).toLocaleString()}</span>
                   </div>
                   <div className="flex-1 min-w-[200px]">
                     <div className="flex items-center justify-between mb-1.5">
                       <span className="label">{metric === "elo" ? "ELO Score" : "Win Rate"}</span>
                       <span className="font-mono text-ink text-sm">
-                        {metric === "elo" ? model.elo.toLocaleString() : `${model.win_rate}%`}
+                        {metric === "elo" ? (model.elo ?? 0).toLocaleString() : `${model.win_rate}%`}
                       </span>
                     </div>
                     <div className="h-2 bg-paper-dark overflow-hidden">

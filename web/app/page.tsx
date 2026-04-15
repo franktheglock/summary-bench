@@ -13,6 +13,7 @@ type LeaderboardRow = {
   win_rate: number;
   avg_latency_ms: number;
   latest_run: string;
+  elo?: number;
 };
 
 // Category display names mapping
@@ -108,16 +109,18 @@ export default function HomePage() {
     return rows
       .slice(0, 12)
       .map((row) => {
-        // Better ELO calculation that considers confidence (number of votes)
+        // Prefer server-provided Elo when available, otherwise fall back to the
+        // previous confidence-shaped heuristic for backward compatibility.
         const confidenceFactor = row.votes > 0
           ? 100 * (1 - Math.exp(-row.votes / 30))
           : 0;
-        const eloScore = Math.round(1000 + (row.win_rate / 100) * confidenceFactor);
-        
+        const fallbackElo = Math.round(1000 + (row.win_rate / 100) * confidenceFactor);
+        const eloScore = typeof row.elo === "number" ? row.elo : fallbackElo;
+
         return {
           ...row,
           score: metric === "elo" ? eloScore : row.win_rate,
-          displayValue: metric === "elo" 
+          displayValue: metric === "elo"
             ? eloScore.toString()
             : `${Math.round(row.win_rate)}%`,
         };

@@ -84,9 +84,9 @@ export default function UploadPage() {
       setUploadedCount(payload.results.length);
       setStatus("success");
 
-    } catch (e: any) {
+    } catch (e: unknown) {
       setStatus("error");
-      setErrorMsg(e?.message || "Failed to upload JSON file.");
+      setErrorMsg(e instanceof Error ? e.message : "Failed to upload JSON file.");
     }
   };
 

@@ -301,12 +301,12 @@ class TestProviderMapping:
         with patch("summaryarena.providers.litellm.completion", return_value=_Response()):
             assert p.test_connection() is True
 
-    def test_generate_summary_falls_back_to_reasoning_content(self):
-        p = SummaryProvider(provider="lm_studio", model="test")
+    def test_generate_summary_does_not_use_reasoning_only_content_as_final_text(self):
+        p = SummaryProvider(provider="openrouter", model="test")
 
         class _Message:
             content = ""
-            reasoning_content = "  Final summary text.  "
+            reasoning_content = "<think>private reasoning only</think>"
 
         class _Choice:
             message = _Message()
@@ -318,6 +318,58 @@ class TestProviderMapping:
         class _Response:
             choices = [_Choice()]
             usage = _Usage()
+
+        with patch("summaryarena.providers.litellm.completion", return_value=_Response()):
+            result = p.generate_summary("sys", "user")
+
+        assert result.text == ""
+        assert result.input_tokens == 12
+        assert result.output_tokens == 7
+
+    def test_generate_summary_uses_cleaned_reasoning_fallback_when_answer_is_appended(self):
+        p = SummaryProvider(provider="lm_studio", model="test")
+
+        class _Message:
+            content = ""
+            reasoning_content = "<think>internal reasoning</think>\nFinal summary text."
+
+        class _Choice:
+            message = _Message()
+
+        class _Usage:
+            prompt_tokens = 12
+            completion_tokens = 7
+
+        class _Response:
+            choices = [_Choice()]
+            usage = _Usage()
+
+        with patch("summaryarena.providers.litellm.completion", return_value=_Response()):
+            result = p.generate_summary("sys", "user")
+
+        assert result.text == "Final summary text."
+        assert result.input_tokens == 12
+        assert result.output_tokens == 7
+
+    def test_generate_summary_extracts_responses_api_output_text(self):
+        p = SummaryProvider(provider="openrouter", model="test")
+
+        class _OutputText:
+            type = "output_text"
+            text = "  Final summary text.  "
+
+        class _MessageItem:
+            type = "message"
+            content = [_OutputText()]
+
+        class _Usage:
+            prompt_tokens = 12
+            completion_tokens = 7
+
+        class _Response:
+            output = [_MessageItem()]
+            usage = _Usage()
+            choices = []
 
         with patch("summaryarena.providers.litellm.completion", return_value=_Response()):
             result = p.generate_summary("sys", "user")

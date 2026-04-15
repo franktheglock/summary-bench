@@ -12,21 +12,8 @@ type LeaderboardRow = {
   win_rate: number;
   avg_latency_ms: number;
   latest_run: string;
+  elo?: number;
 };
-
-function formatTime(value: string) {
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) {
-    return value;
-  }
-
-  return date.toLocaleString([], {
-    month: "short",
-    day: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-  });
-}
 
 export default function HomePage() {
   const [rows, setRows] = useState<LeaderboardRow[]>([]);
@@ -93,7 +80,7 @@ export default function HomePage() {
         rank: index + 1,
         score:
           metric === "elo"
-            ? Math.round(1000 + row.win_rate * 3.4 + row.votes * 0.9)
+            ? Math.round((typeof row.elo === "number" ? row.elo : (1000 + row.win_rate * 3.4 + row.votes * 0.9)))
             : row.win_rate,
       }))
       .sort((left, right) => right.score - left.score);

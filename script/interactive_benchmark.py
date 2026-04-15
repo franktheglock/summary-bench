@@ -137,7 +137,15 @@ def load_model_lmstudio(model_id: str) -> bool:
         return False
 
 
-def run_benchmark(provider_key, model_id, base_url, categories, output_path, api_key=None):
+def run_benchmark(
+    provider_key,
+    model_id,
+    base_url,
+    categories,
+    output_path,
+    api_key=None,
+    parallel_requests: int | None = None,
+):
     from summaryarena.providers import SummaryProvider
     from summaryarena.runner import BenchmarkRunner
     from summaryarena.config import SummaryArenaConfig
@@ -152,7 +160,9 @@ def run_benchmark(provider_key, model_id, base_url, categories, output_path, api
         api_key=api_key,
         temperature=0.0,
         parallel_requests=(
-            LM_STUDIO_PARALLEL_DEFAULT
+            parallel_requests
+            if parallel_requests is not None
+            else LM_STUDIO_PARALLEL_DEFAULT
             if provider_key == "lm_studio"
             else CLOUD_PARALLEL_DEFAULT
             if provider_key in CLOUD_PARALLEL_PROVIDERS
@@ -329,7 +339,29 @@ def main():
     categories = cat_selected
     console.print(f"[green]Selected {len(categories)} categories[/]")
 
-    # Step 4: Confirm
+    # Step 4: Choose request concurrency
+    default_parallel = (
+        LM_STUDIO_PARALLEL_DEFAULT
+        if provider_key == "lm_studio"
+        else CLOUD_PARALLEL_DEFAULT
+        if provider_key in CLOUD_PARALLEL_PROVIDERS
+        else 1
+    )
+
+    parallel_value = questionary.text(
+        "Concurrent requests per run:",
+        default=str(default_parallel),
+        validate=lambda text: text.isdigit() and 1 <= int(text) <= 16,
+        instruction="Enter a value from 1 to 16",
+    ).ask()
+
+    if parallel_value is None:
+        console.print("[yellow]Cancelled.[/]")
+        return
+
+    parallel_requests = int(parallel_value)
+
+    # Step 5: Confirm
     clear()
     console.print("\n[bold]Configuration Summary[/]\n")
 
@@ -345,6 +377,7 @@ def main():
         else:
             table.add_row("Auto-load", "No - manually load each model when prompted")
     table.add_row("Categories", ", ".join(categories))
+    table.add_row("Parallel requests", str(parallel_requests))
     table.add_row("Output", str(RESULTS_DIR.absolute()))
     console.print(table)
 
@@ -396,6 +429,7 @@ def main():
             categories=categories,
             output_path=output_path,
             api_key=api_key,
+            parallel_requests=parallel_requests,
         )
 
         if ok:

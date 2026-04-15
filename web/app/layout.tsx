@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Newsreader, Outfit } from "next/font/google";
+import Link from "next/link";
 import "./globals.css";
 
 const newsreader = Newsreader({
@@ -31,22 +32,22 @@ export default function RootLayout({
         <div className="relative flex min-h-screen flex-col">
           <header className="sticky top-0 z-50 border-b border-border bg-paper">
             <div className="max-w-7xl mx-auto flex h-16 items-center px-6 justify-between">
-              <a href="/" className="flex items-center gap-3 group">
+              <Link href="/" className="flex items-center gap-3 group">
                 <span className="font-serif text-2xl font-semibold tracking-tight text-ink group-hover:text-terracotta transition-colors">
                   Summary Arena
                 </span>
-              </a>
+              </Link>
               <nav className="flex items-center gap-6">
-                <a href="/leaderboard" className="text-sm font-medium text-stone uppercase tracking-wider hover:text-ink transition-colors">
+                <Link href="/leaderboard" className="text-sm font-medium text-stone uppercase tracking-wider hover:text-ink transition-colors">
                   Leaderboard
-                </a>
-                <a href="/arena" className="text-sm font-medium text-stone uppercase tracking-wider hover:text-ink transition-colors">
+                </Link>
+                <Link href="/arena" className="text-sm font-medium text-stone uppercase tracking-wider hover:text-ink transition-colors">
                   Arena
-                </a>
+                </Link>
                 <div className="divider-vertical h-6 mx-2"></div>
-                <a href="/upload" className="btn-primary">
+                <Link href="/upload" className="btn-primary">
                   Upload
-                </a>
+                </Link>
               </nav>
             </div>
           </header>

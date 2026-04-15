@@ -12,7 +12,7 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const category = searchParams.get("category") || undefined;
   
-  const candidate = getVoteCandidate(category);
+  const candidate = await getVoteCandidate(category);
 
   if (!candidate) {
     return NextResponse.json(
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
 
   const data = payload as {
     vote?: VoteChoice;
-    candidate?: ReturnType<typeof getVoteCandidate>;
+    candidate?: Awaited<ReturnType<typeof getVoteCandidate>>;
   };
 
   if (!data.vote || !data.candidate) {
@@ -48,7 +48,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    recordVote(data.candidate, data.vote);
+    await recordVote(data.candidate, data.vote);
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown database error.";
     return NextResponse.json(

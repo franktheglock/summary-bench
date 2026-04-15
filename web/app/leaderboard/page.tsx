@@ -13,6 +13,7 @@ type LeaderboardRow = {
   win_rate: number;
   avg_latency_ms: number;
   latest_run: string;
+  elo?: number;
 };
 
 // Category display names mapping
@@ -84,12 +85,12 @@ export default function LeaderboardPage() {
   // Calculate ELO scores with confidence weighting
   const rowsWithElo = useMemo(() => {
     return rows.map((row) => {
-      // Same formula as homepage
       const confidenceFactor = row.votes > 0
         ? 100 * (1 - Math.exp(-row.votes / 30))
         : 0;
-      const eloScore = Math.round(1000 + (row.win_rate / 100) * confidenceFactor);
-      
+      const fallbackElo = Math.round(1000 + (row.win_rate / 100) * confidenceFactor);
+      const eloScore = typeof row.elo === "number" ? row.elo : fallbackElo;
+
       return {
         ...row,
         elo: eloScore,

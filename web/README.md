@@ -20,15 +20,42 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Local Database
+## Storage Modes
 
-The upload page writes benchmark JSON into a local SQLite database.
+The app supports two backends:
 
-1. Run the app from the `web/` folder as usual.
+1. Local SQLite for local development.
+2. Supabase for hosted deployments such as Cloudflare.
 
-2. The database file is created automatically at `web/data/summaryarena.sqlite` on first upload.
+The backend is controlled by `SUMMARYARENA_STORAGE`:
 
-3. If you want a different path, set `SQLITE_PATH` in `web/.env.local`.
+- `auto` (default): use Supabase when configured, otherwise fall back to local SQLite.
+- `sqlite`: force the local file-backed database.
+- `supabase`: force Supabase and fail fast if the env vars are missing.
+
+### Local SQLite
+
+Run the app from the `web/` folder as usual.
+
+The database file is created automatically at `web/data/summaryarena.sqlite` on first upload.
+
+If you want a different path, set `SQLITE_PATH` in `web/.env.local`.
+
+### Cloudflare + Supabase
+
+This is the intended hosted setup.
+
+1. Create a Supabase project.
+2. Run the SQL in `web/supabase/schema.sql` in the Supabase SQL editor.
+3. In Cloudflare, set these environment variables:
+
+	- `SUMMARYARENA_STORAGE=supabase`
+	- `SUPABASE_URL=...`
+	- `SUPABASE_ANON_KEY=...`
+
+4. Optionally set `SUPABASE_SERVICE_ROLE_KEY` for server-side writes.
+
+If you also want a local copy while developing, keep `SUMMARYARENA_STORAGE=sqlite` or unset the Supabase variables in `web/.env.local`.
 
 The upload endpoint is `web/app/api/upload/route.ts`.
 

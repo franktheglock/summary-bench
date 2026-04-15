@@ -5,6 +5,7 @@ from __future__ import annotations
 import logging
 import time
 from dataclasses import dataclass
+from typing import Any
 
 import litellm
 
@@ -82,6 +83,92 @@ def strip_thinking_text(text: str) -> str:
     return cleaned.strip()
 
 
+def _extract_text_from_content_parts(content: Any) -> str:
+    """Extract final output text from content blocks.
+
+    Supports both chat-completions style message content lists and Responses API
+    content arrays where final answer text appears in `output_text` blocks.
+    """
+    if isinstance(content, str):
+        return content.strip()
+
+    if not isinstance(content, list):
+        return ""
+
+    parts: list[str] = []
+    for item in content:
+        if isinstance(item, dict):
+            item_type = item.get("type")
+            if item_type in {"text", "output_text"}:
+                text = item.get("text")
+                if isinstance(text, str) and text.strip():
+                    parts.append(text.strip())
+        else:
+            item_type = getattr(item, "type", None)
+            if item_type in {"text", "output_text"}:
+                text = getattr(item, "text", None)
+                if isinstance(text, str) and text.strip():
+                    parts.append(text.strip())
+
+    return "\n".join(parts).strip()
+
+
+def extract_final_text(response: Any) -> str:
+    """Extract final answer text without falling back to reasoning text.
+
+    Priority:
+    1. Chat completions `choices[0].message.content`
+    2. Responses API `output[].content[]` blocks with `type == output_text`
+    3. Empty string if only reasoning is present
+    """
+    choices = getattr(response, "choices", None) or []
+    if choices:
+        message = getattr(choices[0], "message", None)
+        if message is not None:
+            text = _extract_text_from_content_parts(getattr(message, "content", None))
+            if text:
+                return text
+
+    output = getattr(response, "output", None) or []
+    for item in output:
+        item_type = item.get("type") if isinstance(item, dict) else getattr(item, "type", None)
+        if item_type != "message":
+            continue
+
+        content = item.get("content") if isinstance(item, dict) else getattr(item, "content", None)
+        text = _extract_text_from_content_parts(content)
+        if text:
+            return text
+
+    return ""
+
+
+def extract_reasoning_fallback_text(response: Any) -> str:
+    """Extract a usable final answer from reasoning content when available.
+
+    Some local OpenAI-compatible servers expose the model's full visible output in
+    `reasoning_content`, with `<think>...</think>` wrapping the private chain of
+    thought and the final answer appended afterward. In that case, stripping the
+    thinking block yields the real answer text.
+
+    If reasoning content contains only chain-of-thought, `strip_thinking_text`
+    will return an empty string and this function safely yields nothing.
+    """
+    choices = getattr(response, "choices", None) or []
+    if not choices:
+        return ""
+
+    message = getattr(choices[0], "message", None)
+    if message is None:
+        return ""
+
+    reasoning_content = getattr(message, "reasoning_content", None) or ""
+    if not isinstance(reasoning_content, str) or not reasoning_content.strip():
+        return ""
+
+    return strip_thinking_text(reasoning_content)
+
+
 class SummaryProvider:
     """Unified interface for generating summaries via any LiteLLM-supported provider."""
 
@@ -116,14 +203,15 @@ class SummaryProvider:
         self,
         system_prompt: str,
         user_prompt: str,
-        max_tokens: int = 1024,
+        max_tokens: int | None = None,
     ) -> GenerationResult:
         """Generate a summary using the configured provider.
 
         Args:
             system_prompt: System-level instruction for the model.
             user_prompt: User prompt containing the text to summarize.
-            max_tokens: Maximum tokens in the response.
+            max_tokens: Optional maximum tokens in the response. If omitted,
+                the provider decides the generation limit.
 
         Returns:
             GenerationResult with text, token counts, and latency.
@@ -140,8 +228,10 @@ class SummaryProvider:
             "model": self.litellm_model,
             "messages": messages,
             "temperature": self.temperature,
-            "max_tokens": max_tokens,
         }
+
+        if max_tokens is not None:
+            kwargs["max_tokens"] = max_tokens
 
         if self.base_url:
             kwargs["api_base"] = self.base_url
@@ -154,12 +244,10 @@ class SummaryProvider:
 
         # Extract usage info
         usage = response.usage
-        message = response.choices[0].message
-        text = (getattr(message, "content", None) or "").strip()
+        text = extract_final_text(response)
 
         if not text:
-            reasoning_content = getattr(message, "reasoning_content", None) or ""
-            text = reasoning_content.strip()
+            text = extract_reasoning_fallback_text(response)
 
         # Strip thinking/reasoning text before saving
         text = strip_thinking_text(text)

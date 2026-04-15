@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { FileText, Filter, Loader2, Minus, RefreshCcw, ThumbsDown, ThumbsUp } from "lucide-react";
 import { ModelIcon } from "@lobehub/icons";
@@ -75,17 +75,21 @@ export default function ArenaPage() {
   const [revealedModelB, setRevealedModelB] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [showFilter, setShowFilter] = useState(false);
+  const requestIdRef = useRef(0);
 
-  const loadCandidate = async () => {
+  const loadCandidate = async (category: string) => {
+    const requestId = ++requestIdRef.current;
+
     setLoading(true);
     setError(null);
+    setCandidate(null);
     setHasVoted(false);
     setVotedFor(null);
     setRevealedModelA(false);
     setRevealedModelB(false);
 
     try {
-      const url = `/api/arena?category=${encodeURIComponent(selectedCategory)}`;
+      const url = `/api/arena?category=${encodeURIComponent(category)}`;
       const response = await fetch(url, { cache: "no-store" });
       const data = await response.json().catch(() => null);
 
@@ -93,17 +97,23 @@ export default function ArenaPage() {
         throw new Error(data?.error || "No comparable uploaded summaries are available yet.");
       }
 
-      setCandidate(data.candidate);
+      if (requestId === requestIdRef.current) {
+        setCandidate(data.candidate);
+      }
     } catch (loadError) {
-      setCandidate(null);
-      setError(loadError instanceof Error ? loadError.message : "Failed to load the next vote.");
+      if (requestId === requestIdRef.current) {
+        setCandidate(null);
+        setError(loadError instanceof Error ? loadError.message : "Failed to load the next vote.");
+      }
     } finally {
-      setLoading(false);
+      if (requestId === requestIdRef.current) {
+        setLoading(false);
+      }
     }
   };
 
   useEffect(() => {
-    void loadCandidate();
+    void loadCandidate(selectedCategory);
   }, [selectedCategory]);
 
   const handleVote = async (vote: VoteChoice) => {
@@ -138,7 +148,7 @@ export default function ArenaPage() {
   };
 
   const handleNext = async () => {
-    await loadCandidate();
+    await loadCandidate(selectedCategory);
   };
 
   const handleCategoryChange = (cat: string) => {
@@ -147,6 +157,14 @@ export default function ArenaPage() {
   };
 
   const currentTest = candidate;
+  const activeCategoryLabel = CATEGORY_LABELS[selectedCategory] || selectedCategory;
+  const statusText = loading
+    ? `Fetching ${activeCategoryLabel.toLowerCase()} comparisons...`
+    : currentTest?.test_id
+      ? currentTest.test_id
+      : error
+        ? `No ${activeCategoryLabel.toLowerCase()} comparisons available`
+        : `No ${activeCategoryLabel.toLowerCase()} comparisons available`;
 
   return (
     <div className="space-y-8 max-w-6xl">
@@ -158,7 +176,7 @@ export default function ArenaPage() {
         <div className="text-right">
           <div className="flex items-center gap-2 justify-end mb-2">
             <span className="badge bg-terracotta-light text-terracotta-dark px-2.5 py-1">
-              {currentTest?.category ?? "Loading"}
+              {activeCategoryLabel}
             </span>
             <button
               onClick={() => setShowFilter(!showFilter)}
@@ -169,7 +187,7 @@ export default function ArenaPage() {
             </button>
           </div>
           <p className="text-xs text-stone-light mt-1 font-mono">
-            {currentTest?.test_id ?? "Fetching uploaded data..."}
+            {statusText}
           </p>
         </div>
       </div>
@@ -224,7 +242,7 @@ export default function ArenaPage() {
       <AnimatePresence mode="wait">
         {currentTest && (
           <motion.div
-            key={currentTest.test_id}
+            key={`${selectedCategory}:${currentTest.test_id}:${currentTest.model_a}:${currentTest.model_b}`}
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}

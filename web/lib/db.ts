@@ -1,7 +1,4 @@
-import fs from "node:fs";
-import path from "node:path";
-
-import Database from "better-sqlite3";
+import type Database from "better-sqlite3";
 
 const DEFAULT_DB_PATH = "data/summaryarena.sqlite";
 
@@ -49,23 +46,55 @@ const schema = `
   CREATE INDEX IF NOT EXISTS idx_votes_models ON votes(model_a, model_b);
 `;
 
-let database: InstanceType<typeof Database> | null = null;
+let databasePromise: Promise<InstanceType<typeof Database>> | null = null;
 
-function resolveDatabasePath(): string {
+async function resolveDatabasePath(): Promise<string> {
+  const [{ default: fs }, { default: path }] = await Promise.all([
+    import("node:fs"),
+    import("node:path"),
+  ]);
+
   const configuredPath = process.env.SQLITE_PATH?.trim() || DEFAULT_DB_PATH;
-  return path.isAbsolute(configuredPath)
-    ? configuredPath
-    : path.resolve(process.cwd(), configuredPath);
-}
 
-export function getDatabase(): InstanceType<typeof Database> {
-  if (!database) {
-    const databasePath = resolveDatabasePath();
-    fs.mkdirSync(path.dirname(databasePath), { recursive: true });
-    database = new Database(databasePath);
-    database.pragma("foreign_keys = ON");
-    database.exec(schema);
+  if (path.isAbsolute(configuredPath)) {
+    return configuredPath;
   }
 
-  return database;
+  const cwdCandidate = path.resolve(process.cwd(), configuredPath);
+  const workspaceWebCandidate = path.resolve(process.cwd(), "web", configuredPath);
+
+  if (fs.existsSync(cwdCandidate)) {
+    return cwdCandidate;
+  }
+
+  if (fs.existsSync(workspaceWebCandidate)) {
+    return workspaceWebCandidate;
+  }
+
+  if (fs.existsSync(path.resolve(process.cwd(), "web"))) {
+    return workspaceWebCandidate;
+  }
+
+  return cwdCandidate;
+}
+
+export async function getDatabase(): Promise<InstanceType<typeof Database>> {
+  if (!databasePromise) {
+    databasePromise = (async () => {
+      const [{ default: fs }, { default: path }, databaseModule] = await Promise.all([
+        import("node:fs"),
+        import("node:path"),
+        import("better-sqlite3"),
+      ]);
+      const DatabaseConstructor = databaseModule.default;
+      const databasePath = await resolveDatabasePath();
+      fs.mkdirSync(path.dirname(databasePath), { recursive: true });
+      const database = new DatabaseConstructor(databasePath);
+      database.pragma("foreign_keys = ON");
+      database.exec(schema);
+      return database;
+    })();
+  }
+
+  return databasePromise;
 }

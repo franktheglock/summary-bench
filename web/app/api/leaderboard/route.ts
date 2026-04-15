@@ -8,8 +8,10 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const category = searchParams.get("category") || undefined;
   
-  const rows = getLeaderboardRows(category);
-  const categories = getCategories();
+  const [rows, categories] = await Promise.all([
+    getLeaderboardRows(category),
+    getCategories(),
+  ]);
 
   return NextResponse.json({ ok: true, rows, categories });
 }

@@ -7,6 +7,7 @@ import { ArrowLeft, ExternalLink, Cpu, BarChart3 } from "lucide-react";
 export default async function ModelDetailsPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const modelName = decodeURIComponent(slug);
+  const openRouterPromise = findOpenRouterModel(modelName);
   const stats = await getModelStats(modelName);
 
   if (!stats || stats.length === 0) {
@@ -22,7 +23,7 @@ export default async function ModelDetailsPage({ params }: { params: Promise<{ s
   }
 
   const provider = stats[0].provider;
-  const orModel = await findOpenRouterModel(modelName, provider);
+  const orModel = (await openRouterPromise) ?? await findOpenRouterModel(modelName, provider);
 
   // Stats for "All"
   const globalStat = stats.find((s) => s.category === "all") || stats[0];

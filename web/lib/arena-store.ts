@@ -643,18 +643,31 @@ export async function getLeaderboardRows(category?: string): Promise<Leaderboard
 export type ModelCategoryStat = LeaderboardRow & { category: string; rank: number; totalModels: number };
 
 export async function getModelStats(modelName: string): Promise<ModelCategoryStat[]> {
-  const categories = await getCategories();
+  const { summaryRows, votes } = await loadArenaData();
+  const modelKey = modelName.toLowerCase();
+  const categories = [...new Set(summaryRows.map((row) => row.category))].sort((left, right) => left.localeCompare(right));
   const allCategories = ["all", ...categories];
+  const leaderboardByCategory = new Map<string, LeaderboardRow[]>();
+
+  leaderboardByCategory.set("all", computeLeaderboardRows(summaryRows, votes));
+
+  for (const category of categories) {
+    const categoryRows = summaryRows.filter((row) => row.category === category);
+    const testIds = new Set(categoryRows.map((row) => row.test_id));
+    const categoryVotes = votes.filter((vote) => testIds.has(vote.test_id));
+    leaderboardByCategory.set(category, computeLeaderboardRows(categoryRows, categoryVotes));
+  }
+
   const stats: ModelCategoryStat[] = [];
 
-  for (const cat of allCategories) {
-    const rows = await getLeaderboardRows(cat);
-    const index = rows.findIndex((r) => r.model.toLowerCase() === modelName.toLowerCase());
-    
+  for (const category of allCategories) {
+    const rows = leaderboardByCategory.get(category) ?? [];
+    const index = rows.findIndex((row) => row.model.toLowerCase() === modelKey);
+
     if (index !== -1) {
       stats.push({
         ...rows[index],
-        category: cat,
+        category,
         rank: index + 1,
         totalModels: rows.length,
       });

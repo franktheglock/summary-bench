@@ -17,14 +17,19 @@ export interface OpenRouterModel {
 }
 
 let openRouterCache: OpenRouterModel[] | null = null;
+let openRouterCachePromise: Promise<OpenRouterModel[]> | null = null;
 let cacheExpiresAt = 0;
 
 export async function getOpenRouterModels(): Promise<OpenRouterModel[]> {
   if (openRouterCache && Date.now() < cacheExpiresAt) {
     return openRouterCache;
   }
+
+  if (openRouterCachePromise) {
+    return openRouterCachePromise;
+  }
   
-  try {
+  const promise = (async () => {
     // Revalidation happens natively in Next.js via fetch options, but we also keep an in-memory cache
     // just in case we call this 50 times in a single server pass.
     const response = await fetch("https://openrouter.ai/api/v1/models", { next: { revalidate: 3600 } });
@@ -34,9 +39,13 @@ export async function getOpenRouterModels(): Promise<OpenRouterModel[]> {
     openRouterCache = data.data as OpenRouterModel[];
     cacheExpiresAt = Date.now() + 3600 * 1000;
     return openRouterCache;
-  } catch {
-    return [];
-  }
+  })().catch(() => []);
+
+  openRouterCachePromise = promise.finally(() => {
+    openRouterCachePromise = null;
+  });
+
+  return openRouterCachePromise;
 }
 
 export async function findOpenRouterModel(modelName: string, providerName?: string): Promise<OpenRouterModel | null> {

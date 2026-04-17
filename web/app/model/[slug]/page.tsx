@@ -1,6 +1,7 @@
 import { getModelStats } from "@/lib/arena-store";
 import { getHuggingFaceModelCard, getHuggingFaceSearchName } from "@/lib/huggingface";
 import { findOpenRouterModel } from "@/lib/openrouter";
+import VerificationBadge from "@/app/_components/VerificationBadge";
 import { ModelIcon } from "@lobehub/icons";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -184,9 +185,12 @@ export default async function ModelDetailsPage({ params }: { params: Promise<{ s
           <div className="inline-block px-2 py-1 bg-stone-100 text-stone-500 text-[10px] font-bold uppercase tracking-widest rounded mb-3">
             {provider}
           </div>
-          <h1 className="font-serif text-4xl md:text-5xl font-semibold tracking-tight text-ink mb-4">
-            {modelName}
-          </h1>
+          <div className="flex items-center gap-3 mb-4 flex-wrap">
+            <h1 className="font-serif text-4xl md:text-5xl font-semibold tracking-tight text-ink">
+              {modelName}
+            </h1>
+            {globalStat.verified ? <VerificationBadge className="w-5 h-5" /> : null}
+          </div>
           <Suspense fallback={<ModelDescriptionFallback />}>
             <ModelDescription
               openRouterPromise={openRouterPromise}

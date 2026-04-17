@@ -104,8 +104,19 @@ Add these environment variables in Vercel:
 - `SUPABASE_SERVICE_ROLE_KEY=...`
 - `NEXT_PUBLIC_SUPABASE_URL=...`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY=...`
+- `SUMMARYARENA_MODERATOR_EMAILS=alice@example.com,bob@example.com`
+- `SUMMARYARENA_MODERATOR_IDS=uuid-1,uuid-2`
 
 Do not add `SQLITE_PATH` in production.
+
+### Moderator Access
+
+Moderator login is controlled by a server-side allowlist. Set either of these environment variables:
+
+- `SUMMARYARENA_MODERATOR_EMAILS` - comma-separated GitHub email addresses allowed to access `/moderator`
+- `SUMMARYARENA_MODERATOR_IDS` - comma-separated Supabase user IDs allowed to access `/moderator`
+
+If both are set, a user only needs to match one of them.
 
 ### Cloudflare alternative
 

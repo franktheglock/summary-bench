@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
 import { ModelIcon } from "@lobehub/icons";
 import Link from "next/link";
+import VerificationBadge from "@/app/_components/VerificationBadge";
 
 type LeaderboardRow = {
   model: string;
@@ -15,6 +16,7 @@ type LeaderboardRow = {
   avg_latency_ms: number;
   latest_run: string;
   elo?: number;
+  verified?: boolean;
 };
 
 // Category display names mapping
@@ -198,6 +200,7 @@ export default function LeaderboardPage() {
                     <Link href={`/model/${encodeURIComponent(model.model)}`} className="hover:text-terracotta hover:underline transition-colors">
                       {model.model}
                     </Link>
+                    {model.verified ? <VerificationBadge className="w-3.5 h-3.5 shrink-0" /> : null}
                     {isProvisional && (
                       <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold tracking-wider uppercase bg-stone-100 text-stone-500 border border-stone-200" title="Provisional Score (Needs more votes)">
                         Prov
@@ -247,6 +250,7 @@ export default function LeaderboardPage() {
                     <Link href={`/model/${encodeURIComponent(model.model)}`} className="hover:text-terracotta hover:underline transition-colors">
                       {model.model}
                     </Link>
+                    {model.verified ? <VerificationBadge className="w-3.5 h-3.5 shrink-0" /> : null}
                     {isProvisional && (
                       <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold tracking-wider uppercase bg-stone-100 text-stone-500 border border-stone-200" title="Provisional Score (Needs more votes)">
                         Prov

@@ -41,10 +41,22 @@ const schema = `
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
   );
 
+  CREATE TABLE IF NOT EXISTS model_verifications (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    model TEXT NOT NULL,
+    provider TEXT NOT NULL,
+    verified_by TEXT,
+    verified_by_user_id TEXT,
+    verified_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (model, provider)
+  );
+
   CREATE INDEX IF NOT EXISTS idx_test_results_run_id ON test_results(run_id);
   CREATE INDEX IF NOT EXISTS idx_test_results_test_id ON test_results(test_id);
   CREATE INDEX IF NOT EXISTS idx_votes_test_id ON votes(test_id);
   CREATE INDEX IF NOT EXISTS idx_votes_models ON votes(model_a, model_b);
+  CREATE INDEX IF NOT EXISTS idx_model_verifications_model_provider ON model_verifications(model, provider);
 `;
 
 let databasePromise: Promise<InstanceType<typeof Database>> | null = null;

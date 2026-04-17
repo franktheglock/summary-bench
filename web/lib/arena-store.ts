@@ -1,5 +1,5 @@
 import { getDatabase } from "@/lib/db";
-import { getSupabaseClient, hasSupabaseConfig } from "@/lib/supabase";
+import { getSupabaseClient, hasSupabaseConfig, hasSupabaseServiceRole } from "@/lib/supabase";
 import type { BenchmarkUpload } from "@/lib/upload-schema";
 
 export type VoteChoice = "a" | "b" | "tie" | "both_bad";
@@ -25,6 +25,21 @@ export type LeaderboardRow = {
   avg_latency_ms: number;
   latest_run: string;
   elo?: number;
+  verified?: boolean;
+};
+
+export type ModelVerificationRecord = {
+  model: string;
+  provider: string;
+  verified_by: string | null;
+  verified_by_user_id: string | null;
+  verified_at: string;
+};
+
+export type ModerationModelRow = LeaderboardRow & {
+  verified: boolean;
+  verified_at: string | null;
+  verified_by: string | null;
 };
 
 type SummaryRow = {
@@ -180,6 +195,112 @@ function isNonEmptySummary(summary: string): boolean {
 
 function compareTimestampsDescending(left: string, right: string): number {
   return new Date(right).getTime() - new Date(left).getTime();
+}
+
+function buildModelProviderKey(model: string, provider: string): string {
+  return `${model.trim().toLowerCase()}::${provider.trim().toLowerCase()}`;
+}
+
+function isMissingSupabaseRelation(error: { message?: string } | null | undefined, relationName: string): boolean {
+  const message = error?.message?.toLowerCase();
+  if (!message) {
+    return false;
+  }
+
+  return message.includes("does not exist") && message.includes(`public.${relationName}`);
+}
+
+function withVerificationFlag<T extends { model: string; provider: string }>(
+  rows: T[],
+  verificationMap: Map<string, ModelVerificationRecord>
+): Array<T & { verified: boolean }> {
+  return rows.map((row) => ({
+    ...row,
+    verified: verificationMap.has(buildModelProviderKey(row.model, row.provider)),
+  }));
+}
+
+async function loadSqliteModelVerificationRecords(): Promise<ModelVerificationRecord[]> {
+  const database = await getDatabase();
+
+  return database
+    .prepare(
+      `
+        select
+          model,
+          provider,
+          verified_by,
+          verified_by_user_id,
+          verified_at
+        from model_verifications
+      `
+    )
+    .all() as ModelVerificationRecord[];
+}
+
+async function loadSupabaseModelVerificationRecords(): Promise<ModelVerificationRecord[]> {
+  const supabase = getSupabaseClient();
+  if (!supabase) {
+    throw new Error("Supabase environment variables are missing.");
+  }
+
+  const { data, error } = await supabase
+    .from("model_verifications")
+    .select("model, provider, verified_by, verified_by_user_id, verified_at");
+
+  if (error) {
+    if (isMissingSupabaseRelation(error, "model_verifications")) {
+      return [];
+    }
+
+    throw new Error(error.message);
+  }
+
+  return (data ?? []) as ModelVerificationRecord[];
+}
+
+async function getModelVerificationRecords(): Promise<ModelVerificationRecord[]> {
+  return getStorageMode() === "supabase"
+    ? loadSupabaseModelVerificationRecords()
+    : loadSqliteModelVerificationRecords();
+}
+
+async function getModelVerificationMap(): Promise<Map<string, ModelVerificationRecord>> {
+  const records = await getModelVerificationRecords();
+  return new Map(records.map((record) => [buildModelProviderKey(record.model, record.provider), record]));
+}
+
+async function getDistinctUploadedModels(): Promise<Array<{ model: string; provider: string }>> {
+  if (getStorageMode() === "supabase") {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      throw new Error("Supabase environment variables are missing.");
+    }
+
+    const { data, error } = await supabase.from("runs").select("model, provider");
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    const distinct = new Map<string, { model: string; provider: string }>();
+    for (const row of data ?? []) {
+      distinct.set(buildModelProviderKey(row.model, row.provider), row);
+    }
+
+    return [...distinct.values()];
+  }
+
+  const database = await getDatabase();
+  return database
+    .prepare(
+      `
+        select distinct
+          model,
+          provider
+        from runs
+      `
+    )
+    .all() as Array<{ model: string; provider: string }>;
 }
 
 function computeVoteCandidate(summaryRows: SummaryRow[], votes: VoteRow[]): VoteCandidate | null {
@@ -635,27 +756,36 @@ export async function getCategories(): Promise<string[]> {
 export async function getLeaderboardRows(category?: string): Promise<LeaderboardRow[]> {
   const cacheKey = getCategoryCacheKey(category);
   return readThroughCache(leaderboardCache, cacheKey, async () => {
-    const { summaryRows, votes } = await loadArenaData(category);
-    return computeLeaderboardRows(summaryRows, votes);
+    const [{ summaryRows, votes }, verificationMap] = await Promise.all([
+      loadArenaData(category),
+      getModelVerificationMap(),
+    ]);
+    return withVerificationFlag(computeLeaderboardRows(summaryRows, votes), verificationMap);
   });
 }
 
 export type ModelCategoryStat = LeaderboardRow & { category: string; rank: number; totalModels: number };
 
 export async function getModelStats(modelName: string): Promise<ModelCategoryStat[]> {
-  const { summaryRows, votes } = await loadArenaData();
+  const [{ summaryRows, votes }, verificationMap] = await Promise.all([
+    loadArenaData(),
+    getModelVerificationMap(),
+  ]);
   const modelKey = modelName.toLowerCase();
   const categories = [...new Set(summaryRows.map((row) => row.category))].sort((left, right) => left.localeCompare(right));
   const allCategories = ["all", ...categories];
   const leaderboardByCategory = new Map<string, LeaderboardRow[]>();
 
-  leaderboardByCategory.set("all", computeLeaderboardRows(summaryRows, votes));
+  leaderboardByCategory.set("all", withVerificationFlag(computeLeaderboardRows(summaryRows, votes), verificationMap));
 
   for (const category of categories) {
     const categoryRows = summaryRows.filter((row) => row.category === category);
     const testIds = new Set(categoryRows.map((row) => row.test_id));
     const categoryVotes = votes.filter((vote) => testIds.has(vote.test_id));
-    leaderboardByCategory.set(category, computeLeaderboardRows(categoryRows, categoryVotes));
+    leaderboardByCategory.set(
+      category,
+      withVerificationFlag(computeLeaderboardRows(categoryRows, categoryVotes), verificationMap)
+    );
   }
 
   const stats: ModelCategoryStat[] = [];
@@ -675,6 +805,188 @@ export async function getModelStats(modelName: string): Promise<ModelCategorySta
   }
 
   return stats;
+}
+
+export async function getModerationModels(): Promise<ModerationModelRow[]> {
+  const [rows, verificationMap] = await Promise.all([
+    getLeaderboardRows(),
+    getModelVerificationMap(),
+  ]);
+
+  return rows.map((row) => {
+    const verification = verificationMap.get(buildModelProviderKey(row.model, row.provider));
+    return {
+      ...row,
+      verified: Boolean(verification),
+      verified_at: verification?.verified_at ?? null,
+      verified_by: verification?.verified_by ?? null,
+    };
+  });
+}
+
+export async function setModelVerification(input: {
+  model: string;
+  provider: string;
+  verified: boolean;
+  verifiedBy: string;
+  verifiedByUserId: string;
+}): Promise<ModelVerificationRecord | null> {
+  const normalized = {
+    model: input.model.trim(),
+    provider: input.provider.trim(),
+  };
+
+  if (getStorageMode() === "supabase") {
+    if (!hasSupabaseServiceRole()) {
+      throw new Error("Supabase service role is required for moderator verification writes.");
+    }
+
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      throw new Error("Supabase environment variables are missing.");
+    }
+
+    if (!input.verified) {
+      const { error } = await supabase
+        .from("model_verifications")
+        .delete()
+        .eq("model", normalized.model)
+        .eq("provider", normalized.provider);
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      invalidateStoreCaches();
+      return null;
+    }
+
+    const verification = {
+      model: normalized.model,
+      provider: normalized.provider,
+      verified_by: input.verifiedBy,
+      verified_by_user_id: input.verifiedByUserId,
+      verified_at: new Date().toISOString(),
+    };
+
+    const { data, error } = await supabase
+      .from("model_verifications")
+      .upsert(verification, { onConflict: "model,provider" })
+      .select("model, provider, verified_by, verified_by_user_id, verified_at")
+      .single();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    invalidateStoreCaches();
+    return data as ModelVerificationRecord;
+  }
+
+  const database = await getDatabase();
+
+  if (!input.verified) {
+    database
+      .prepare("delete from model_verifications where model = ? and provider = ?")
+      .run(normalized.model, normalized.provider);
+    invalidateStoreCaches();
+    return null;
+  }
+
+  const verifiedAt = new Date().toISOString();
+
+  database
+    .prepare(
+      `
+        insert into model_verifications (
+          model,
+          provider,
+          verified_by,
+          verified_by_user_id,
+          verified_at
+        ) values (?, ?, ?, ?, ?)
+        on conflict(model, provider) do update set
+          verified_by = excluded.verified_by,
+          verified_by_user_id = excluded.verified_by_user_id,
+          verified_at = excluded.verified_at
+      `
+    )
+    .run(normalized.model, normalized.provider, input.verifiedBy, input.verifiedByUserId, verifiedAt);
+
+  invalidateStoreCaches();
+  return {
+    model: normalized.model,
+    provider: normalized.provider,
+    verified_by: input.verifiedBy,
+    verified_by_user_id: input.verifiedByUserId,
+    verified_at: verifiedAt,
+  };
+}
+
+export async function verifyAllModels(input: {
+  verifiedBy: string;
+  verifiedByUserId: string;
+}): Promise<{ count: number; verified_at: string; verified_by: string }> {
+  const verifiedAt = new Date().toISOString();
+  const models = await getDistinctUploadedModels();
+
+  if (getStorageMode() === "supabase") {
+    if (!hasSupabaseServiceRole()) {
+      throw new Error("Supabase service role is required for moderator verification writes.");
+    }
+
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      throw new Error("Supabase environment variables are missing.");
+    }
+
+    if (models.length > 0) {
+      const { error } = await supabase.from("model_verifications").upsert(
+        models.map((row) => ({
+          model: row.model,
+          provider: row.provider,
+          verified_by: input.verifiedBy,
+          verified_by_user_id: input.verifiedByUserId,
+          verified_at: verifiedAt,
+        })),
+        { onConflict: "model,provider" }
+      );
+
+      if (error) {
+        throw new Error(error.message);
+      }
+    }
+
+    invalidateStoreCaches();
+    return { count: models.length, verified_at: verifiedAt, verified_by: input.verifiedBy };
+  }
+
+  const database = await getDatabase();
+  const upsert = database.prepare(
+    `
+      insert into model_verifications (
+        model,
+        provider,
+        verified_by,
+        verified_by_user_id,
+        verified_at
+      ) values (?, ?, ?, ?, ?)
+      on conflict(model, provider) do update set
+        verified_by = excluded.verified_by,
+        verified_by_user_id = excluded.verified_by_user_id,
+        verified_at = excluded.verified_at
+    `
+  );
+
+  const transaction = database.transaction((rows: Array<{ model: string; provider: string }>) => {
+    for (const row of rows) {
+      upsert.run(row.model, row.provider, input.verifiedBy, input.verifiedByUserId, verifiedAt);
+    }
+  });
+
+  transaction(models);
+  invalidateStoreCaches();
+  return { count: models.length, verified_at: verifiedAt, verified_by: input.verifiedBy };
 }
 
 export async function saveBenchmarkUpload(upload: BenchmarkUpload): Promise<number> {

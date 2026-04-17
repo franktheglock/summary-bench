@@ -6,6 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Loader2 } from "lucide-react";
 import { ModelIcon } from "@lobehub/icons";
+import VerificationBadge from "./_components/VerificationBadge";
 
 type LeaderboardRow = {
   model: string;
@@ -16,6 +17,7 @@ type LeaderboardRow = {
   avg_latency_ms: number;
   latest_run: string;
   elo?: number;
+  verified?: boolean;
 };
 
 // Category display names mapping
@@ -259,17 +261,20 @@ export default function HomePage() {
                     
                     {/* Model Name */}
                     <div className="h-10 flex items-start justify-center">
-                      <span 
-                        className="text-[10px] text-stone text-center leading-tight"
-                        style={{ 
-                          display: '-webkit-box', 
-                          WebkitLineClamp: 2, 
-                          WebkitBoxOrient: 'vertical', 
-                          overflow: 'hidden',
-                          maxWidth: "80px"
-                        }}
-                      >
-                        {row.model}
+                      <span className="flex items-start justify-center gap-1 max-w-[80px]">
+                        <span 
+                          className="text-[10px] text-stone text-center leading-tight"
+                          style={{ 
+                            display: '-webkit-box', 
+                            WebkitLineClamp: 2, 
+                            WebkitBoxOrient: 'vertical', 
+                            overflow: 'hidden',
+                            maxWidth: "68px"
+                          }}
+                        >
+                          {row.model}
+                        </span>
+                        {row.verified ? <VerificationBadge className="w-3 h-3 shrink-0 mt-0.5" /> : null}
                       </span>
                     </div>
                   </Link>

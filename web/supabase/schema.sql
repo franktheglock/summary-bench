@@ -47,17 +47,32 @@ create table public.votes (
     created_at timestamp with time zone not null default now()
 );
 
+-- Table: model_verifications
+-- Represents a moderator assertion that a model identity has been checked.
+create table public.model_verifications (
+    id uuid primary key default uuid_generate_v4(),
+    model text not null,
+    provider text not null,
+    verified_by text,
+    verified_by_user_id uuid references auth.users(id) on delete set null,
+    verified_at timestamp with time zone not null default now(),
+    created_at timestamp with time zone not null default now(),
+    unique (model, provider)
+);
+
 -- Indexes for performance
 create index idx_test_results_run_id on public.test_results(run_id);
 create index idx_test_results_test_id on public.test_results(test_id);
 create index idx_votes_test_id on public.votes(test_id);
 create index idx_votes_models on public.votes(model_a, model_b);
+create index idx_model_verifications_model_provider on public.model_verifications(model, provider);
 
 -- RLS (Row Level Security) Policies
 -- For the public MVP, allow everyone to insert runs/votes, and read all.
 alter table public.runs enable row level security;
 alter table public.test_results enable row level security;
 alter table public.votes enable row level security;
+alter table public.model_verifications enable row level security;
 
 create policy "Allow anonymous read runs" on public.runs for select using (true);
 create policy "Allow anonymous insert runs" on public.runs for insert with check (true);
@@ -67,3 +82,5 @@ create policy "Allow anonymous insert test_results" on public.test_results for i
 
 create policy "Allow anonymous read votes" on public.votes for select using (true);
 create policy "Allow anonymous insert votes" on public.votes for insert with check (true);
+
+create policy "Allow anonymous read model_verifications" on public.model_verifications for select using (true);

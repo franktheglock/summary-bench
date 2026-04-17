@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { GitHub, Loader2 } from "lucide-react";
+import { LogIn, Loader2 } from "lucide-react";
 
 import { createSupabaseBrowserClient, hasSupabaseAuthConfig } from "@/lib/supabase/browser";
 
@@ -42,7 +42,7 @@ export default function ModeratorLoginButton() {
   return (
     <div className="space-y-3">
       <button onClick={handleLogin} className="btn-primary inline-flex items-center gap-2" disabled={loading}>
-        {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <GitHub className="w-4 h-4" />}
+        {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <LogIn className="w-4 h-4" />}
         Continue with GitHub
       </button>
       {error ? <p className="text-sm text-terracotta-dark">{error}</p> : null}

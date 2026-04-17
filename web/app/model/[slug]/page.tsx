@@ -7,6 +7,8 @@ import { ArrowLeft, ExternalLink, Cpu, BarChart3 } from "lucide-react";
 export default async function ModelDetailsPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const modelName = decodeURIComponent(slug);
+  // Extract the part after "/" for Hugging Face search, or use full name if no "/"
+  const hfSearchName = modelName.includes("/") ? modelName.split("/")[1] : modelName;
   const openRouterPromise = findOpenRouterModel(modelName);
   const stats = await getModelStats(modelName);
 
@@ -109,7 +111,7 @@ export default async function ModelDetailsPage({ params }: { params: Promise<{ s
                 View on OpenRouter <ExternalLink className="w-4 h-4" />
               </a>
               <a 
-                href={`https://huggingface.co/models?search=${encodeURIComponent(modelName)}`} 
+                href={`https://huggingface.co/models?search=${encodeURIComponent(hfSearchName)}`} 
                 target="_blank" 
                 rel="noreferrer"
                 className="w-full flex items-center justify-center gap-2 border border-border text-stone py-2.5 px-4 rounded text-sm font-semibold hover:bg-paper-dark transition-colors"
@@ -124,7 +126,7 @@ export default async function ModelDetailsPage({ params }: { params: Promise<{ s
              <h3 className="font-semibold text-ink mb-1">Not on OpenRouter</h3>
              <p className="text-xs text-stone mb-6">This model may be private, local, or uses a non-standard API alias.</p>
              <a 
-                href={`https://huggingface.co/models?search=${encodeURIComponent(modelName)}`} 
+                href={`https://huggingface.co/models?search=${encodeURIComponent(hfSearchName)}`} 
                 target="_blank" 
                 rel="noreferrer"
                 className="w-full flex items-center justify-center gap-2 border border-border text-stone py-2.5 px-4 rounded text-sm font-semibold hover:bg-paper-dark transition-colors"

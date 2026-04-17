@@ -1,15 +1,153 @@
 import { getModelStats } from "@/lib/arena-store";
+import { getHuggingFaceModelCard, getHuggingFaceSearchName } from "@/lib/huggingface";
 import { findOpenRouterModel } from "@/lib/openrouter";
 import { ModelIcon } from "@lobehub/icons";
 import Link from "next/link";
+import { Suspense } from "react";
 import { ArrowLeft, ExternalLink, Cpu, BarChart3 } from "lucide-react";
+
+async function getOpenRouterModelForPage(modelName: string, provider: string) {
+  return (await findOpenRouterModel(modelName)) ?? await findOpenRouterModel(modelName, provider);
+}
+
+async function ModelDescription({
+  openRouterPromise,
+  huggingFacePromise,
+}: {
+  openRouterPromise: Promise<Awaited<ReturnType<typeof getOpenRouterModelForPage>>>;
+  huggingFacePromise: Promise<Awaited<ReturnType<typeof getHuggingFaceModelCard>>>;
+}) {
+  const orModel = await openRouterPromise;
+  const description = orModel?.description || (await huggingFacePromise)?.description;
+
+  if (!description) {
+    return null;
+  }
+
+  return (
+    <div className="model-description-shell max-w-3xl">
+      <p className="model-description-scroll text-stone leading-relaxed pr-3">
+        {description}
+      </p>
+    </div>
+  );
+}
+
+function ModelDescriptionFallback() {
+  return (
+    <div className="max-w-3xl space-y-2 pt-1">
+      <div className="h-4 w-full rounded bg-paper-dark animate-pulse" />
+      <div className="h-4 w-5/6 rounded bg-paper-dark animate-pulse" />
+    </div>
+  );
+}
+
+async function OpenRouterPanel({
+  modelName,
+  hfSearchName,
+  openRouterPromise,
+}: {
+  modelName: string;
+  hfSearchName: string;
+  openRouterPromise: Promise<Awaited<ReturnType<typeof getOpenRouterModelForPage>>>;
+}) {
+  const orModel = await openRouterPromise;
+
+  if (!orModel) {
+    return (
+      <div className="panel p-6 flex flex-col items-center justify-center text-center">
+        <Cpu className="w-8 h-8 text-border mb-3" />
+        <h3 className="font-semibold text-ink mb-1">Not on OpenRouter</h3>
+        <p className="text-xs text-stone mb-6">This model may be private, local, or uses a non-standard API alias.</p>
+        <a
+          href={`https://huggingface.co/models?search=${encodeURIComponent(hfSearchName)}`}
+          target="_blank"
+          rel="noreferrer"
+          className="w-full flex items-center justify-center gap-2 border border-border text-stone py-2.5 px-4 rounded text-sm font-semibold hover:bg-paper-dark transition-colors"
+        >
+          Search on Hugging Face <ExternalLink className="w-4 h-4" />
+        </a>
+      </div>
+    );
+  }
+
+  return (
+    <div className="panel p-6 bg-gradient-to-br from-[#fdfbf7] to-[#f7f6f3] border-terracotta/30">
+      <h3 className="font-semibold text-ink mb-4 flex items-center gap-2">
+        <Cpu className="w-4 h-4 text-terracotta" /> OpenRouter Data
+      </h3>
+      <div className="space-y-4 mb-6">
+        <div className="flex justify-between items-center text-sm">
+          <span className="text-stone">Context</span>
+          <span className="font-mono font-medium text-ink">{orModel.context_length.toLocaleString()} <span className="opacity-50">tokens</span></span>
+        </div>
+        <div className="flex justify-between items-center text-sm">
+          <span className="text-stone">Prompt Cost</span>
+          <span className="font-mono font-medium text-ink">${(parseFloat(orModel.pricing.prompt) * 1000000).toPrecision(3)} <span className="opacity-50">/ 1M</span></span>
+        </div>
+        <div className="flex justify-between items-center text-sm">
+          <span className="text-stone">Completion Cost</span>
+          <span className="font-mono font-medium text-ink">${(parseFloat(orModel.pricing.completion) * 1000000).toPrecision(3)} <span className="opacity-50">/ 1M</span></span>
+        </div>
+      </div>
+      <div className="flex flex-col gap-2">
+        <a
+          href={`https://openrouter.ai/models/${orModel.id}`}
+          target="_blank"
+          rel="noreferrer"
+          className="w-full flex items-center justify-center gap-2 bg-ink text-white py-2.5 px-4 rounded text-sm font-semibold hover:bg-stone-800 transition-colors"
+        >
+          View on OpenRouter <ExternalLink className="w-4 h-4" />
+        </a>
+        <a
+          href={`https://huggingface.co/models?search=${encodeURIComponent(hfSearchName)}`}
+          target="_blank"
+          rel="noreferrer"
+          className="w-full flex items-center justify-center gap-2 border border-border text-stone py-2.5 px-4 rounded text-sm font-semibold hover:bg-paper-dark transition-colors"
+        >
+          Search on Hugging Face <ExternalLink className="w-4 h-4" />
+        </a>
+      </div>
+    </div>
+  );
+}
+
+function OpenRouterPanelFallback({ modelName }: { modelName: string }) {
+  return (
+    <div className="panel p-6 bg-gradient-to-br from-[#fdfbf7] to-[#f7f6f3] border-terracotta/20">
+      <div className="flex items-center gap-2 mb-4">
+        <Cpu className="w-4 h-4 text-terracotta" />
+        <h3 className="font-semibold text-ink">Loading model metadata</h3>
+      </div>
+      <p className="text-sm text-stone mb-5">Fetching OpenRouter details for {modelName}.</p>
+      <div className="space-y-3 mb-6">
+        <div className="h-4 rounded bg-paper-dark animate-pulse" />
+        <div className="h-4 rounded bg-paper-dark animate-pulse" />
+        <div className="h-4 rounded bg-paper-dark animate-pulse" />
+      </div>
+      <div className="space-y-2">
+        <div className="h-10 rounded bg-paper-dark animate-pulse" />
+        <div className="h-10 rounded bg-paper-dark animate-pulse" />
+      </div>
+    </div>
+  );
+}
 
 export default async function ModelDetailsPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const modelName = decodeURIComponent(slug);
-  // Extract the part after "/" for Hugging Face search, or use full name if no "/"
-  const hfSearchName = modelName.includes("/") ? modelName.split("/")[1] : modelName;
-  const openRouterPromise = findOpenRouterModel(modelName);
+  let modelName = decodeURIComponent(slug);
+  // Ensure it's fully decoded (e.g. if %2F was double-encoded to %252F)
+  try {
+    while (modelName !== decodeURIComponent(modelName)) {
+      modelName = decodeURIComponent(modelName);
+    }
+  } catch (e) {
+    // Ignore malformed URIs
+  }
+  // Also explicitly replace any remaining %2f or %2F just to be absolutely certain
+  modelName = modelName.replace(/%2f/gi, '/');
+  
+  const hfSearchName = getHuggingFaceSearchName(modelName);
   const stats = await getModelStats(modelName);
 
   if (!stats || stats.length === 0) {
@@ -25,7 +163,8 @@ export default async function ModelDetailsPage({ params }: { params: Promise<{ s
   }
 
   const provider = stats[0].provider;
-  const orModel = (await openRouterPromise) ?? await findOpenRouterModel(modelName, provider);
+  const openRouterPromise = getOpenRouterModelForPage(modelName, provider);
+  const huggingFacePromise = getHuggingFaceModelCard(modelName, provider);
 
   // Stats for "All"
   const globalStat = stats.find((s) => s.category === "all") || stats[0];
@@ -48,11 +187,12 @@ export default async function ModelDetailsPage({ params }: { params: Promise<{ s
           <h1 className="font-serif text-4xl md:text-5xl font-semibold tracking-tight text-ink mb-4">
             {modelName}
           </h1>
-          {orModel && (
-            <p className="text-stone leading-relaxed max-w-3xl">
-              {orModel.description}
-            </p>
-          )}
+          <Suspense fallback={<ModelDescriptionFallback />}>
+            <ModelDescription
+              openRouterPromise={openRouterPromise}
+              huggingFacePromise={huggingFacePromise}
+            />
+          </Suspense>
         </div>
       </div>
 
@@ -80,61 +220,13 @@ export default async function ModelDetailsPage({ params }: { params: Promise<{ s
               <div className="text-xs text-stone">{globalStat.votes} matchups</div>
             </div>
         </div>
-
-        {/* OpenRouter Integration */}
-        {orModel ? (
-          <div className="panel p-6 bg-gradient-to-br from-[#fdfbf7] to-[#f7f6f3] border-terracotta/30">
-            <h3 className="font-semibold text-ink mb-4 flex items-center gap-2">
-              <Cpu className="w-4 h-4 text-terracotta" /> OpenRouter Data
-            </h3>
-            <div className="space-y-4 mb-6">
-              <div className="flex justify-between items-center text-sm">
-                <span className="text-stone">Context</span>
-                <span className="font-mono font-medium text-ink">{orModel.context_length.toLocaleString()} <span className="opacity-50">tokens</span></span>
-              </div>
-              <div className="flex justify-between items-center text-sm">
-                <span className="text-stone">Prompt Cost</span>
-                <span className="font-mono font-medium text-ink">${(parseFloat(orModel.pricing.prompt) * 1000000).toPrecision(3)} <span className="opacity-50">/ 1M</span></span>
-              </div>
-              <div className="flex justify-between items-center text-sm">
-                <span className="text-stone">Completion Cost</span>
-                <span className="font-mono font-medium text-ink">${(parseFloat(orModel.pricing.completion) * 1000000).toPrecision(3)} <span className="opacity-50">/ 1M</span></span>
-              </div>
-            </div>
-            <div className="flex flex-col gap-2">
-              <a 
-                href={`https://openrouter.ai/models/${orModel.id}`} 
-                target="_blank" 
-                rel="noreferrer"
-                className="w-full flex items-center justify-center gap-2 bg-ink text-white py-2.5 px-4 rounded text-sm font-semibold hover:bg-stone-800 transition-colors"
-              >
-                View on OpenRouter <ExternalLink className="w-4 h-4" />
-              </a>
-              <a 
-                href={`https://huggingface.co/models?search=${encodeURIComponent(hfSearchName)}`} 
-                target="_blank" 
-                rel="noreferrer"
-                className="w-full flex items-center justify-center gap-2 border border-border text-stone py-2.5 px-4 rounded text-sm font-semibold hover:bg-paper-dark transition-colors"
-              >
-                Search on Hugging Face <ExternalLink className="w-4 h-4" />
-              </a>
-            </div>
-          </div>
-        ) : (
-          <div className="panel p-6 flex flex-col items-center justify-center text-center">
-             <Cpu className="w-8 h-8 text-border mb-3" />
-             <h3 className="font-semibold text-ink mb-1">Not on OpenRouter</h3>
-             <p className="text-xs text-stone mb-6">This model may be private, local, or uses a non-standard API alias.</p>
-             <a 
-                href={`https://huggingface.co/models?search=${encodeURIComponent(hfSearchName)}`} 
-                target="_blank" 
-                rel="noreferrer"
-                className="w-full flex items-center justify-center gap-2 border border-border text-stone py-2.5 px-4 rounded text-sm font-semibold hover:bg-paper-dark transition-colors"
-              >
-                Search on Hugging Face <ExternalLink className="w-4 h-4" />
-              </a>
-          </div>
-        )}
+        <Suspense fallback={<OpenRouterPanelFallback modelName={modelName} />}>
+          <OpenRouterPanel
+            modelName={modelName}
+            hfSearchName={hfSearchName}
+            openRouterPromise={openRouterPromise}
+          />
+        </Suspense>
       </div>
 
       {/* Category Breakdown */}

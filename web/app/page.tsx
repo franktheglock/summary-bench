@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Loader2 } from "lucide-react";
@@ -221,9 +223,10 @@ export default function HomePage() {
                 const barColor = BAR_COLORS[Math.min(idx, BAR_COLORS.length - 1)];
                 
                 return (
-                  <div
+                  <Link
                     key={row.model}
-                    className="flex flex-col items-center gap-3"
+                    href={`/model/${encodeURIComponent(row.model)}`}
+                    className="flex flex-col items-center gap-3 no-underline"
                     style={{ width: "80px" }}
                   >
                     {/* Value Label */}
@@ -269,7 +272,7 @@ export default function HomePage() {
                         {row.model}
                       </span>
                     </div>
-                  </div>
+                  </Link>
                 );
               })}
             </div>

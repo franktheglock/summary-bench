@@ -154,6 +154,42 @@
   animation: fadeIn 0.4s ease-out;
 }
 
+.model-description-shell {
+  position: relative;
+  overflow: hidden;
+  border-left: 2px solid color-mix(in srgb, var(--color-terracotta) 28%, transparent);
+  padding-left: 1rem;
+}
+
+.model-description-shell::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 2.5rem;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(250, 246, 241, 0) 0%, var(--color-paper) 100%);
+}
+
+.model-description-scroll {
+  max-height: 10.5rem;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--color-stone) 55%, transparent) transparent;
+}
+
+.model-description-scroll::-webkit-scrollbar {
+  width: 0.45rem;
+}
+
+.model-description-scroll::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--color-stone) 55%, transparent);
+  border-radius: 999px;
+}
+
+.model-description-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }

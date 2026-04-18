@@ -50,6 +50,7 @@ export default function UserProfile() {
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [open, setOpen] = useState(false);
   const [showSignIn, setShowSignIn] = useState(false);
+  const [authError, setAuthError] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -64,6 +65,24 @@ export default function UserProfile() {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
     });
+
+    // Check for auth errors in the URL (e.g. after OAuth callback redirect)
+    const params = new URLSearchParams(window.location.search);
+    const errorCode = params.get("error");
+    if (errorCode === "email-already-linked") {
+      setAuthError("An account with that email already exists. Sign in with the provider you used originally.");
+      setShowSignIn(true);
+      // Clean up the URL without a reload
+      const clean = new URL(window.location.href);
+      clean.searchParams.delete("error");
+      window.history.replaceState({}, "", clean.toString());
+    } else if (errorCode === "oauth-exchange-failed") {
+      setAuthError("Sign-in failed. Please try again.");
+      setShowSignIn(true);
+      const clean = new URL(window.location.href);
+      clean.searchParams.delete("error");
+      window.history.replaceState({}, "", clean.toString());
+    }
 
     return () => subscription.unsubscribe();
   }, []);
@@ -148,6 +167,9 @@ export default function UserProfile() {
 
           {showSignIn && (
             <div className="absolute right-0 top-full mt-2 w-52 bg-paper border border-border shadow-lg z-50 py-2 px-3 space-y-2">
+              {authError && (
+                <p className="text-[11px] text-terracotta leading-snug pb-1 border-b border-border">{authError}</p>
+              )}
               <p className="text-[10px] uppercase tracking-widest text-stone-light pb-1">Sign in with</p>
               <button
                 onClick={signInWithGitHub}

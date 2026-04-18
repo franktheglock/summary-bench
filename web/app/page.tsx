@@ -260,22 +260,20 @@ export default function HomePage() {
                     </div>
                     
                     {/* Model Name */}
-                    <div className="h-10 flex items-start justify-center">
-                      <span className="flex items-start justify-center gap-1 max-w-[80px]">
-                        <span 
-                          className="text-[10px] text-stone text-center leading-tight"
-                          style={{ 
-                            display: '-webkit-box', 
-                            WebkitLineClamp: 2, 
-                            WebkitBoxOrient: 'vertical', 
-                            overflow: 'hidden',
-                            maxWidth: "68px"
-                          }}
-                        >
-                          {row.model}
-                        </span>
-                        {row.verified ? <VerificationBadge className="w-3 h-3 shrink-0 mt-0.5" /> : null}
+                    <div className="flex flex-col items-center justify-start gap-0.5" style={{ minHeight: "2.75rem" }}>
+                      <span 
+                        className="text-[10px] text-stone text-center leading-tight"
+                        style={{ 
+                          display: '-webkit-box', 
+                          WebkitLineClamp: 2, 
+                          WebkitBoxOrient: 'vertical', 
+                          overflow: 'hidden',
+                          maxWidth: "68px"
+                        }}
+                      >
+                        {row.model}
                       </span>
+                      {row.verified ? <VerificationBadge className="w-3 h-3 shrink-0" /> : null}
                     </div>
                   </Link>
                 );

@@ -31,7 +31,19 @@ export async function GET(request: NextRequest) {
   const { error } = await supabase.auth.exchangeCodeForSession(code);
 
   if (error) {
-    redirectUrl.searchParams.set("error", "oauth-exchange-failed");
+    // Detect email-conflict: user tried a second OAuth provider with same email
+    // but Supabase "link same email" is not enabled in the dashboard.
+    const msg = error.message?.toLowerCase() ?? "";
+    if (
+      msg.includes("already been registered") ||
+      msg.includes("email address") ||
+      msg.includes("provider_email_conflicts") ||
+      error.code === "email_exists"
+    ) {
+      redirectUrl.searchParams.set("error", "email-already-linked");
+    } else {
+      redirectUrl.searchParams.set("error", "oauth-exchange-failed");
+    }
   }
 
   return NextResponse.redirect(redirectUrl);

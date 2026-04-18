@@ -304,6 +304,63 @@ class TestProviderMapping:
         p = SummaryProvider(provider="openrouter", model="meta-llama/llama-3.1-70b")
         assert p.litellm_model == "openrouter/meta-llama/llama-3.1-70b"
 
+    def test_openrouter_requests_full_precision_quantizations(self):
+        p = SummaryProvider(provider="openrouter", model="meta-llama/llama-3.1-70b")
+
+        class _Message:
+            content = "ok"
+            reasoning_content = ""
+
+        class _Choice:
+            message = _Message()
+
+        class _Usage:
+            prompt_tokens = 1
+            completion_tokens = 1
+
+        class _Response:
+            choices = [_Choice()]
+            usage = _Usage()
+
+        with patch("summaryarena.providers.litellm.completion", return_value=_Response()) as completion:
+            p.generate_summary("sys", "user")
+
+        assert completion.call_args.kwargs["provider"]["quantizations"] == ["fp16", "bf16", "fp32"]
+
+    def test_openrouter_retries_without_quantization_filter_when_no_fp_route_exists(self):
+        p = SummaryProvider(provider="openrouter", model="meta-llama/llama-3.1-70b")
+
+        class _Message:
+            content = "ok"
+            reasoning_content = ""
+
+        class _Choice:
+            message = _Message()
+
+        class _Usage:
+            prompt_tokens = 1
+            completion_tokens = 1
+
+        class _Response:
+            choices = [_Choice()]
+            usage = _Usage()
+
+        calls: list[dict] = []
+
+        def _fake_completion(**kwargs):
+            calls.append(kwargs)
+            if "provider" in kwargs:
+                raise RuntimeError("No providers available for requested quantizations")
+            return _Response()
+
+        with patch("summaryarena.providers.litellm.completion", side_effect=_fake_completion):
+            result = p.generate_summary("sys", "user")
+
+        assert result.text == "ok"
+        assert len(calls) == 2
+        assert "provider" in calls[0]
+        assert "provider" not in calls[1]
+
     def test_vllm_prefix(self):
         p = SummaryProvider(provider="vllm", model="my-model")
         assert p.litellm_model == "hosted_vllm/my-model"

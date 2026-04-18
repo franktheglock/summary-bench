@@ -37,6 +37,29 @@ DEFAULT_BASE_URLS: dict[str, str] = {
 }
 
 
+_OPENROUTER_FULL_PRECISION_QUANTIZATIONS = ["fp16", "bf16", "fp32"]
+
+
+def _is_openrouter_no_full_precision_route_error(error: Exception) -> bool:
+    """Return True when OpenRouter couldn't satisfy the full-precision filter."""
+    message = str(error).lower()
+    return any(
+        phrase in message
+        for phrase in (
+            "quantization",
+            "quantizations",
+            "no provider",
+            "no providers",
+            "no model",
+            "no models",
+            "not available",
+            "could not find",
+            "unable to route",
+            "route",
+        )
+    )
+
+
 @dataclass
 class GenerationResult:
     """Result from a single LLM generation call."""
@@ -285,6 +308,36 @@ class SummaryProvider:
 
         return None
 
+    def _openrouter_provider_params(self) -> dict[str, Any]:
+        """Restrict OpenRouter routing to full-precision quantization levels."""
+        if self.provider != "openrouter":
+            return {}
+
+        return {
+            "provider": {
+                "quantizations": _OPENROUTER_FULL_PRECISION_QUANTIZATIONS,
+            }
+        }
+
+    def _completion_with_openrouter_fallback(self, **kwargs: Any) -> Any:
+        """Run a completion request, retrying without the quantization filter if needed."""
+        try:
+            return litellm.completion(**kwargs)
+        except Exception as error:
+            if self.provider != "openrouter" or "provider" not in kwargs:
+                raise
+
+            if not _is_openrouter_no_full_precision_route_error(error):
+                raise
+
+            retry_kwargs = dict(kwargs)
+            retry_kwargs.pop("provider", None)
+            logger.info(
+                "OpenRouter had no full-precision route for %s; retrying without quantization filter.",
+                self.litellm_model,
+            )
+            return litellm.completion(**retry_kwargs)
+
     def generate_summary(
         self,
         system_prompt: str,
@@ -316,6 +369,8 @@ class SummaryProvider:
             "temperature": self.temperature,
         }
 
+        kwargs.update(self._openrouter_provider_params())
+
         if max_tokens is not None:
             kwargs["max_tokens"] = max_tokens
 
@@ -325,7 +380,7 @@ class SummaryProvider:
             kwargs["api_key"] = self.api_key
 
         start = time.perf_counter_ns()
-        response = litellm.completion(**kwargs)
+        response = self._completion_with_openrouter_fallback(**kwargs)
         elapsed_ms = (time.perf_counter_ns() - start) // 1_000_000
 
         # Extract usage info
@@ -366,12 +421,14 @@ class SummaryProvider:
                 "max_tokens": 10,
             }
 
+            kwargs.update(self._openrouter_provider_params())
+
             if self.base_url:
                 kwargs["api_base"] = self.base_url
             if self.api_key:
                 kwargs["api_key"] = self.api_key
 
-            response = litellm.completion(**kwargs)
+            response = self._completion_with_openrouter_fallback(**kwargs)
             message = response.choices[0].message
             content = getattr(message, "content", None) or ""
             reasoning_content = getattr(message, "reasoning_content", None) or ""

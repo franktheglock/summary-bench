@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 import { saveBenchmarkUpload } from "@/lib/arena-store";
 import { checkRateLimit, createRateLimitResponse } from "@/lib/rate-limit";
 import { benchmarkUploadSchema } from "@/lib/upload-schema";
+import { createSupabaseServerClient, hasSupabaseAuthConfig } from "@/lib/supabase/server";
 
 export async function POST(request: Request) {
   const rateLimit = checkRateLimit(request, {
@@ -36,8 +37,21 @@ export async function POST(request: Request) {
   }
 
   const upload = parsed.data;
+
+  // Capture the uploading user's ID if they're authenticated
+  let uploaderId: string | null = null;
+  if (hasSupabaseAuthConfig()) {
+    try {
+      const supabase = await createSupabaseServerClient();
+      const { data } = await supabase.auth.getUser();
+      uploaderId = data.user?.id ?? null;
+    } catch {
+      // Non-fatal — upload proceeds without attribution
+    }
+  }
+
   try {
-    const savedResults = await saveBenchmarkUpload(upload);
+    const savedResults = await saveBenchmarkUpload(upload, uploaderId);
 
     return NextResponse.json({
       ok: true,

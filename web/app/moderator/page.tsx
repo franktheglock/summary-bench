@@ -30,7 +30,7 @@ export default async function ModeratorPage() {
           <p className="label mb-3">Moderator Access</p>
           <h1 className="font-serif text-5xl font-semibold tracking-tight text-ink mb-4">Verification Desk</h1>
           <p className="text-stone leading-relaxed">
-            Sign in with GitHub to access the moderation endpoint and verify that uploaded model identities match what they claim to be.
+          Sign in with GitHub or Google to access the moderation endpoint and verify that uploaded model identities match what they claim to be.
           </p>
         </div>
         <div className="panel p-8 bg-[linear-gradient(135deg,_#fffdf8,_#f3ece2)] border-terracotta/30 space-y-4">

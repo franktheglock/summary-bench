@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
+import UserProfile from "./UserProfile";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -38,6 +39,8 @@ export default function Header() {
           <Link href="/upload" className="btn-primary">
             Upload
           </Link>
+          <div className="divider-vertical h-6 mx-1" />
+          <UserProfile />
         </nav>
 
         {/* Mobile hamburger */}
@@ -68,14 +71,15 @@ export default function Header() {
             >
               Arena
             </Link>
-            <div className="py-3">
+            <div className="py-3 flex items-center gap-4">
               <Link
                 href="/upload"
-                className="btn-primary w-full justify-center"
+                className="btn-primary flex-1 justify-center"
                 onClick={() => setOpen(false)}
               >
                 Upload
               </Link>
+              <UserProfile />
             </div>
           </nav>
         </div>

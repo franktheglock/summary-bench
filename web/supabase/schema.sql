@@ -13,6 +13,7 @@ create table public.runs (
     benchmark_version text not null default '1.0',
     config jsonb not null default '{}'::jsonb,
     timestamp timestamp with time zone not null default now(),
+    uploader_id uuid references auth.users(id) on delete set null,
     created_at timestamp with time zone not null default now()
 );
 
@@ -66,6 +67,7 @@ create index idx_test_results_test_id on public.test_results(test_id);
 create index idx_votes_test_id on public.votes(test_id);
 create index idx_votes_models on public.votes(model_a, model_b);
 create index idx_model_verifications_model_provider on public.model_verifications(model, provider);
+create index idx_runs_uploader_id on public.runs(uploader_id);
 
 -- RLS (Row Level Security) Policies
 -- For the public MVP, allow everyone to insert runs/votes, and read all.

@@ -14,6 +14,7 @@ const schema = `
     benchmark_version TEXT NOT NULL DEFAULT '1.0',
     config TEXT NOT NULL DEFAULT '{}',
     timestamp TEXT NOT NULL,
+    uploader_id TEXT,
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
   );
 
@@ -57,6 +58,7 @@ const schema = `
   CREATE INDEX IF NOT EXISTS idx_votes_test_id ON votes(test_id);
   CREATE INDEX IF NOT EXISTS idx_votes_models ON votes(model_a, model_b);
   CREATE INDEX IF NOT EXISTS idx_model_verifications_model_provider ON model_verifications(model, provider);
+  CREATE INDEX IF NOT EXISTS idx_runs_uploader_id ON runs(uploader_id);
 `;
 
 let databasePromise: Promise<InstanceType<typeof Database>> | null = null;

@@ -989,7 +989,7 @@ export async function verifyAllModels(input: {
   return { count: models.length, verified_at: verifiedAt, verified_by: input.verifiedBy };
 }
 
-export async function saveBenchmarkUpload(upload: BenchmarkUpload): Promise<number> {
+export async function saveBenchmarkUpload(upload: BenchmarkUpload, uploaderId?: string | null): Promise<number> {
   const datasetSourceTexts = await getDatasetSourceTexts();
 
   if (getStorageMode() === "supabase") {
@@ -1005,6 +1005,7 @@ export async function saveBenchmarkUpload(upload: BenchmarkUpload): Promise<numb
       benchmark_version: upload.benchmark_version,
       config: upload.config ?? {},
       timestamp: upload.timestamp,
+      ...(uploaderId ? { uploader_id: uploaderId } : {}),
     }, {
       onConflict: "run_id",
     });
@@ -1050,14 +1051,16 @@ export async function saveBenchmarkUpload(upload: BenchmarkUpload): Promise<numb
         provider,
         benchmark_version,
         config,
-        timestamp
-      ) values (?, ?, ?, ?, ?, ?)
+        timestamp,
+        uploader_id
+      ) values (?, ?, ?, ?, ?, ?, ?)
       on conflict(run_id) do update set
         model = excluded.model,
         provider = excluded.provider,
         benchmark_version = excluded.benchmark_version,
         config = excluded.config,
-        timestamp = excluded.timestamp
+        timestamp = excluded.timestamp,
+        uploader_id = coalesce(excluded.uploader_id, runs.uploader_id)
     `
   );
   const deleteResults = database.prepare("delete from test_results where run_id = ?");
@@ -1083,14 +1086,15 @@ export async function saveBenchmarkUpload(upload: BenchmarkUpload): Promise<numb
     `
   );
 
-  const persistUpload = database.transaction((currentUpload: BenchmarkUpload) => {
+  const persistUpload = database.transaction((currentUpload: BenchmarkUpload, uid: string | null) => {
     upsertRun.run(
       currentUpload.run_id,
       currentUpload.model,
       currentUpload.provider,
       currentUpload.benchmark_version,
       JSON.stringify(currentUpload.config ?? {}),
-      currentUpload.timestamp
+      currentUpload.timestamp,
+      uid ?? null
     );
 
     deleteResults.run(currentUpload.run_id);
@@ -1111,7 +1115,53 @@ export async function saveBenchmarkUpload(upload: BenchmarkUpload): Promise<numb
     return currentUpload.results.length;
   });
 
-  const savedResults = persistUpload(upload);
+  const savedResults = persistUpload(upload, uploaderId ?? null);
   invalidateStoreCaches();
   return savedResults;
+}
+
+export type UploaderRun = {
+  run_id: string;
+  model: string;
+  provider: string;
+  benchmark_version: string;
+  timestamp: string;
+  result_count: number;
+};
+
+export async function getRunsByUploader(uploaderId: string): Promise<UploaderRun[]> {
+  if (getStorageMode() === "supabase") {
+    const supabase = getSupabaseClient();
+    if (!supabase) return [];
+
+    const { data, error } = await supabase
+      .from("runs")
+      .select("run_id, model, provider, benchmark_version, timestamp, test_results(count)")
+      .eq("uploader_id", uploaderId)
+      .order("timestamp", { ascending: false });
+
+    if (error || !data) return [];
+
+    return data.map((row) => ({
+      run_id: row.run_id,
+      model: row.model,
+      provider: row.provider,
+      benchmark_version: row.benchmark_version,
+      timestamp: row.timestamp,
+      result_count: (row.test_results as unknown as { count: number }[])?.[0]?.count ?? 0,
+    }));
+  }
+
+  const database = await getDatabase();
+  const rows = database.prepare(
+    `select r.run_id, r.model, r.provider, r.benchmark_version, r.timestamp,
+            count(tr.id) as result_count
+     from runs r
+     left join test_results tr on tr.run_id = r.run_id
+     where r.uploader_id = ?
+     group by r.run_id
+     order by r.timestamp desc`
+  ).all(uploaderId) as UploaderRun[];
+
+  return rows;
 }

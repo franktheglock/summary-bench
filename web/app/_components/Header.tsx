@@ -23,24 +23,25 @@ export default function Header() {
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-6">
-          <Link
-            href="/leaderboard"
-            className="text-sm font-medium text-stone uppercase tracking-wider hover:text-ink transition-colors"
-          >
-            Leaderboard
-          </Link>
-          <Link
-            href="/arena"
-            className="text-sm font-medium text-stone uppercase tracking-wider hover:text-ink transition-colors"
-          >
-            Arena
-          </Link>
-          <div className="divider-vertical h-6 mx-2" />
+          <div className="flex items-center gap-6">
+            <Link
+              href="/leaderboard"
+              className="text-sm font-medium text-stone uppercase tracking-wider hover:text-ink transition-colors"
+            >
+              Leaderboard
+            </Link>
+            <Link
+              href="/arena"
+              className="text-sm font-medium text-stone uppercase tracking-wider hover:text-ink transition-colors"
+            >
+              Arena
+            </Link>
+            <UserProfile />
+          </div>
+          <div className="divider-vertical self-stretch mx-2" aria-hidden="true" />
           <Link href="/upload" className="btn-primary">
             Upload
           </Link>
-          <div className="divider-vertical h-6 mx-1" />
-          <UserProfile />
         </nav>
 
         {/* Mobile hamburger */}

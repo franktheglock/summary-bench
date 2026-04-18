@@ -5,11 +5,12 @@ import { LogOut, ChevronDown, User } from "lucide-react";
 import Link from "next/link";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 
+import { getCanonicalOrigin } from "@/lib/site";
 import { createSupabaseBrowserClient, hasSupabaseAuthConfig } from "@/lib/supabase/browser";
 
 function signInWithGitHub() {
   const supabase = createSupabaseBrowserClient();
-  const origin = window.location.origin;
+  const origin = getCanonicalOrigin() ?? window.location.origin;
   supabase.auth.signInWithOAuth({
     provider: "github",
     options: { redirectTo: `${origin}/auth/callback?next=${window.location.pathname}`, scopes: "read:user user:email" },
@@ -18,7 +19,7 @@ function signInWithGitHub() {
 
 function signInWithGoogle() {
   const supabase = createSupabaseBrowserClient();
-  const origin = window.location.origin;
+  const origin = getCanonicalOrigin() ?? window.location.origin;
   supabase.auth.signInWithOAuth({
     provider: "google",
     options: { redirectTo: `${origin}/auth/callback?next=${window.location.pathname}` },

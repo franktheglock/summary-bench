@@ -1,6 +1,8 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
+import { getCanonicalOrigin } from "@/lib/site";
+
 function getSupabaseProxyConfig() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() || process.env.SUPABASE_URL?.trim();
   const supabasePublishableKey =
@@ -19,6 +21,12 @@ export async function updateSession(request: NextRequest) {
   const config = getSupabaseProxyConfig();
   if (!config) {
     return NextResponse.next({ request });
+  }
+
+  const canonicalOrigin = getCanonicalOrigin();
+  if (canonicalOrigin && request.nextUrl.origin !== canonicalOrigin) {
+    const redirectUrl = new URL(`${request.nextUrl.pathname}${request.nextUrl.search}`, canonicalOrigin);
+    return NextResponse.redirect(redirectUrl);
   }
 
   let response = NextResponse.next({ request });

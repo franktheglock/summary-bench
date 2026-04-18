@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { UploadCloud, FileJson, CheckCircle, AlertTriangle, LogIn, Loader2 } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
 import { benchmarkUploadSchema, type BenchmarkUpload } from "@/lib/upload-schema";
+import { getCanonicalOrigin } from "@/lib/site";
 import { createSupabaseBrowserClient, hasSupabaseAuthConfig } from "@/lib/supabase/browser";
 
 type TemporaryAccessState =
@@ -87,7 +88,7 @@ export default function UploadPage() {
       await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}/auth/callback?next=/upload`,
+          redirectTo: `${getCanonicalOrigin() ?? window.location.origin}/auth/callback?next=/upload`,
           ...(provider === "github" ? { scopes: "read:user user:email" } : {}),
         },
       });

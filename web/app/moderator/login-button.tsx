@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 
+import { getCanonicalOrigin } from "@/lib/site";
 import { createSupabaseBrowserClient, hasSupabaseAuthConfig } from "@/lib/supabase/browser";
 
 type Provider = "github" | "google";
@@ -23,7 +24,7 @@ export default function ModeratorLoginButton() {
 
     try {
       const supabase = createSupabaseBrowserClient();
-      const origin = window.location.origin;
+      const origin = getCanonicalOrigin() ?? window.location.origin;
       const options =
         provider === "github"
           ? { redirectTo: `${origin}/auth/callback?next=/moderator`, scopes: "read:user user:email" }

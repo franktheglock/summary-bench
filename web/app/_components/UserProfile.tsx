@@ -31,6 +31,8 @@ function getAvatarUrl(user: SupabaseUser): string | null {
 
 function getDisplayName(user: SupabaseUser): string {
   return (
+    (user.user_metadata?.display_name as string | undefined) ??
+    (user.user_metadata?.initial_display_name as string | undefined) ??
     (user.user_metadata?.full_name as string | undefined) ??
     (user.user_metadata?.name as string | undefined) ??
     (user.user_metadata?.user_name as string | undefined) ??

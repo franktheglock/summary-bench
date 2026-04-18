@@ -18,7 +18,27 @@ const outfit = Outfit({
 
 export const metadata: Metadata = {
   title: "Summary Arena | Benchmark LLMs",
-  description: "A crowdsourced platform to blindly benchmark LLM summarization quality.",
+  description: "Blindly benchmark LLM summarization quality with human voting and per-category rankings.",
+  openGraph: {
+    title: "Summary Arena",
+    description: "Blindly benchmark LLM summarization quality with human voting and per-category rankings.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Summary Arena – Benchmark LLM Summarization Quality",
+      },
+    ],
+    type: "website",
+    siteName: "Summary Arena",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Summary Arena",
+    description: "Blindly benchmark LLM summarization quality with human voting and per-category rankings.",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function RootLayout({

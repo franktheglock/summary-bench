@@ -196,18 +196,20 @@ export default function LeaderboardPage() {
                   <ModelIcon model={model.model} size={24} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-ink text-sm flex items-center gap-1.5 leading-tight min-w-0">
-                    <Link href={`/model/${encodeURIComponent(model.model)}`} className="hover:text-terracotta hover:underline transition-colors truncate min-w-0">
+                  <h3 className="font-semibold text-ink text-sm leading-tight min-w-0">
+                    <Link href={`/model/${encodeURIComponent(model.model)}`} className="hover:text-terracotta hover:underline transition-colors block truncate">
                       {model.model}
                     </Link>
+                  </h3>
+                  <div className="flex items-center gap-1.5 mt-0.5">
+                    <span className="text-stone text-xs capitalize">{model.provider}</span>
                     {model.verified ? <VerificationBadge className="w-3.5 h-3.5 shrink-0" /> : null}
                     {isProvisional && (
                       <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold tracking-wider uppercase bg-stone-100 text-stone-500 border border-stone-200 shrink-0" title="Provisional Score (Needs more votes)">
                         Prov
                       </span>
                     )}
-                  </h3>
-                  <span className="text-stone text-xs capitalize">{model.provider}</span>
+                  </div>
                 </div>
                 <div className="text-right shrink-0">
                   <span className="font-mono font-semibold text-ink">{(model.elo ?? 0).toLocaleString()}</span>
@@ -245,19 +247,21 @@ export default function LeaderboardPage() {
                 <div className="w-10 h-10 flex items-center justify-center shrink-0">
                   <ModelIcon model={model.model} size={32} />
                 </div>
-                <div className="w-40 shrink-0 min-w-0">
-                  <h3 className="font-semibold text-ink text-sm flex items-center gap-1.5 leading-tight min-w-0">
-                    <Link href={`/model/${encodeURIComponent(model.model)}`} className="hover:text-terracotta hover:underline transition-colors truncate min-w-0">
+                <div className="w-52 shrink-0 min-w-0">
+                  <h3 className="font-semibold text-ink text-sm leading-tight min-w-0">
+                    <Link href={`/model/${encodeURIComponent(model.model)}`} className="hover:text-terracotta hover:underline transition-colors block truncate">
                       {model.model}
                     </Link>
+                  </h3>
+                  <div className="flex items-center gap-1.5 mt-0.5">
+                    <span className="text-stone text-xs capitalize">{model.provider}</span>
                     {model.verified ? <VerificationBadge className="w-3.5 h-3.5 shrink-0" /> : null}
                     {isProvisional && (
                       <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold tracking-wider uppercase bg-stone-100 text-stone-500 border border-stone-200 shrink-0" title="Provisional Score (Needs more votes)">
                         Prov
                       </span>
                     )}
-                  </h3>
-                  <span className="text-stone text-xs capitalize">{model.provider}</span>
+                  </div>
                 </div>
                 <div className="flex-1 flex items-center gap-8">
                   <div className="w-24 shrink-0">

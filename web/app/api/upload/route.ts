@@ -3,6 +3,7 @@ export const runtime = "nodejs";
 import { NextResponse } from "next/server";
 
 import { saveBenchmarkUpload } from "@/lib/arena-store";
+import { getTemporaryUploadLink, touchTemporaryUploadLink } from "@/lib/arena-store";
 import { checkRateLimit, createRateLimitResponse } from "@/lib/rate-limit";
 import { benchmarkUploadSchema } from "@/lib/upload-schema";
 import { createSupabaseServerClient, hasSupabaseAuthConfig } from "@/lib/supabase/server";
@@ -37,6 +38,7 @@ export async function POST(request: Request) {
   }
 
   const upload = parsed.data;
+  const uploadToken = request.headers.get("x-upload-token")?.trim() || new URL(request.url).searchParams.get("token")?.trim() || null;
 
   // Capture the uploading user's ID if they're authenticated
   let uploaderId: string | null = null;
@@ -48,6 +50,19 @@ export async function POST(request: Request) {
     } catch {
       // Non-fatal — upload proceeds without attribution
     }
+  }
+
+  if (!uploaderId) {
+    if (!uploadToken) {
+      return NextResponse.json({ error: "Authentication or a temporary upload link is required." }, { status: 401 });
+    }
+
+    const temporaryAccess = await getTemporaryUploadLink(uploadToken);
+    if (!temporaryAccess) {
+      return NextResponse.json({ error: "Temporary upload link is invalid or expired." }, { status: 401 });
+    }
+
+    await touchTemporaryUploadLink(uploadToken);
   }
 
   try {

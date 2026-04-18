@@ -53,12 +53,23 @@ const schema = `
     UNIQUE (model, provider)
   );
 
+  CREATE TABLE IF NOT EXISTS upload_access_tokens (
+    token_hash TEXT PRIMARY KEY,
+    created_by_user_id TEXT,
+    created_by_label TEXT NOT NULL,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    expires_at TEXT NOT NULL,
+    revoked_at TEXT,
+    last_used_at TEXT
+  );
+
   CREATE INDEX IF NOT EXISTS idx_test_results_run_id ON test_results(run_id);
   CREATE INDEX IF NOT EXISTS idx_test_results_test_id ON test_results(test_id);
   CREATE INDEX IF NOT EXISTS idx_votes_test_id ON votes(test_id);
   CREATE INDEX IF NOT EXISTS idx_votes_models ON votes(model_a, model_b);
   CREATE INDEX IF NOT EXISTS idx_model_verifications_model_provider ON model_verifications(model, provider);
   CREATE INDEX IF NOT EXISTS idx_runs_uploader_id ON runs(uploader_id);
+  CREATE INDEX IF NOT EXISTS idx_upload_access_tokens_expires_at ON upload_access_tokens(expires_at);
 `;
 
 let databasePromise: Promise<InstanceType<typeof Database>> | null = null;

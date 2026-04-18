@@ -1,7 +1,7 @@
 "use client";
 
 import { startTransition, useState } from "react";
-import { CheckCircle2, Loader2, ShieldCheck, ShieldOff } from "lucide-react";
+import { CheckCircle2, Copy, Link2, Loader2, ShieldCheck, ShieldOff } from "lucide-react";
 
 type ModerationModel = {
   model: string;
@@ -28,6 +28,10 @@ export default function ModeratorDashboardClient({
   const [busyKey, setBusyKey] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [temporaryUploadLink, setTemporaryUploadLink] = useState<string | null>(null);
+  const [temporaryUploadExpiresAt, setTemporaryUploadExpiresAt] = useState<string | null>(null);
+  const [temporaryUploadBusy, setTemporaryUploadBusy] = useState(false);
+  const [temporaryUploadCopied, setTemporaryUploadCopied] = useState(false);
 
   async function toggleVerification(model: string, provider: string, verified: boolean) {
     const key = `${model}::${provider}`;
@@ -104,6 +108,41 @@ export default function ModeratorDashboardClient({
     }
   }
 
+  async function generateTemporaryUploadLink() {
+    setTemporaryUploadBusy(true);
+    setError(null);
+    setMessage(null);
+
+    try {
+      const response = await fetch("/api/moderation/upload-link", {
+        method: "POST",
+      });
+      const result = await response.json().catch(() => null);
+
+      if (!response.ok) {
+        throw new Error(result?.error || "Failed to create temporary upload link.");
+      }
+
+      setTemporaryUploadLink(result.upload_url ?? null);
+      setTemporaryUploadExpiresAt(result.expires_at ?? null);
+      setTemporaryUploadCopied(false);
+
+      if (result.upload_url) {
+        try {
+          await navigator.clipboard.writeText(result.upload_url);
+          setTemporaryUploadCopied(true);
+          setMessage("Temporary upload link generated and copied to clipboard.");
+        } catch {
+          setMessage("Temporary upload link generated. Copy it from the panel below.");
+        }
+      }
+    } catch (linkError) {
+      setError(linkError instanceof Error ? linkError.message : "Failed to create temporary upload link.");
+    } finally {
+      setTemporaryUploadBusy(false);
+    }
+  }
+
   return (
     <div className="space-y-8">
       <div className="panel-elevated p-6 md:p-8 bg-[radial-gradient(circle_at_top_left,_rgba(196,112,75,0.16),_transparent_42%),linear-gradient(180deg,_#fffdf9,_#f6f0e8)] border-terracotta/30">
@@ -121,6 +160,14 @@ export default function ModeratorDashboardClient({
           </div>
           <div className="flex flex-wrap gap-3 md:justify-end">
             <button
+              onClick={generateTemporaryUploadLink}
+              className="btn-secondary inline-flex items-center gap-2"
+              disabled={temporaryUploadBusy}
+            >
+              {temporaryUploadBusy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Link2 className="w-4 h-4" />}
+              Generate Upload Link
+            </button>
+            <button
               onClick={verifyAllModels}
               className="btn-primary inline-flex items-center gap-2"
               disabled={busyKey === "all"}
@@ -137,6 +184,37 @@ export default function ModeratorDashboardClient({
 
       {message ? <div className="panel border-olive-light bg-sage-light p-4 text-sm text-ink-light">{message}</div> : null}
       {error ? <div className="panel border-terracotta-light bg-terracotta-light p-4 text-sm text-ink-light">{error}</div> : null}
+
+      {temporaryUploadLink ? (
+        <div className="panel border-olive-light bg-[linear-gradient(135deg,_#fbfaf4,_#eef4e7)] p-4 md:p-5 space-y-3">
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div className="space-y-1 min-w-0">
+              <p className="label">Temporary Upload Link</p>
+              <p className="text-sm text-stone">
+                Share this link to let someone upload without signing in. It expires {temporaryUploadExpiresAt ? new Date(temporaryUploadExpiresAt).toLocaleString() : "in 24 hours"}.
+              </p>
+            </div>
+            <button
+              onClick={async () => {
+                if (!temporaryUploadLink) {
+                  return;
+                }
+
+                await navigator.clipboard.writeText(temporaryUploadLink);
+                setTemporaryUploadCopied(true);
+                setMessage("Temporary upload link copied to clipboard.");
+              }}
+              className="btn-secondary inline-flex items-center gap-2 self-start md:self-center"
+            >
+              {temporaryUploadCopied ? <CheckCircle2 className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+              {temporaryUploadCopied ? "Copied" : "Copy Link"}
+            </button>
+          </div>
+          <div className="rounded border border-border bg-paper px-3 py-2 font-mono text-sm text-ink break-all select-all">
+            {temporaryUploadLink}
+          </div>
+        </div>
+      ) : null}
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {models.map((row) => {

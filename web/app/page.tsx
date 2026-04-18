@@ -49,7 +49,16 @@ export default function HomePage() {
   const [metric, setMetric] = useState<"elo" | "win_rate">("elo");
   const [activeCategory, setActiveCategory] = useState("all");
 
-  // Fetch data when category changes
+  // If Supabase OAuth redirects a ?code= to this page (misconfigured redirect URL),
+  // forward it to the proper callback handler instead of silently losing the session.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+    if (code) {
+      const next = params.get("next") ?? "/";
+      window.location.replace(`/auth/callback?code=${encodeURIComponent(code)}&next=${encodeURIComponent(next)}`);
+    }
+  }, []);
   useEffect(() => {
     let mounted = true;
 

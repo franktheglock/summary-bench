@@ -6,9 +6,18 @@ import type { User } from "@supabase/supabase-js";
 import { benchmarkUploadSchema, type BenchmarkUpload } from "@/lib/upload-schema";
 import { createSupabaseBrowserClient, hasSupabaseAuthConfig } from "@/lib/supabase/browser";
 
+type TemporaryAccessState =
+  | { status: "unknown" }
+  | { status: "none" }
+  | { status: "checking" }
+  | { status: "valid"; expires_at: string; created_by_label: string }
+  | { status: "invalid"; error: string };
+
 export default function UploadPage() {
   const [user, setUser] = useState<User | null | undefined>(undefined); // undefined = loading
   const [authLoading, setAuthLoading] = useState(false);
+  const [temporaryAccess, setTemporaryAccess] = useState<TemporaryAccessState>({ status: "unknown" });
+  const [temporaryToken, setTemporaryToken] = useState<string | null>(null);
   const [dragActive, setDragActive] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<"idle" | "validating" | "uploading" | "success" | "error">("idle");
@@ -20,14 +29,55 @@ export default function UploadPage() {
   useEffect(() => {
     if (!hasSupabaseAuthConfig()) {
       setUser(null); // auth not configured — treat as unauthenticated
+    } else {
+      const supabase = createSupabaseBrowserClient();
+      supabase.auth.getUser().then(({ data }) => setUser(data.user ?? null));
+      const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, session) => {
+        setUser(session?.user ?? null);
+      });
+      return () => subscription.unsubscribe();
+    }
+  }, []);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
+
+    if (!token) {
+      setTemporaryAccess({ status: "none" });
       return;
     }
-    const supabase = createSupabaseBrowserClient();
-    supabase.auth.getUser().then(({ data }) => setUser(data.user ?? null));
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, session) => {
-      setUser(session?.user ?? null);
-    });
-    return () => subscription.unsubscribe();
+
+    setTemporaryToken(token);
+    setTemporaryAccess({ status: "checking" });
+
+    const controller = new AbortController();
+
+    fetch(`/api/upload/access/validate?token=${encodeURIComponent(token)}`, { signal: controller.signal })
+      .then(async (response) => {
+        const data = await response.json().catch(() => null);
+        if (!response.ok) {
+          throw new Error(data?.error || "Temporary upload link is invalid or expired.");
+        }
+
+        setTemporaryAccess({
+          status: "valid",
+          expires_at: data.expires_at,
+          created_by_label: data.created_by_label,
+        });
+      })
+      .catch((validationError) => {
+        if (controller.signal.aborted) {
+          return;
+        }
+
+        setTemporaryAccess({
+          status: "invalid",
+          error: validationError instanceof Error ? validationError.message : "Temporary upload link is invalid or expired.",
+        });
+      });
+
+    return () => controller.abort();
   }, []);
 
   const handleSignIn = async (provider: "github" | "google") => {
@@ -101,6 +151,7 @@ export default function UploadPage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          ...(temporaryAccess.status === "valid" && temporaryToken ? { "x-upload-token": temporaryToken } : {}),
         },
         body: JSON.stringify(payload satisfies BenchmarkUpload),
       });
@@ -136,12 +187,23 @@ export default function UploadPage() {
         </p>
       </div>
 
+      {temporaryAccess.status === "valid" ? (
+        <div className="panel border-olive-light bg-sage-light px-4 py-3 text-sm text-ink-light">
+          Temporary upload link active. Issued by {temporaryAccess.created_by_label}. Expires {new Date(temporaryAccess.expires_at).toLocaleString()}.
+        </div>
+      ) : null}
+
       {/* Auth gate */}
-      {user === undefined ? (
+      {temporaryAccess.status === "invalid" && user === null ? (
+        <div className="panel border-terracotta-light bg-terracotta-light p-8 space-y-4 text-center">
+          <p className="font-serif text-xl font-semibold text-terracotta">Temporary link expired</p>
+          <p className="text-stone text-sm">{temporaryAccess.error}</p>
+        </div>
+      ) : user === undefined || temporaryAccess.status === "checking" || temporaryAccess.status === "unknown" ? (
         <div className="panel p-12 flex items-center justify-center">
           <Loader2 className="w-6 h-6 animate-spin text-stone" />
         </div>
-      ) : user === null ? (
+      ) : user === null && temporaryAccess.status !== "valid" ? (
         <div className="panel p-10 bg-[linear-gradient(135deg,_#fffdf8,_#f3ece2)] border-terracotta/30 space-y-6 text-center">
           <div className="w-16 h-16 border border-border flex items-center justify-center mx-auto">
             <LogIn className="w-7 h-7 text-terracotta" strokeWidth={1.5} />

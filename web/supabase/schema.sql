@@ -61,6 +61,16 @@ create table public.model_verifications (
     unique (model, provider)
 );
 
+create table public.upload_access_tokens (
+    token_hash text primary key,
+    created_by_user_id uuid references auth.users(id) on delete set null,
+    created_by_label text not null,
+    created_at timestamp with time zone not null default now(),
+    expires_at timestamp with time zone not null,
+    revoked_at timestamp with time zone,
+    last_used_at timestamp with time zone
+);
+
 -- Indexes for performance
 create index idx_test_results_run_id on public.test_results(run_id);
 create index idx_test_results_test_id on public.test_results(test_id);
@@ -68,6 +78,7 @@ create index idx_votes_test_id on public.votes(test_id);
 create index idx_votes_models on public.votes(model_a, model_b);
 create index idx_model_verifications_model_provider on public.model_verifications(model, provider);
 create index idx_runs_uploader_id on public.runs(uploader_id);
+create index idx_upload_access_tokens_expires_at on public.upload_access_tokens(expires_at);
 
 -- RLS (Row Level Security) Policies
 -- For the public MVP, allow everyone to insert runs/votes, and read all.
@@ -75,6 +86,7 @@ alter table public.runs enable row level security;
 alter table public.test_results enable row level security;
 alter table public.votes enable row level security;
 alter table public.model_verifications enable row level security;
+alter table public.upload_access_tokens enable row level security;
 
 create policy "Allow anonymous read runs" on public.runs for select using (true);
 create policy "Allow anonymous insert runs" on public.runs for insert with check (true);

@@ -1,3 +1,5 @@
+import { createHash, randomBytes } from "node:crypto";
+
 import { getDatabase } from "@/lib/db";
 import { getSupabaseClient, hasSupabaseConfig, hasSupabaseServiceRole } from "@/lib/supabase";
 import type { BenchmarkUpload } from "@/lib/upload-schema";
@@ -199,6 +201,162 @@ function compareTimestampsDescending(left: string, right: string): number {
 
 function buildModelProviderKey(model: string, provider: string): string {
   return `${model.trim().toLowerCase()}::${provider.trim().toLowerCase()}`;
+}
+
+function hashUploadAccessToken(token: string): string {
+  return createHash("sha256").update(token).digest("hex");
+}
+
+function createUploadAccessTokenValue(): string {
+  return `sat_${randomBytes(24).toString("base64url")}`;
+}
+
+function addHoursToNow(hours: number): string {
+  const expiresAt = new Date();
+  expiresAt.setHours(expiresAt.getHours() + hours);
+  return expiresAt.toISOString();
+}
+
+export type TemporaryUploadLinkSummary = {
+  created_by_label: string;
+  created_at: string;
+  expires_at: string;
+};
+
+export async function createTemporaryUploadLink(input: {
+  createdByLabel: string;
+  createdByUserId: string;
+  expiresInHours?: number;
+}): Promise<{ token: string; expires_at: string }> {
+  const token = createUploadAccessTokenValue();
+  const tokenHash = hashUploadAccessToken(token);
+  const expiresAt = addHoursToNow(input.expiresInHours ?? 24);
+
+  if (getStorageMode() === "supabase") {
+    if (!hasSupabaseServiceRole()) {
+      throw new Error("Supabase service role is required for temporary upload link writes.");
+    }
+
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      throw new Error("Supabase environment variables are missing.");
+    }
+
+    const { error } = await supabase.from("upload_access_tokens").insert({
+      token_hash: tokenHash,
+      created_by_user_id: input.createdByUserId,
+      created_by_label: input.createdByLabel,
+      expires_at: expiresAt,
+    });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return { token, expires_at: expiresAt };
+  }
+
+  const database = await getDatabase();
+  database.prepare(
+    `
+      insert into upload_access_tokens (
+        token_hash,
+        created_by_user_id,
+        created_by_label,
+        expires_at
+      ) values (?, ?, ?, ?)
+    `
+  ).run(tokenHash, input.createdByUserId, input.createdByLabel, expiresAt);
+
+  return { token, expires_at: expiresAt };
+}
+
+export async function getTemporaryUploadLink(token: string): Promise<TemporaryUploadLinkSummary | null> {
+  const tokenHash = hashUploadAccessToken(token);
+
+  if (getStorageMode() === "supabase") {
+    if (!hasSupabaseServiceRole()) {
+      return null;
+    }
+
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return null;
+    }
+
+    const { data, error } = await supabase
+      .from("upload_access_tokens")
+      .select("created_by_label, created_at, expires_at, revoked_at")
+      .eq("token_hash", tokenHash)
+      .maybeSingle();
+
+    if (error || !data) {
+      return null;
+    }
+
+    const expiresAt = new Date(data.expires_at).getTime();
+    if (data.revoked_at || Number.isNaN(expiresAt) || expiresAt <= Date.now()) {
+      return null;
+    }
+
+    return {
+      created_by_label: data.created_by_label,
+      created_at: data.created_at,
+      expires_at: data.expires_at,
+    };
+  }
+
+  const database = await getDatabase();
+  const row = database.prepare(
+    `
+      select created_by_label, created_at, expires_at, revoked_at
+      from upload_access_tokens
+      where token_hash = ?
+    `
+  ).get(tokenHash) as (TemporaryUploadLinkSummary & { revoked_at: string | null }) | undefined;
+
+  if (!row) {
+    return null;
+  }
+
+  const expiresAt = new Date(row.expires_at).getTime();
+  if (row.revoked_at || Number.isNaN(expiresAt) || expiresAt <= Date.now()) {
+    return null;
+  }
+
+  return {
+    created_by_label: row.created_by_label,
+    created_at: row.created_at,
+    expires_at: row.expires_at,
+  };
+}
+
+export async function touchTemporaryUploadLink(token: string): Promise<void> {
+  const tokenHash = hashUploadAccessToken(token);
+  const touchedAt = new Date().toISOString();
+
+  if (getStorageMode() === "supabase") {
+    if (!hasSupabaseServiceRole()) {
+      return;
+    }
+
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return;
+    }
+
+    await supabase.from("upload_access_tokens").update({ last_used_at: touchedAt }).eq("token_hash", tokenHash);
+    return;
+  }
+
+  const database = await getDatabase();
+  database.prepare(
+    `
+      update upload_access_tokens
+      set last_used_at = ?
+      where token_hash = ?
+    `
+  ).run(touchedAt, tokenHash);
 }
 
 function isMissingSupabaseRelation(error: { message?: string } | null | undefined, relationName: string): boolean {

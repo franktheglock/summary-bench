@@ -6,7 +6,7 @@ export const runtime = "nodejs";
 
 function getSafeNextPath(nextPath: string | null) {
   if (!nextPath || !nextPath.startsWith("/")) {
-    return "/moderator";
+    return "/";
   }
 
   return nextPath;

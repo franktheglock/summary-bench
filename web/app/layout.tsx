@@ -26,7 +26,7 @@ export const metadata: Metadata = {
       {
         url: "/og-image.png",
         width: 1024,
-        height: 1024
+        height: 1024,
         alt: "Summary Arena – Benchmark LLM Summarization Quality",
       },
     ],

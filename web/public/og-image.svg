@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <!-- Subtle paper texture noise -->
+    <filter id="noise">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" result="noise"/>
+      <feColorMatrix type="saturate" values="0" in="noise" result="grayNoise"/>
+      <feBlend in="SourceGraphic" in2="grayNoise" mode="multiply" result="blended"/>
+      <feComponentTransfer in="blended">
+        <feFuncA type="linear" slope="0.08"/>
+      </feComponentTransfer>
+      <feComposite in2="SourceGraphic" operator="atop"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#FAF6F1"/>
+
+  <!-- Subtle paper texture overlay -->
+  <rect width="1200" height="630" fill="#FAF6F1" filter="url(#noise)" opacity="0.5"/>
+
+  <!-- Decorative bar chart elements — right side -->
+  <!-- Top cluster -->
+  <rect x="750" y="80" width="380" height="28" rx="2" fill="#C4704B" opacity="0.85"/>
+  <rect x="790" y="118" width="340" height="24" rx="2" fill="#6B7A3D" opacity="0.75"/>
+  <rect x="820" y="152" width="310" height="22" rx="2" fill="#7A8F6E" opacity="0.7"/>
+  <rect x="770" y="184" width="280" height="20" rx="2" fill="#8A7D6B" opacity="0.65"/>
+  <rect x="850" y="214" width="240" height="18" rx="2" fill="#B5AA98" opacity="0.55"/>
+
+  <!-- Bottom cluster -->
+  <rect x="730" y="450" width="400" height="26" rx="2" fill="#C4704B" opacity="0.7"/>
+  <rect x="780" y="486" width="350" height="22" rx="2" fill="#6B7A3D" opacity="0.65"/>
+  <rect x="810" y="518" width="300" height="20" rx="2" fill="#7A8F6E" opacity="0.6"/>
+  <rect x="760" y="548" width="370" height="24" rx="2" fill="#8A7D6B" opacity="0.55"/>
+
+  <!-- Thin vertical accent line -->
+  <rect x="700" y="100" width="1" height="460" fill="#E5DED3"/>
+
+  <!-- Title: Summary Arena -->
+  <text x="80" y="270" font-family="'Newsreader', 'Georgia', 'Times New Roman', serif" font-size="96" font-weight="600" fill="#2C2418" letter-spacing="-2">Summary</text>
+  <text x="80" y="370" font-family="'Newsreader', 'Georgia', 'Times New Roman', serif" font-size="96" font-weight="600" fill="#2C2418" letter-spacing="-2">Arena</text>
+
+  <!-- Arena icon (simplified colosseum) -->
+  <g transform="translate(370, 320)" fill="none" stroke="#C4704B" stroke-width="2" opacity="0.7">
+    <!-- Arch base -->
+    <path d="M0 30 Q0 0 15 0 Q30 0 30 30" stroke-width="2"/>
+    <!-- Columns -->
+    <line x1="5" y1="30" x2="5" y2="8"/>
+    <line x1="15" y1="30" x2="15" y2="2"/>
+    <line x1="25" y1="30" x2="25" y2="8"/>
+    <!-- Base -->
+    <line x1="-3" y1="30" x2="33" y2="30"/>
+    <!-- Top -->
+    <path d="M-2 6 Q15 -6 32 6" stroke-width="1.5"/>
+  </g>
+
+  <!-- Terracotta accent line -->
+  <rect x="80" y="400" width="280" height="2" rx="1" fill="#C4704B" opacity="0.8"/>
+
+  <!-- Subtitle -->
+  <text x="80" y="440" font-family="'Outfit', system-ui, sans-serif" font-size="18" font-weight="500" fill="#8A7D6B" letter-spacing="6" text-transform="uppercase">BENCHMARK LLM</text>
+  <text x="80" y="470" font-family="'Outfit', system-ui, sans-serif" font-size="18" font-weight="500" fill="#8A7D6B" letter-spacing="6" text-transform="uppercase">SUMMARIZATION QUALITY</text>
+
+  <!-- Subtle version badge -->
+  <text x="80" y="560" font-family="'Newsreader', 'Georgia', serif" font-size="14" font-style="italic" fill="#B5AA98">summaryarena.vercel.app</text>
+
+  <!-- Thin top border accent -->
+  <rect x="0" y="0" width="1200" height="3" fill="#C4704B" opacity="0.6"/>
+</svg>

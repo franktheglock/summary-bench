@@ -59,6 +59,8 @@ If you also want a local copy while developing, keep `SUMMARYARENA_STORAGE=sqlit
 
 The upload endpoint is `web/app/api/upload/route.ts`.
 
+For scripted or batch imports, send JSON directly to `POST /api/upload` and optionally include `x-upload-secret: <SUMMARYARENA_UPLOAD_SECRET>` to bypass the temporary-link flow. The same endpoint accepts either one benchmark upload object or an array of benchmark upload objects.
+
 Moderators can also import every JSON file from the repository-level `results/` directory through the dashboard action backed by `web/app/api/bulk-upload/route.ts`. In local development it reads the checked-out `results/` folder directly; on hosted deployments it falls back to the repository's GitHub `results/` directory via the GitHub contents API. When Supabase auth is configured, that bulk import path requires a signed-in moderator.
 
 ## Learn More

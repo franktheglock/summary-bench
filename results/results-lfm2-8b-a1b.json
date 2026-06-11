@@ -1,0 +1,925 @@
+{
+  "benchmark_version": "1.0",
+  "run_id": "f9bdf005-772d-4a5a-b2b6-1c0d665a1088",
+  "model": "lfm2-8b-a1b",
+  "provider": "lm_studio",
+  "timestamp": "2026-04-09T20:41:17.818981Z",
+  "config": {
+    "provider": "lm_studio",
+    "model": "lfm2-8b-a1b",
+    "base_url": "http://localhost:1234/v1",
+    "temperature": 0.0,
+    "categories": [
+      "news",
+      "code",
+      "agentic",
+      "meeting",
+      "legal",
+      "scientific",
+      "reviews"
+    ],
+    "benchmark_version": "v1"
+  },
+  "results": [
+    {
+      "test_id": "news-cnn-001",
+      "category": "news",
+      "summary": "On Monday, the U.S. Supreme Court declined to hear an appeal challenging a federal law criminalizing encouragement of unauthorized entry into the United States. The case involved Evelyn Sineneng-Smith, an immigration consultant convicted for charging fees to help foreign nationals remain illegally, arguing the statute overreaches by targeting protected speech; the 9th Circuit had ruled it constitutional, holding the law applies only to conduct facilitating illegal immigration, not general encouragement.",
+      "prompt_used": null,
+      "input_tokens": 292,
+      "output_tokens": 94,
+      "latency_ms": 428,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-002",
+      "category": "news",
+      "summary": "A 25-year-old man was arrested in east London on Wednesday by Britain\u2019s Metropolitan Police for suspected involvement in planning terrorist acts targeting military personnel, following an intelligence-led raid. The arrest, part of ongoing counterterrorism efforts, occurred after a dawn operation at his residence, with no immediate public threat reported and the investigation continuing.",
+      "prompt_used": null,
+      "input_tokens": 251,
+      "output_tokens": 68,
+      "latency_ms": 2908,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-003",
+      "category": "news",
+      "summary": "A powerful \"bomb cyclone\" winter storm hit the northeastern U.S. on Tuesday, bringing up to 30 inches of snow and hurricane-force winds across coastal areas from Virginia to Maine. The storm caused widespread power outages affecting over 350,000 customers in Massachusetts, canceled more than 4,500 flights, and led to at least seven deaths, prompting a state emergency declaration and National Guard deployment for rescue operations.",
+      "prompt_used": null,
+      "input_tokens": 303,
+      "output_tokens": 90,
+      "latency_ms": 3187,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-004",
+      "category": "news",
+      "summary": "On Tuesday, Google announced a $10 billion, five-year investment across 11 U.S. states\u2014including Texas, Virginia, Nebraska, and Nevada\u2014to expand data centers and office facilities, creating thousands of high-paying jobs. The move, driven by growth in cloud computing, aims to strengthen its national footprint amid rising tech industry scrutiny, with local officials welcoming the economic boost and tax revenue from new construction and permanent roles.",
+      "prompt_used": null,
+      "input_tokens": 285,
+      "output_tokens": 86,
+      "latency_ms": 3156,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-005",
+      "category": "news",
+      "summary": "China\u2019s economy grew at 6.1% in 2020\u2014the slowest pace in nearly three decades\u2014despite a stable target range set by the government, driven by trade tensions with the U.S. and weak global demand; manufacturing output dropped to its lowest in 17 years, though consumer spending helped stabilize growth, which held steady at 6% in the fourth quarter.",
+      "prompt_used": null,
+      "input_tokens": 313,
+      "output_tokens": 80,
+      "latency_ms": 368,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-006",
+      "category": "news",
+      "summary": "France enacted a comprehensive ban on single-use plastics starting in 2025, prohibiting plastic packaging for fruits and vegetables, plastic toys in children\u2019s meals at fast-food outlets, and requiring water fountains instead of bottled water. The law aims to reduce the country\u2019s annual 4.5 million tons of plastic waste, with a goal of dedicating 20% of retail space to package-free products by 2030, amid criticism over implementation challenges and rising costs for businesses and consumers.",
+      "prompt_used": null,
+      "input_tokens": 281,
+      "output_tokens": 102,
+      "latency_ms": 451,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-007",
+      "category": "news",
+      "summary": "On Wednesday, NASA astronauts Jessica Meir and Christina Koch completed a six-hour spacewalk to repair a failed ammonia pump on the International Space Station, preventing a critical cooling system failure that could have forced shutdowns of experiments and reduced power. Conducted as the third all-female spacewalk in history, the repair involved replacing a faulty module under Houston\u2019s guidance, ensuring continued operation of the station\u2019s vital cooling system.",
+      "prompt_used": null,
+      "input_tokens": 301,
+      "output_tokens": 84,
+      "latency_ms": 384,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-008",
+      "category": "news",
+      "summary": "A devastating locust swarm, the worst in 25 years, has struck Kenya, Ethiopia, and Somalia, threatening food security across East Africa with swarms spanning up to 2,400 square kilometers. Driven by heavy rains linked to a positive Indian Ocean Dipole, the infestation\u2014capable of consuming daily food equivalent to 35,000 people\u2014has overwhelmed control efforts due to limited equipment, prompting the UN FAO to request $76 million in aid amid warnings that locust numbers could surge fivefold by June.",
+      "prompt_used": null,
+      "input_tokens": 321,
+      "output_tokens": 107,
+      "latency_ms": 684,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-009",
+      "category": "news",
+      "summary": "On Friday, Japan\u2019s government approved a record $52 billion defense budget\u2014up 7.3% from the prior year\u2014marking a major shift from its long-standing pacifist policy. The increase funds advanced weapons like cruise missiles and cyber capabilities to counter regional threats from China, North Korea, and Russia, with Prime Minister Fumio Kishida citing heightened security risks; Japan aims to reach 2% of GDP in defense spending within five years, aligning with NATO standards. While the U.S. supports the move, critics warn it may escalate tensions and strain public finances amid demographic challenges and national debt.",
+      "prompt_used": null,
+      "input_tokens": 299,
+      "output_tokens": 128,
+      "latency_ms": 1444,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-010",
+      "category": "news",
+      "summary": "On Wednesday, Pacific Gas & Electric initiated a massive Public Safety Power Shutoff affecting nearly 1 million customers across 36 California counties due to extreme winds exceeding 65 mph, aiming to prevent wildfires amid heightened fire risks. The move follows PG&E\u2019s history of wildfire liability and comes after criticism from Governor Gavin Newsom over past mismanagement, with critical facilities exempted and restoration expected to take several days post-event.",
+      "prompt_used": null,
+      "input_tokens": 319,
+      "output_tokens": 90,
+      "latency_ms": 1137,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-011",
+      "category": "news",
+      "summary": "On Thursday, the World Health Organization declared the novel coronavirus a global health emergency as cases exceeded 8,000 worldwide, driven by spread from Wuhan, China, where 170 deaths have been reported across 18 countries. The declaration, citing risks to nations with weaker health systems, prompted international evacuations and flight suspensions, though the WHO cautioned against travel or trade restrictions due to potential stigma and fear.",
+      "prompt_used": null,
+      "input_tokens": 278,
+      "output_tokens": 85,
+      "latency_ms": 1053,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-012",
+      "category": "news",
+      "summary": "On Wednesday, India\u2019s Parliament passed a controversial citizenship law fast-tracking naturalization for Hindus, Buddhists, Christians, Sikhs, Jains, and Parsis from Pakistan, Bangladesh, and Afghanistan who faced persecution before 2015, excluding Muslims. The move sparked nationwide protests, fears of targeting Muslims, and international criticism over its discriminatory impact, with India\u2019s opposition calling it unconstitutional and the UN labeling it fundamentally discriminatory.",
+      "prompt_used": null,
+      "input_tokens": 299,
+      "output_tokens": 89,
+      "latency_ms": 1146,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-013",
+      "category": "news",
+      "summary": "On Thursday night at 1:30 a.m., a 12-story condominium, Champlain Towers South in Surfside, Florida, partially collapsed around midday, killing at least one person and leaving 99 people unaccounted for amid widespread destruction of about 55 units. Governor Ron DeSantis declared a state of emergency as rescue efforts continued, with officials citing possible structural issues in the building\u2019s underground parking garage, though cause determination will take months.",
+      "prompt_used": null,
+      "input_tokens": 289,
+      "output_tokens": 97,
+      "latency_ms": 1164,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-014",
+      "category": "news",
+      "summary": "The European Union adopted the landmark AI Act early Tuesday, establishing comprehensive regulations that classify AI systems by risk level, ban real-time biometric surveillance in public spaces except for serious threats, impose heavy fines for violations\u2014up to 7% of global revenue\u2014and require clear labeling of AI-generated content. The law aims to balance innovation with safety and is set to take effect in 2025, drawing international attention as the U.S. and China monitor its implementation.",
+      "prompt_used": null,
+      "input_tokens": 283,
+      "output_tokens": 93,
+      "latency_ms": 1128,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-015",
+      "category": "news",
+      "summary": "On Wednesday, Australia recorded its hottest day ever at 41.9\u00b0C (107.4\u00b0F), breaking a record set the prior day, amid catastrophic bushfires burning over 15 million acres across New South Wales and Victoria. The extreme heat fueled more than 200 simultaneous fires, forcing tens of thousands to evacuate coastal towns, with smoke degrading air quality in Sydney and Melbourne; at least 28 people have died, and Prime Minister Scott Morrison faced criticism for vacationing abroad during the crisis amid warnings from scientists linking such extremes to climate change.",
+      "prompt_used": null,
+      "input_tokens": 294,
+      "output_tokens": 114,
+      "latency_ms": 1380,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-016",
+      "category": "news",
+      "summary": "In 2019, Swedish climate activist Greta Thunberg became Time magazine\u2019s Person of the Year at age 16, becoming the youngest recipient ever, recognized for leading the global \u201cFridays for Future\u201d movement that inspired millions to demand urgent climate action. Her selection followed her high-profile UN speech in September, where she challenged world leaders with the phrase \u201cHow dare you?\u201d amid widespread praise and debate over her role in complex policy discussions.",
+      "prompt_used": null,
+      "input_tokens": 277,
+      "output_tokens": 93,
+      "latency_ms": 1056,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-017",
+      "category": "news",
+      "summary": "On Wednesday, Russia successfully tested an advanced hypersonic missile system, the Avangard, which traveled at Mach 27 and struck a target 3,700 miles away on Kamchatka\u2019s Kura test range. President Putin called it \u201cinvincible\u201d and capable of evading all current missile defenses, heightening concerns among U.S. officials about destabilizing global security as the weapon\u2019s unpredictable flight makes interception nearly impossible.",
+      "prompt_used": null,
+      "input_tokens": 294,
+      "output_tokens": 91,
+      "latency_ms": 1100,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-018",
+      "category": "news",
+      "summary": "Cape Town, South Africa, narrowly avoided becoming the first major city to run out of water by reaching \"Day Zero\" due to three years of drought, population growth, and infrastructure gaps; emergency measures and winter rains prevented collapse as residents cut usage by over 50%. The city is now expanding desalination, groundwater extraction, and recycling projects to secure long-term water resilience.",
+      "prompt_used": null,
+      "input_tokens": 291,
+      "output_tokens": 79,
+      "latency_ms": 994,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-019",
+      "category": "news",
+      "summary": "A major ransomware attack using a LockBit variant disrupted operations at one of the world\u2019s largest shipping companies over the weekend, forcing manual processes at terminals in Singapore, Rotterdam, and Los Angeles, causing global supply chain delays. Cybersecurity experts warn the attack could cost $200\u2013300 million in losses, with authorities assisting the investigation amid growing concerns over cyber threats to critical logistics infrastructure.",
+      "prompt_used": null,
+      "input_tokens": 264,
+      "output_tokens": 79,
+      "latency_ms": 1020,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-020",
+      "category": "news",
+      "summary": "On Monday, Mexico\u2019s president and the United States announced a $4 billion joint development program targeting economic growth in Guatemala, Honduras, and El Salvador to address root causes of Central American migration. The initiative focuses on job creation, agricultural modernization, violence reduction, and anti-corruption efforts, aiming to reduce northward migration by offering opportunities at home\u2014following a record 2.4 million border encounters last year. U.S. officials view it as complementary to stricter enforcement, while human rights groups remain cautious due to past aid failures linked to corruption.",
+      "prompt_used": null,
+      "input_tokens": 282,
+      "output_tokens": 113,
+      "latency_ms": 1315,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "code-py-001",
+      "category": "code",
+      "summary": "The code implements the merge sort algorithm, recursively dividing an array into halves until subarrays of length one are reached, then merging sorted subarrays using a two-pointer technique. The `merge` function combines two sorted arrays by comparing elements sequentially and appending the smaller value to the result, ensuring linear-time merging. This divide-and-conquer approach guarantees O(n log n) time complexity with stable sorting behavior.",
+      "prompt_used": null,
+      "input_tokens": 246,
+      "output_tokens": 89,
+      "latency_ms": 1208,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "code-py-002",
+      "category": "code",
+      "summary": "The function `analyze_text` processes a string to compute linguistic statistics: it extracts words and sentences, computes total word count, unique vocabulary, average word length, and sentence length. It identifies the top 10 most frequent words and quantifies vocabulary richness as the ratio of unique to total words. The output provides key metrics for text complexity and lexical diversity.",
+      "prompt_used": null,
+      "input_tokens": 346,
+      "output_tokens": 75,
+      "latency_ms": 924,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "code-py-003",
+      "category": "code",
+      "summary": "The `PriorityTaskQueue` implements a priority-based task scheduler using a min-heap to manage tasks by their priority (lower values indicate higher priority). It supports adding tasks with specified priority and description, retrieving the next non-completed task via `get_next`, peeking at the next available task without removal, and tracking pending tasks through `pending_count`. The queue ensures efficient retrieval using heap operations while maintaining thread-safe state via atomic counter increments.",
+      "prompt_used": null,
+      "input_tokens": 387,
+      "output_tokens": 95,
+      "latency_ms": 1193,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "code-js-004",
+      "category": "code",
+      "summary": "The `EventEmitter` class implements a lightweight event-driven pattern using a `Map` to associate events with listener arrays. It supports registration (`on`, `once`), emission (`emit`) with argument forwarding, removal of specific listeners (`off`), and querying listener count per event. The `once` variant ensures listeners execute only once, while `emit` filters out once listeners after invocation to maintain idempotency.",
+      "prompt_used": null,
+      "input_tokens": 350,
+      "output_tokens": 91,
+      "latency_ms": 1166,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "code-py-005",
+      "category": "code",
+      "summary": "The `AsyncCache` class implements an asynchronous, thread-safe LRU cache with optional time-to-live (TTL) expiration. It stores key-value pairs with timestamps, supports concurrent access via `asyncio.Lock`, and automatically evicts expired entries or maintains a fixed size by removing the oldest item when full. The `cached` decorator transparently caches function results using a generated key from arguments, enabling efficient memoization in async contexts.",
+      "prompt_used": null,
+      "input_tokens": 518,
+      "output_tokens": 99,
+      "latency_ms": 1291,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "code-js-006",
+      "category": "code",
+      "summary": "The `debounce` function delays the invocation of a provided callback `fn` until after a specified delay (`delay`), with optional leading and trailing execution modes. It ensures the function is called at most once within the delay window, preventing excessive calls during rapid successive triggers. The logic tracks timing via `lastCallTime` and `lastInvokeTime`, uses a timer to enforce the delay, and supports cancellation via `cancelTimer`. Trailing invocation schedules a final call after the delay if not triggered earlier, while leading ensures an immediate execution on first call under leading mode.",
+      "prompt_used": null,
+      "input_tokens": 436,
+      "output_tokens": 122,
+      "latency_ms": 1476,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "code-py-007",
+      "category": "code",
+      "summary": "The `Node` class implements a generic doubly linked node with value, previous (`prev`), and next (`next`) pointers. The `DoublyLinkedList` provides efficient insertion at both ends (prepend and append), removal by reference, iteration in forward and reverse order, and maintains size tracking. Key logic includes maintaining bidirectional links during modifications and supporting standard container-like operations with O(1) amortized prepend/append and O(n) iteration.",
+      "prompt_used": null,
+      "input_tokens": 541,
+      "output_tokens": 99,
+      "latency_ms": 1357,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "code-py-008",
+      "category": "code",
+      "summary": "The code implements a simplified blockchain with block validation and mining logic. Each `Block` contains an index, timestamp, transaction list, previous hash, nonce, and computed SHA-256 hash. The `Blockchain` class manages chain initialization, pending transactions, block creation via proof-of-work (mining until hash meets difficulty), and integrity verification through hash consistency checks. Mining increments the nonce iteratively to satisfy a leading-zero prefix, ensuring cryptographic security and immutability.",
+      "prompt_used": null,
+      "input_tokens": 576,
+      "output_tokens": 101,
+      "latency_ms": 1406,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "code-js-009",
+      "category": "code",
+      "summary": "The Router class implements a lightweight HTTP router with route registration and middleware support. It stores routes as keyed entries using method-path patterns compiled into regular expressions, enabling dynamic path matching via named groups. The `handle` method dispatches incoming requests to registered handlers based on method and matched path, returning responses or a 404 error if no match is found. Middleware functions are applied in order during request processing, supporting modular request handling pipelines.",
+      "prompt_used": null,
+      "input_tokens": 470,
+      "output_tokens": 93,
+      "latency_ms": 1327,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "code-py-010",
+      "category": "code",
+      "summary": "The `SimpleORM` class provides a lightweight ORM interface for SQLite, enabling database operations via Python dictionaries and structured queries. It manages connection lifecycle using a context manager that ensures transaction safety with commit/rollback. The core methods support table creation, data insertion, filtered selection with optional ordering and limits, and row deletion\u2014all leveraging parameterized SQL to prevent injection and ensure type safety.",
+      "prompt_used": null,
+      "input_tokens": 657,
+      "output_tokens": 83,
+      "latency_ms": 1248,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "code-py-011",
+      "category": "code",
+      "summary": "The `MarkdownParser` class converts Markdown-formatted text into HTML using a rule-based system. It applies regular expression patterns to detect and transform syntax elements\u2014such as bold, italic, code blocks, links, blockquotes, and lists\u2014into corresponding HTML tags. The parser processes lines hierarchically by detecting heading levels (via `#`), list items (`-` or `*`), blockquotes (`>`), and inline elements, ensuring proper nesting and tag generation. A central `_inline` method applies all transformation rules sequentially to each text segment.",
+      "prompt_used": null,
+      "input_tokens": 680,
+      "output_tokens": 119,
+      "latency_ms": 1558,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "code-js-012",
+      "category": "code",
+      "summary": "The `VirtualDOM` class implements a lightweight virtual DOM abstraction for efficient UI updates. It provides methods to create elements (`createElement`), render them into real DOM nodes (`render`), and perform incremental diffing (`diff`) by recursively comparing old and new VNodes, applying only necessary changes via event binding and node replacement. The `diff` algorithm handles type mismatches, text content updates, and child node synchronization with index-based traversal.",
+      "prompt_used": null,
+      "input_tokens": 541,
+      "output_tokens": 95,
+      "latency_ms": 1336,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "code-py-013",
+      "category": "code",
+      "summary": "The `NeuralLayer` class implements a fully connected feedforward neural network layer with Gaussian-weight initialization and configurable biases. It computes weighted sums of inputs using pre-trained weights and biases, applying an optional activation function (defaulting to sigmoid). The `SimpleNN` class composes multiple such layers into a sequential model, enabling multi-layer forward propagation from input to output. The `relu`, `sigmoid`, and `mse_loss` functions provide standard nonlinearities and evaluation metrics for training.",
+      "prompt_used": null,
+      "input_tokens": 518,
+      "output_tokens": 108,
+      "latency_ms": 1619,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "code-py-014",
+      "category": "code",
+      "summary": "The `FileCache` class implements a disk-based key-value cache with optional TTL and compression. It stores serialized entries as JSON files, optionally compressed using gzip, with metadata including creation time and expiration. The cache supports setting, retrieving, deleting, clearing expired entries, and listing keys, ensuring efficient storage management through path normalization and safe file handling.",
+      "prompt_used": null,
+      "input_tokens": 677,
+      "output_tokens": 76,
+      "latency_ms": 1091,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "code-js-015",
+      "category": "code",
+      "summary": "The `StateMachine` class implements a finite-state machine with configurable states, transitions, and lifecycle hooks. It manages state transitions based on events, supporting optional entry/exit actions and guards for conditional navigation. Transitions emit events upon state changes, enabling reactive integration via listeners. The design ensures safe execution through guard checks and context-aware action handling.",
+      "prompt_used": null,
+      "input_tokens": 487,
+      "output_tokens": 73,
+      "latency_ms": 1229,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "agentic-001",
+      "category": "agentic",
+      "summary": "The agent successfully booked a direct ANA flight from San Francisco to Tokyo for Tuesday, March 12, 2024. Key actions included searching for flights, verifying seat availability, comparing dates, and confirming the $612 economy booking (ANA_NH7_20240312). The decision prioritized comfort and timing, resulting in a confirmed reservation with departure at 11:35 AM SFO time and arrival at 3:50 PM JST. Outcome: Flight successfully secured with full confirmation details provided.",
+      "prompt_used": null,
+      "input_tokens": 712,
+      "output_tokens": 107,
+      "latency_ms": 1603,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "agentic-002",
+      "category": "agentic",
+      "summary": "The agent diagnosed a production API 500 error on the /users endpoint caused by connection pool exhaustion in the primary database (db-primary), which was overwhelmed at 500/500 connections and high CPU/memory usage. Key actions included identifying the overloaded worker node (10.0.1.45) running a stuck report task, killing the process, restarting the batch processor service, and restoring normal connection levels. The fix restored API functionality with successful 200 responses and resolved error rates.",
+      "prompt_used": null,
+      "input_tokens": 761,
+      "output_tokens": 101,
+      "latency_ms": 1402,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "agentic-003",
+      "category": "agentic",
+      "summary": "The agent analyzed the plant-based protein bar market, identifying key competitors\u2014RXBAR, KIND, GoMacro, and No Cow\u2014and their pricing, ingredient profiles, and recurring consumer complaints like chalky texture and high sugar. Through data analysis, a critical gap emerged: no brand offers a premium clean product with 20g+ protein, clean taste, and functional benefits at an accessible price point ($2.29\u2013$2.69). Based on this insight, the agent recommends a positioning strategy centered on \u201cPremium clean plant-based protein,\u201d featuring a high-protein, low-sugar formula with added probiotics and sustainable packaging, targeting health-conscious millennials and Gen-Z through DTC and retail channels. The outcome is a clear, differentiated market entry plan designed to capture underserved demand.",
+      "prompt_used": null,
+      "input_tokens": 712,
+      "output_tokens": 162,
+      "latency_ms": 2242,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "agentic-004",
+      "category": "agentic",
+      "summary": "The agent established a CI/CD pipeline for a Python microservice using GitHub Actions with linting, testing, building via a multi-stage Dockerfile, and deployment to Kubernetes on the main branch. Key actions included setting up a secure, optimized Docker image with dependency isolation, integrating PostgreSQL for testing, and automating code quality checks (ruff), test coverage (pytest + Codecov), and production deployment via kubectl. The final outcome is a fully automated, reproducible pipeline ensuring reliable releases.",
+      "prompt_used": null,
+      "input_tokens": 934,
+      "output_tokens": 113,
+      "latency_ms": 1524,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "agentic-005",
+      "category": "agentic",
+      "summary": "The agent designed a week-long, family-friendly meal prep plan for four with vegetarian and gluten-free requirements. Key actions included filtering 342 recipes to 87 suitable options, then selecting batch-cookable dishes like Thai peanut noodle bowls and black bean sweet potato chili. Tools used generated a $89 shopping list with pre-prepped ingredients, enabling efficient cooking\u2014each meal under 30 minutes on weeknights. The final outcome is a cohesive, cost-effective plan requiring minimal daily effort while accommodating dietary restrictions.",
+      "prompt_used": null,
+      "input_tokens": 659,
+      "output_tokens": 106,
+      "latency_ms": 1619,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "agentic-006",
+      "category": "agentic",
+      "summary": "The agent reviewed Pull Request #247 to improve code quality by identifying critical security flaws\u2014including a timing attack risk from insecure password comparison and a hardcoded JWT secret\u2014and code issues like duplicated logic, a bare exception handler, and low test coverage (67%). Key recommendations include using `hmac.compare_digest`, securing secrets via environment variables, refactoring duplicated token functions, improving error handling, and expanding tests for edge cases. The review was submitted with detailed feedback, resulting in changes requested to enhance security, maintainability, and reliability.",
+      "prompt_used": null,
+      "input_tokens": 727,
+      "output_tokens": 117,
+      "latency_ms": 1834,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "agentic-007",
+      "category": "agentic",
+      "summary": "The agent planned and executed a MySQL to PostgreSQL migration with minimal downtime. Key actions included analyzing a 47GB legacy database (156 tables, 280M rows), identifying 14 schema incompatibilities\u2014such as ENUM types, TINYINT booleans, and FULLTEXT index conversions\u2014and generating 2,847 lines of migration scripts across three files. A dual-write strategy using Debezium CDC enabled data replication for 48 hours to validate consistency before a planned cutover with <5 minutes downtime. The final plan ensures full compatibility, auto-fixes most issues, and includes a rollback window, projecting total migration time at ~6 hours with minimal disruption.",
+      "prompt_used": null,
+      "input_tokens": 719,
+      "output_tokens": 147,
+      "latency_ms": 1920,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "agentic-008",
+      "category": "agentic",
+      "summary": "The agent identified a critical memory leak in a Node.js production service caused by excessive EventEmitter listeners, redundant Redis client creation, and improper closure handling. Key actions included analyzing 7-day memory trends (1.8GB peak), capturing heap snapshots revealing 12,847 unremoved EventEmitter listeners, scanning code for leak patterns, and refactoring the cache module to use a singleton Redis connection with proper cleanup. Tools used were memory metrics retrieval, heap snapshot capture, codebase search, and file editing. The fix stabilized memory usage post-deployment, eliminating growth and confirming resolution of all major leak sources.",
+      "prompt_used": null,
+      "input_tokens": 794,
+      "output_tokens": 131,
+      "latency_ms": 1620,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "agentic-009",
+      "category": "agentic",
+      "summary": "The agent\u2019s goal was to create a personalized $50,000 investment portfolio for a moderate-risk-tolerant client nearing retirement. Key actions included gathering 10-year market data (showing strong equity returns but elevated valuations), running Monte Carlo simulations across three risk tiers, and recommending a balanced allocation: 45% US equities, 20% international developed stocks, 15% bonds, plus REITs and small-cap value. The final outcome suggests a projected median portfolio value of ~$380K at age 60 (with existing 401k), exceeding conservative estimates due to growth potential. Recommendations include automatic rebalancing, tax-advantaged account optimization, and gradual bond allocation increases over time.",
+      "prompt_used": null,
+      "input_tokens": 836,
+      "output_tokens": 148,
+      "latency_ms": 2094,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "agentic-010",
+      "category": "agentic",
+      "summary": "The agent automated a competitive pricing analysis pipeline across three e-commerce stores, configuring scrapers to extract product data with rate limits and selectors tailored to each site. Using fuzzy matching on SKU and name, the system identified 1,247 matched products, cleaning and analyzing them to reveal that 38% were priced above competitors\u2014particularly in electronics, where prices exceeded Store B by an average of +12%. The pipeline runs daily at 6 AM with automated alerts for price drops, new listings, and competitiveness trends, enabling proactive pricing strategy adjustments.",
+      "prompt_used": null,
+      "input_tokens": 707,
+      "output_tokens": 116,
+      "latency_ms": 1511,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "agentic-011",
+      "category": "agentic",
+      "summary": "The agent conducted a comprehensive SEO audit revealing critical issues: 89 broken internal links, zero structured data, and 23 slow pages harming Core Web Vitals. Key actions included crawling 487 pages, analyzing backlinks (2,340 total, with 12 toxic links), and checking keyword rankings\u2014where the site ranks poorly for high-intent terms like \u201cbuy widgets online\u201d (position 34) and \u201cwidget comparison\u201d (67). Strategic recommendations include fixing technical issues, disavowing toxic backlinks, and building authority to compete with higher-DA rivals. Immediate fixes could boost organic traffic by 25\u201340% within six months.",
+      "prompt_used": null,
+      "input_tokens": 594,
+      "output_tokens": 137,
+      "latency_ms": 2008,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "agentic-012",
+      "category": "agentic",
+      "summary": "The agent established end-to-end monitoring for a Kubernetes cluster running 15 microservices. Key actions included deploying the Prometheus + Grafana stack via Helm, configuring custom dashboards for cluster health, service performance, and business metrics, and setting up five alert rules with Slack and PagerDuty notifications for errors, crashes, latency, disk pressure, and memory usage. The system is fully operational, enabling real-time visibility and proactive incident response across all services.",
+      "prompt_used": null,
+      "input_tokens": 954,
+      "output_tokens": 99,
+      "latency_ms": 1553,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "agentic-013",
+      "category": "agentic",
+      "summary": "The agent analyzed customer churn data from 10,000 records, identifying contract type, tenure, monthly charges, tech support access, and internet service as top predictors of churn. Using XGBoost, the model achieved an AUC of 0.89, guiding targeted retention strategies: prioritizing 847 high-risk customers\u2014especially month-to-month subscribers with short tenure and high charges\u2014for personalized offers like annual contract discounts and free trials. Implementing these actions could save $1.2M annually by retaining half of at-risk customers. The predictive model is now ready for weekly deployment to proactively identify new churn risks.",
+      "prompt_used": null,
+      "input_tokens": 678,
+      "output_tokens": 131,
+      "latency_ms": 1743,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "agentic-014",
+      "category": "agentic",
+      "summary": "The agent\u2019s goal was to negotiate a favorable commercial office lease by leveraging market data and the landlord\u2019s high vacancy rate (14.2%). Key actions included analyzing comparables ($42/sq ft avg), calculating true economics ($640K total cost at $45/sq ft), and proposing counter-offers: reduced base rent, expanded buildout allowance, lower escalation, and free rent. Final terms secured were $40/sq ft base, $22/sq ft TI, 2.5% escalation, and two months of free rent\u2014delivering $112,400 in savings over five years. The negotiation succeeded by emphasizing market benchmarks and tenant leverage.",
+      "prompt_used": null,
+      "input_tokens": 712,
+      "output_tokens": 142,
+      "latency_ms": 1842,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "agentic-015",
+      "category": "agentic",
+      "summary": "The agent optimized a slow PostgreSQL query filtering pending orders from 45 seconds to 2.3ms by identifying a sequential scan bottleneck on 12.4M rows. Key actions included analyzing the execution plan, creating a partial index on (status, created_at DESC) for pending orders, and validating performance gains via re-analysis. The solution reduced data scanned from 99.7% to just 0.3%, enabling an efficient index scan. Outcome: Query speed improved by 19,500x with minimal storage overhead. Recommendations include table partitioning and additional covering indexes for further optimization.",
+      "prompt_used": null,
+      "input_tokens": 775,
+      "output_tokens": 128,
+      "latency_ms": 1710,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "meeting-001",
+      "category": "meeting",
+      "summary": "The Product Review Committee approved a mobile app redesign to simplify checkout from 5 to 2 steps, targeting a 15\u201320% conversion boost and $2.3M annual revenue, with implementation set for April 30 pending a one-week QA buffer due to payment team constraints. The API monetization proposal\u2014introducing tiered access with free tiers capped at 1,000 calls/day and paid plans starting at $99/month\u2014was approved, projecting $180K ARR from converting 15% of current free users, with grandfathering for existing low-usage customers. Action items include finalizing the QA timeline by Friday, drafting a pricing communication plan by next week, and confirming payment team capacity.",
+      "prompt_used": null,
+      "input_tokens": 562,
+      "output_tokens": 150,
+      "latency_ms": 1878,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "meeting-002",
+      "category": "meeting",
+      "summary": "The board reviewed Q3 results, noting revenue reached $47.2 million (12% YoY growth but 3% below target), driven by strong product launches that boosted NPS to 51 and reduced churn to 3.1%. Key concerns included a 28% rise in accounts receivable due to extended payment terms for enterprise clients, prompting plans to implement automated collections for SMB accounts over 45 days. The company expects $3.8 million in ARR from two major deals expected in Q4, positioning the quarter as a potential best year yet with $14.2 million in pipeline. A committee will be formed to evaluate three AI startups identified for strategic acquisition, with a follow-up session scheduled.",
+      "prompt_used": null,
+      "input_tokens": 584,
+      "output_tokens": 150,
+      "latency_ms": 1883,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "meeting-003",
+      "category": "meeting",
+      "summary": "The team reviewed Sprint 14 progress, completing 28 of 34 story points\u2014delays due to an Elasticsearch version incompatibility requiring a 3-day rewrite and a planned 90-day sunset for legacy basic auth. The authentication refactor was approved with a deprecation timeline set for July 1, including drafting a notice. Frontend work advanced the new dashboard in staging, boosting performance to Lighthouse 91, but switching from Chart.js to ECharts is recommended for better real-time charting support. Key action items: migrate search infrastructure by next sprint, implement ECharts by Sprint 15, and QA will request staging Elasticsearch access today.",
+      "prompt_used": null,
+      "input_tokens": 555,
+      "output_tokens": 140,
+      "latency_ms": 1788,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "meeting-004",
+      "category": "meeting",
+      "summary": "The March 8 outage, caused by an unannounced API change from the payment gateway that altered transaction IDs from string to integer, resulted in 12,847 failed transactions and $1.3M revenue loss. Detection was delayed until 3:47 PM due to reliance on HTTP error monitoring rather than semantic validation\u2014transactions appeared successful but were never submitted. Key decisions include implementing end-to-end reconciliation monitoring, replacing generic exception handling with specific alerts, enabling automated deployment for faster fixes, securing a 30-day advance notice SLA with the provider, and processing refunds for all affected customers by week\u2019s end. A canary transaction system will be introduced to detect future semantic failures proactively. Follow-up scheduled in two weeks.",
+      "prompt_used": null,
+      "input_tokens": 603,
+      "output_tokens": 152,
+      "latency_ms": 1861,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "meeting-005",
+      "category": "meeting",
+      "summary": "The hiring committee reviewed three senior backend engineer candidates for the key role. Candidate B was selected as primary due to strong technical skills, proven leadership in team projects, and excellent collaboration\u2014aligning well with team culture. Candidate C, though highly experienced, was deemed too costly but remains a viable secondary option if compensation can be adjusted up to 15% above range with equity. Candidate A was passed due to concerns over cultural fit and collaborative behavior. Action items include extending offers to Candidates B and C with revised compensation packages, pending HR approval. Open questions remain on finalizing negotiation terms for Candidate C.",
+      "prompt_used": null,
+      "input_tokens": 572,
+      "output_tokens": 127,
+      "latency_ms": 1647,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "meeting-006",
+      "category": "meeting",
+      "summary": "The meeting addressed the proposed 12-story mixed-use development at 450 Main Street, focusing on height variance, affordable housing commitments, traffic impacts, and community concerns. Key decisions include approving the zoning variance with conditions\u2014limiting it to 10 stories was rejected due to loss of affordable units\u2014but voting to proceed pending staff recommendations for shadow mitigation, traffic improvements (signal upgrades, right-turn lane, bus shelter), and a $2.5 million infrastructure contribution. The developer committed to 20% affordable housing (36 units) with below-market retail leases and a public plaza. Open questions remain about long-term shadow effects and traffic sustainability. Action items include finalizing mitigation plans and submitting them for approval at the next commission meeting.",
+      "prompt_used": null,
+      "input_tokens": 574,
+      "output_tokens": 154,
+      "latency_ms": 1907,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "meeting-007",
+      "category": "meeting",
+      "summary": "The Hospital Safety Committee reviewed 14 safety incidents this month\u2014down from 19 last month\u2014including three serious events: two medication errors in pediatrics due to manual weight-based dose miscalculations and one hip fracture from an unassisted fall. The root cause was identified as reliance on manual processes without automated pediatric dosing checks, prompting support for a $180,000 EHR module with pediatric dosing alerts. Immediate action items include implementing mandatory bed alarms and dual-verification protocols for high-risk patients, along with deploying the new dosing system by end of month to prevent future errors.",
+      "prompt_used": null,
+      "input_tokens": 554,
+      "output_tokens": 125,
+      "latency_ms": 1463,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "meeting-008",
+      "category": "meeting",
+      "summary": "The team is preparing for a Series A round in Q2 with $1.8M ARR growing 22% Mo-month and strong net revenue retention (135%) driven by usage-based expansion. Key decisions include securing a $500K convertible note from seed investors to extend runway to seven months, targeting an $8\u201312M raise at a $40\u201350M pre-money valuation, and focusing on tier-1 firms like Benchmark, Greylock, and Index for outreach. Action items: finalize the bridge financing by end of March, initiate Series A fundraising in April, hire a VP of Sales before or during the round, and prepare a compelling narrative centered on the 135% NRR as a growth differentiator. Open questions remain about specific investor warm intros and scaling sales capacity.",
+      "prompt_used": null,
+      "input_tokens": 603,
+      "output_tokens": 170,
+      "latency_ms": 2072,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "meeting-009",
+      "category": "meeting",
+      "summary": "The school board approved a $142 million fiscal year 2025 budget, driven by teacher salary increases and rising operational costs. Key decisions include a phased 1:1 device rollout starting with grades 9\u201312, projected at $3.2M initially with $800K annual recurring costs over five years, supported by $400K in professional development for teachers. Concerns about screen time were addressed with content filtering and usage policies, while board members voted to proceed with the phased approach after a 5-2 vote. Open questions remain on full implementation timelines and long-term impact evaluation.",
+      "prompt_used": null,
+      "input_tokens": 546,
+      "output_tokens": 124,
+      "latency_ms": 1448,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "meeting-010",
+      "category": "meeting",
+      "summary": "The Climate Action Task Force agreed to pursue a 50% carbon reduction by 2030, targeting buildings (42% of emissions), transportation (38%), and municipal power use. Key decisions include implementing a 2028 building performance standard for large commercial buildings with a green retrofit loan program and federal funding; expanding bus rapid transit and bike lanes totaling $89 million over five years; and transitioning to 100% renewable electricity by 2027 at an annual cost of $3.4 million. Combined, these initiatives are projected to achieve a 35% emissions reduction\u2014exceeding the 50% target. Action items include drafting legislation for building standards and presenting all proposals to the council next month.",
+      "prompt_used": null,
+      "input_tokens": 603,
+      "output_tokens": 145,
+      "latency_ms": 1838,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "legal-001",
+      "category": "legal",
+      "summary": "This clause limits the provider\u2019s liability to direct damages only, excluding indirect, consequential, or punitive losses such as lost profits or goodwill, regardless of fault. The total liability for all claims related to the agreement is capped at the amount paid by the customer during the 12 months before the incident occurred. Exceptions allow full liability for indemnification duties under Section 14, customer payment obligations, breaches of confidentiality in Section 8, and willful misconduct or gross negligence. These protections shield providers from broad financial exposure while preserving key responsibilities.",
+      "prompt_used": null,
+      "input_tokens": 473,
+      "output_tokens": 118,
+      "latency_ms": 1401,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "legal-002",
+      "category": "legal",
+      "summary": "This clause establishes clear ownership and usage rights for intellectual property created under the agreement: each party retains all rights to its pre-existing IP, preventing unauthorized transfer; all work product developed by the Contractor during services is treated as \u201cwork made for hire,\u201d meaning the Client owns full rights unless otherwise classified as such; the Contractor retains ownership of its own tools and frameworks but grants Client a broad, royalty-free, worldwide license to use them solely in connection with the Work Product. Additionally, if third-party components are used, the Contractor must disclose them in advance and confirm their licenses align with Client\u2019s intended use.",
+      "prompt_used": null,
+      "input_tokens": 387,
+      "output_tokens": 126,
+      "latency_ms": 1527,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "legal-003",
+      "category": "legal",
+      "summary": "This agreement begins with a three-year Initial Term, automatically renewing annually for one-year periods unless either party provides written notice of non-renewal at least 90 days before the end. Immediate termination is allowed if a party materially breaches the contract and fails to fix it within 30 days, or if the other party becomes insolvent, files for bankruptcy, appoints a receiver, or stops normal business operations. After the Initial Term, either party may terminate for convenience with 180 days\u2019 written notice. Upon termination, licenses expire (unless extended), the Customer pays all Services fees up to the termination date, both parties return Confidential Information, and key provisions in Sections 6, 8, 12, 14, and 18 remain enforceable despite termination.",
+      "prompt_used": null,
+      "input_tokens": 400,
+      "output_tokens": 163,
+      "latency_ms": 1836,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "legal-004",
+      "category": "legal",
+      "summary": "Under this clause, both parties must comply with major data protection laws like GDPR and CCPA. The Provider agrees to process personal data only under the Customer\u2019s written instructions, ensure confidentiality among authorized personnel, implement strong security measures, avoid unauthorized sub-processing, assist in responding to data subject requests, and delete or return data upon termination\u2014unless legally required to retain it. Within 72 hours of discovering a data breach, the Provider must notify the Customer with details on the incident, affected individuals, potential impacts, and remediation steps. Additionally, transferring personal data outside the EEA requires valid safeguards such as Standard Contractual Clauses to ensure ongoing compliance.",
+      "prompt_used": null,
+      "input_tokens": 377,
+      "output_tokens": 139,
+      "latency_ms": 1525,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "legal-005",
+      "category": "legal",
+      "summary": "The agreement requires the customer to pay non-refundable Fees as outlined in the Order Form, invoiced monthly in advance for subscriptions and in arrears for usage, due within 30 days. Payment is subject to interest at up to 1.5% per month or higher legal limits if late, with customers covering collection costs. Taxes on fees are the customer\u2019s responsibility, except where Provider must withhold; in that case, payments must be grossed up to cover full Fees. Fee increases of up to 5% annually are allowed with 60 days\u2019 notice, and Provider may conduct a compliance audit once yearly at its own cost, provided it gives 30 days\u2019 written notice.",
+      "prompt_used": null,
+      "input_tokens": 456,
+      "output_tokens": 150,
+      "latency_ms": 1706,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "legal-006",
+      "category": "legal",
+      "summary": "During the two-year Restricted Period following termination, the Contractor is prohibited from competing with the Client by avoiding businesses that offer enterprise resource planning software for healthcare in the U.S. and Canada (Field of Use), managing such businesses, or providing related services. The Contractor must also refrain from soliciting any employee hired within a year prior to solicitation and from contacting clients or prospects during the Term who had material business interactions with Client, to protect client relationships and confidential information. These restrictions are deemed reasonable and necessary, and any breach may result in immediate injunctive relief\u2014monetary damages alone would be insufficient\u2014protecting the Client\u2019s core interests.",
+      "prompt_used": null,
+      "input_tokens": 447,
+      "output_tokens": 135,
+      "latency_ms": 1585,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "legal-007",
+      "category": "legal",
+      "summary": "This clause establishes mutual indemnification between the Provider and Customer, with each party responsible for defending the other against specific third-party claims. The Provider must defend against claims arising from its breach of warranties, intellectual property infringement, or negligence in performing services. The Customer must defend against claims stemming from its violation of the agreement, use of infringing content, or its own misconduct. Both parties must promptly notify each other of claims, cooperate during defense, and allow the indemnifying party to control settlement\u2014without binding the indemnified party to a settlement without consent\u2014while preserving limited rights for participation and protection from improper obligations.",
+      "prompt_used": null,
+      "input_tokens": 445,
+      "output_tokens": 133,
+      "latency_ms": 1570,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "legal-008",
+      "category": "legal",
+      "summary": "The provider commits to maintaining at least 99.9% monthly uptime, excluding scheduled maintenance, force majeure, customer-caused outages, and third-party failures outside their control. If the uptime falls below 99.0%, customers receive service credits\u201410% for 99.0\u201399.9%, 25% for 95.0\u201398.9%, and 50% for below 95.0%\u2014applied as discounts on future invoices, capped at 50% per month. Support is provided according to the customer\u2019s chosen tier, with strict response times: critical issues resolved within one hour, high-priority within four hours, medium within eight business hours, and low-priority within two business days. These terms make service credits the primary remedy for uptime failures, reinforcing accountability and clear performance expectations.",
+      "prompt_used": null,
+      "input_tokens": 470,
+      "output_tokens": 178,
+      "latency_ms": 2116,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "legal-009",
+      "category": "legal",
+      "summary": "This agreement is governed by Delaware law, with disputes resolved exclusively through binding arbitration administered by the American Arbitration Association in Wilmington, Delaware, using a single arbitrator agreed upon within 30 days\u2014otherwise appointed by AAA. Arbitration awards are final and enforceable in any competent court, with claims barred if initiated more than one year after the cause of action arises. Parties may seek urgent equitable relief, such as injunctions, to protect intellectual property or confidential information before arbitration begins. The agreement includes a class action waiver, requiring all disputes to be resolved individually rather than through collective litigation.",
+      "prompt_used": null,
+      "input_tokens": 429,
+      "output_tokens": 128,
+      "latency_ms": 1419,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "legal-010",
+      "category": "legal",
+      "summary": "The provider warrants that the Services will perform as described, are delivered professionally and without harmful code, comply with laws, and are provided under valid authority. The customer must have legal right to use the Services, comply with applicable laws, and ensure their data does not infringe others\u2019 rights. Both parties disclaim all warranties beyond what is explicitly stated\u2014no guarantees of flawless performance, uptime, or absence of harmful elements\u2014placing full responsibility on the customer for proper use and suitability.",
+      "prompt_used": null,
+      "input_tokens": 503,
+      "output_tokens": 103,
+      "latency_ms": 1310,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "scientific-001",
+      "category": "scientific",
+      "summary": "The research addresses the challenge of efficient sequence modeling without relying on recurrence or convolutions, leveraging attention mechanisms to capture long-range dependencies. The proposed Transformer architecture replaces traditional sequential components with multi-head self-attention and feed-forward networks, enabling highly parallelizable training. Experiments demonstrate superior performance: achieving 28.4 BLEU on English-to-German translation\u2014exceeding state-of-the-art by over 2 points\u2014and reaching 41.0 BLEU on English-to-French translation in just 3.5 days on eight GPUs, significantly reducing computational cost. The model generalizes effectively to tasks like English constituency parsing, highlighting its robustness and efficiency. Key innovations include scaled dot-product attention and residual connections with layer normalization, forming a scalable and high-performing architecture that advances deep sequence modeling.",
+      "prompt_used": null,
+      "input_tokens": 416,
+      "output_tokens": 170,
+      "latency_ms": 1907,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "scientific-002",
+      "category": "scientific",
+      "summary": "This study addresses the challenge of deploying large language models (LLMs) in resource-limited settings through effective knowledge distillation techniques. By combining logit-based distillation, feature-based alignment, and attention transfer, the research demonstrates that a 125M-parameter student model can achieve 94% of the performance of a 13B-parameter teacher across benchmarks like GLUE and SuperGLUE\u2014while being 104 times smaller and 12 times faster. The optimal compression is achieved through a progressive distillation curriculum that enhances learning by gradually increasing task complexity, boosting performance by an additional 2.3%. Notably, attention transfer significantly improves long-range dependency tasks, while logit-based methods excel in classification. These findings enable efficient deployment of high-performing LLMs without sacrificing accuracy, advancing practical applications in edge devices and low-resource environments.",
+      "prompt_used": null,
+      "input_tokens": 354,
+      "output_tokens": 174,
+      "latency_ms": 1951,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "scientific-003",
+      "category": "scientific",
+      "summary": "This large-scale longitudinal study analyzed gut microbiome composition in 12,500 participants over five years using high-resolution sequencing, revealing profound insights into microbial dynamics and health associations. Key findings include the identification of a core microbiome comprising 15 species consistently present in >95% of healthy adults, which are significantly depleted in individuals with chronic diseases; dietary fiber intake emerged as the strongest predictor of microbiome diversity, surpassing genetic influences (r\u00b2=0.34); persistent microbiome alterations lasting up to six months after antibiotic exposure were observed, indicating long-term ecological impacts; a novel link was established between Faecalibacterium prausnitzii abundance and reduced type 2 diabetes risk (OR=0.62); and significant seasonal fluctuations in microbial composition, with Bacteroidetes peaking in summer and Firmicutes in winter. These results underscore the gut microbiome\u2019s central role in health and disease, offering critical evidence for personalized nutrition strategies and targeted microbiome-based therapies.",
+      "prompt_used": null,
+      "input_tokens": 382,
+      "output_tokens": 194,
+      "latency_ms": 2123,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "scientific-004",
+      "category": "scientific",
+      "summary": "This study addresses the accelerating decline of coral reefs due to rising sea temperatures in the Indo-Pacific region over a decade (2013\u20132023). Using integrated monitoring\u2014combining underwater surveys, remote sensing, and environmental DNA sampling\u2014the researchers documented a 42% drop in live coral cover, with severe losses (>60%) linked to summer temperatures exceeding 29.5\u00b0C. Mass bleaching events intensified from once every ten years to every 2.8 years, yet some reefs exhibited resilience through heat-tolerant Acropora genotypes, underpinned by genetic variants in heat shock proteins (HSP70 and HSP90). Genomic analysis revealed that these adaptive traits could inform targeted conservation; assisted gene flow of resilient corals, expanded marine protection, and local stressor reduction may preserve 60% of reef functionality through 2100. The findings underscore the urgent threat climate change poses to coral biodiversity and highlight a viable, science-based strategy for long-term reef resilience.",
+      "prompt_used": null,
+      "input_tokens": 390,
+      "output_tokens": 198,
+      "latency_ms": 2166,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "scientific-005",
+      "category": "scientific",
+      "summary": "This study addresses the challenge of achieving reliable quantum computation on noisy intermediate-scale quantum (NISQ) devices by demonstrating a practical quantum error correction (QEC) scheme that reaches the break-even point, where the logical error rate falls below the physical error rate. Using a surface code of distance 5 implemented on a 49-qubit superconducting processor with high-fidelity gates and extended coherence times, the researchers achieved a logical qubit with an error rate 2.7 times lower than its best physical counterpart and a logical coherence time of 1.4 milliseconds\u2014significantly longer than the typical 85-microsecond physical coherence limit. A key innovation is an adaptive decoder employing a recurrent neural network for real-time error prediction and correction, operating with just 1.2 microseconds latency, enabling timely error mitigation. Additionally, a novel calibration protocol reduces coherent errors by 34% through continuous gate optimization. These advances demonstrate that scalable QEC is feasible, with concatenated surface codes potentially achieving arbitrarily low logical error rates using roughly 10\u00b3 physical qubits per logical qubit at target error levels (10\u207b\u00b9\u00b2), marking a critical step toward fault-tolerant quantum computing.",
+      "prompt_used": null,
+      "input_tokens": 375,
+      "output_tokens": 249,
+      "latency_ms": 2628,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "scientific-006",
+      "category": "scientific",
+      "summary": "This study investigates the neural correlates of conscious perception using multimodal neuroimaging in epilepsy patients during a visual masking paradigm. By integrating high-density EEG, fMRI, and intracranial recordings, researchers identified a late (300\u2013500 ms) sustained activation in prefrontal and parietal cortices\u2014characterized by a collapse of the \"ignition\" pattern\u2014as a signature of conscious awareness, distinct from early sensory processing. Crucially, no differences were found in early visual cortex activity between perceived and masked trials, challenging theories equating consciousness with initial sensory input. Intracranial data revealed enhanced long-range gamma-band synchronization (30\u2013100 Hz) between frontal and temporal regions during conscious perception, alongside a predictive role of parietal alpha-band oscillations (8\u201313 Hz) in determining perceptual awareness (AUC=0.78). These results provide strong empirical support for the Global Neuronal Workspace theory, demonstrating that consciousness arises from dynamic large-scale network integration rather than early sensory processing alone.",
+      "prompt_used": null,
+      "input_tokens": 401,
+      "output_tokens": 211,
+      "latency_ms": 2188,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "scientific-007",
+      "category": "scientific",
+      "summary": "This study addresses critical challenges in solid-state battery development\u2014low ionic conductivity, unstable interfaces, and lithium dendrite formation\u2014by introducing a sulfide-based electrolyte, Li\u2086PS\u2085Cl\u2080.\u2085Br\u2080.\u2085 (LPSClBr), which achieves record room-temperature ionic conductivity of 25.3 mS/cm. Synthesized via scalable mechanochemical processing without high-temperature sintering, the material enables a high-performance full-cell configuration with a lithium metal anode and NMC811 cathode, delivering 198 mAh/g capacity at 0.5C and retaining 92% after 1,000 cycles. Key to its dendrite suppression is a mechanically robust electrolyte (Young\u2019s modulus: 18 GPa) that forms a stable, self-limiting 3-nm interfacial layer during cycling, preventing penetration despite volume changes. Cryo-TEM analysis confirms this in situ SEI enables safe lithium plating/stripping at high current densities up to 5 mA/cm\u00b2. This breakthrough advances solid-state batteries toward commercial viability by simultaneously enhancing conductivity, interface stability, and safety.",
+      "prompt_used": null,
+      "input_tokens": 413,
+      "output_tokens": 239,
+      "latency_ms": 2670,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "scientific-008",
+      "category": "scientific",
+      "summary": "MolFormer, a novel large-scale molecular foundation model trained on 1.1 billion compounds using a 3D-aware masked language modeling approach, overcomes limitations of prior machine learning methods by encoding 3D molecular geometry through a Spatial Attention mechanism that integrates interatomic distances. The model achieves state-of-the-art performance across 19 out of 22 benchmark tasks in predicting key drug properties such as binding affinity, toxicity, solubility, and metabolic stability, with particularly strong gains on macrocyclic molecules (23% average RMSE reduction). In a prospective validation, MolFormer enabled efficient screening of 2.3 million compounds against the KRAS G12D oncogenic target, identifying 27 hits\u2014significantly improving upon conventional high-throughput screening rates\u2014and three candidates exhibiting sub-micromolar potency. This demonstrates MolFormer\u2019s potential to accelerate drug discovery by enabling rapid, accurate prediction and prioritization of promising molecular candidates from vast chemical spaces.",
+      "prompt_used": null,
+      "input_tokens": 402,
+      "output_tokens": 200,
+      "latency_ms": 2134,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "scientific-009",
+      "category": "scientific",
+      "summary": "This global study quantifies urban heat island intensity (UHII) across 10,000 cities from 2003\u20132023 using satellite land surface temperature data, revealing a mean daytime UHII of 2.8\u00b0C with marked regional disparities\u2014tropical cities exhibit up to 4.1\u00b0C, while arctic areas show minimal effects. Using machine learning on 847 urban features, the research identifies impervious surfaces as the dominant predictor (31% variance explained), followed by green space fraction, building height-to-width ratio, coastal proximity, and anthropogenic heat emissions. The analysis estimates that UHIs cause approximately 356,000 excess heat-related deaths annually worldwide, with vulnerable populations in low-income neighborhoods bearing disproportionate risk. Modeling mitigation strategies\u2014such as expanding urban tree canopy by 30% (1.5\u00b0C reduction), implementing cool roofs (0.8\u00b0C), and adopting permeable pavements (0.4\u00b0C)\u2014suggests combined interventions could prevent over 140,000 heat-related deaths each year, highlighting urgent opportunities for equitable climate adaptation in rapidly urbanizing regions.",
+      "prompt_used": null,
+      "input_tokens": 433,
+      "output_tokens": 225,
+      "latency_ms": 2846,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "scientific-010",
+      "category": "scientific",
+      "summary": "This study addresses the urgent global challenge of antimicrobial resistance (AMR) by introducing RAPID-AMR, a CRISPR-Cas13-based diagnostic platform capable of detecting antibiotic-resistant bacteria from clinical samples in under 45 minutes without culture or DNA amplification. Using a multiplexed lateral flow assay targeting 2,400 guide RNAs against key resistance genes across 12 major pathogens, the system demonstrated high accuracy with 96.8% sensitivity and 99.2% specificity in over 3,200 patient samples from eight hospitals worldwide. Compared to conventional methods, RAPID-AMR drastically reduced diagnostic turnaround time from 48\u201372 hours to just 45 minutes, enabling earlier initiation of targeted antibiotic therapy. Clinical validation showed a significant reduction in hospital stay duration by 2.1 days, a 37% decrease in broad-spectrum antibiotic use, and a 23% lower in-hospital mortality rate\u2014highlighting the platform\u2019s transformative potential to improve patient outcomes and combat AMR through rapid, precise diagnostics.",
+      "prompt_used": null,
+      "input_tokens": 439,
+      "output_tokens": 208,
+      "latency_ms": 2561,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "reviews-001",
+      "category": "reviews",
+      "summary": "The overall sentiment is largely positive, with strong praise for power, durability, and performance in handling dough and baking tasks\u2014especially from users who value heavy-duty use like bread making. Key pros include reliable motor power, precise speed control, excellent mixing results, and thoughtful attachments like the pasta roller. Common cons involve minor assembly issues (e.g., bowl locking), poor suction cup grip, rust concerns with metal parts, and noise or weight limitations under heavy loads. Recurring themes highlight exceptional build quality and value for serious home bakers, though some users note durability gaps at lower price points and usability challenges like portability and design quirks.",
+      "prompt_used": null,
+      "input_tokens": 489,
+      "output_tokens": 135,
+      "latency_ms": 1578,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "reviews-002",
+      "category": "reviews",
+      "summary": "The overall sentiment is largely positive, with strong praise for noise cancellation, sound quality, and convenience features like multipoint Bluetooth. Key pros include excellent ANC performance, comfortable fit, premium build materials, and reliable battery life. Common cons involve the bulky charging case, occasional audio hiss during ANC use, connectivity issues on Android devices, and sensitivity of touch controls. Recurring themes highlight exceptional value for premium features, though some users feel overhyped or encounter minor usability flaws at competitive price points.",
+      "prompt_used": null,
+      "input_tokens": 496,
+      "output_tokens": 106,
+      "latency_ms": 1088,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "reviews-003",
+      "category": "reviews",
+      "summary": "The overall sentiment is largely positive, with strong praise for reliable navigation, effective cleaning performance, and convenient features like auto-emptying and scheduling\u2014especially in models with LiDAR mapping and smart obstacle avoidance. Key pros include accurate floor mapping, low maintenance (e.g., self-emptying bases), powerful suction, and seamless app integration. Major cons involve occasional struggles with tight spaces, app instability, noise levels, and limited dustbin capacity. Recurring themes highlight the importance of precise mapping for effective cleaning, the value of smart navigation, and the trade-offs between automation features and practical limitations like refill frequency and sound.",
+      "prompt_used": null,
+      "input_tokens": 503,
+      "output_tokens": 130,
+      "latency_ms": 1650,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "reviews-004",
+      "category": "reviews",
+      "summary": "The overall sentiment is strongly positive, with most reviews praising the ergonomic design, adjustability, and comfort\u2014especially among long-duration office users. Key pros include excellent lumbar support, breathable mesh back, smooth recline mechanisms, and thoughtful features like seat depth adjustment and headrest customization. Common cons involve minor build quality issues (e.g., scratches, missing parts), a heavy frame that complicates movement, and occasional mechanical quirks like slow gas cylinder operation. Recurring themes highlight exceptional value for the price, with users noting it outperforms higher-end models, though some express disappointment in durability and comfort after extended use.",
+      "prompt_used": null,
+      "input_tokens": 570,
+      "output_tokens": 131,
+      "latency_ms": 1681,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "reviews-005",
+      "category": "reviews",
+      "summary": "The overall sentiment is largely positive, with strong praise for reliability, versatility, and performance\u2014especially in powering essential devices during outages or outdoor use. Key pros include excellent solar charging efficiency, multiple output options, clean sine wave power, and a robust build. Major cons center on weight (28 lbs), high price ($700) conflicting with perceived durability, loud internal fan under load, and battery degradation after limited cycles. Recurring themes highlight the product\u2019s strength in emergency preparedness and multi-device charging, but also questions about long-term value and warranty support compared to competitors.",
+      "prompt_used": null,
+      "input_tokens": 538,
+      "output_tokens": 119,
+      "latency_ms": 1540,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "reviews-006",
+      "category": "reviews",
+      "summary": "The overall sentiment is largely positive, with strong praise for energy savings, intuitive design, and advanced features like geofencing and multi-zone sensing. Key pros include significant reduction in energy bills (15%), responsive touchscreen, seamless smart home integration, and improved temperature control across zones. Notable cons involve occasional technical issues\u2014such as sensor inaccuracies, WiFi instability, firmware glitches, and compatibility problems with non-smart HVAC systems\u2014alongside frustration over subscription fees for premium features. A recurring theme is the thermostat\u2019s effectiveness in optimizing energy use, though reliability and setup challenges remain key concerns for some users.",
+      "prompt_used": null,
+      "input_tokens": 586,
+      "output_tokens": 128,
+      "latency_ms": 1588,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "reviews-007",
+      "category": "reviews",
+      "summary": "The product receives strong praise for its exceptional sound quality, long battery life, and value\u2014especially highlighted by dynamic drivers delivering professional-grade performance at a mid-range price. Key pros include excellent audio fidelity, reliable wireless charging, comfortable fit, and effective noise reduction. Common cons involve inconsistent Bluetooth stability (notably with ANC), mediocre microphone performance for calls, and occasional app usability issues. Recurring themes emphasize that while the earbuds excel in sound and practicality, connectivity and call quality remain areas needing improvement. Overall, sentiment is highly positive, positioning them as a top value in wireless audio.",
+      "prompt_used": null,
+      "input_tokens": 510,
+      "output_tokens": 125,
+      "latency_ms": 1557,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "reviews-008",
+      "category": "reviews",
+      "summary": "Overall, reviews reflect strong satisfaction with the air purifier\u2019s performance in improving indoor air quality, particularly for allergy sufferers, with consistent praise for HEPA filtration, effective dust reduction, and reliable sensor feedback. Key pros include accurate PM2.5 monitoring, quiet operation (especially in sleep mode), and effective handling of allergens like pet dander and cooking odors. Notable cons center on high filter replacement costs ($40 every 6 months), limited smart features (e.g., poor app functionality), and design flaws such as a short power cord and an intrusive night light. A recurring theme is the product\u2019s strong real-world effectiveness, balanced against usability and convenience drawbacks.",
+      "prompt_used": null,
+      "input_tokens": 517,
+      "output_tokens": 138,
+      "latency_ms": 1526,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "reviews-009",
+      "category": "reviews",
+      "summary": "The product receives overwhelmingly positive feedback, with users praising its tactile Cherry MX Brown switches, premium PBT keycaps, durable aluminum build, and responsive performance\u2014especially for typing speed improvements. Key pros include seamless wireless connectivity, customizable RGB lighting (where functional), and reliable mechanical feel. Notable cons center on software issues (frequent crashes, RGB save problems), inconsistent Bluetooth reliability, and minor hardware quirks like limited footswitch angles or a subpar USB cable design. A recurring theme is the high satisfaction with tactile quality and build, balanced by frustration over software instability and connectivity flaws in wireless models.",
+      "prompt_used": null,
+      "input_tokens": 533,
+      "output_tokens": 129,
+      "latency_ms": 1309,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "reviews-010",
+      "category": "reviews",
+      "summary": "The overall sentiment is highly positive, with strong praise for espresso quality, precision (especially PID temperature control and pre-infusion), and professional-grade performance\u2014many reviewers highlight its ability to rival specialty coffee shops. Key pros include exceptional extraction consistency, silky microfoam, durable build quality, and excellent grind sensitivity. Major cons center on practical design flaws: poor water reservoir placement hindering refills, single-boiler limitations causing workflow delays, and high maintenance demands like frequent descaling and costly part replacements. A recurring theme is the machine\u2019s exceptional performance when properly maintained, offset by frustrations with usability and long-term reliability concerns.",
+      "prompt_used": null,
+      "input_tokens": 574,
+      "output_tokens": 132,
+      "latency_ms": 1106,
+      "auto_metrics": null
+    }
+  ]
+}

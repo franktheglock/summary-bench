@@ -1,0 +1,925 @@
+{
+  "benchmark_version": "1.0",
+  "run_id": "73d59f37-e9b9-42ba-9725-e95dd4ece96b",
+  "model": "llama-2-7b",
+  "provider": "lm_studio",
+  "timestamp": "2026-04-14T08:52:50.027976Z",
+  "config": {
+    "provider": "lm_studio",
+    "model": "llama-2-7b",
+    "base_url": "http://localhost:1234/v1",
+    "temperature": 0.0,
+    "categories": [
+      "news",
+      "code",
+      "agentic",
+      "meeting",
+      "legal",
+      "scientific",
+      "reviews"
+    ],
+    "benchmark_version": "v1"
+  },
+  "results": [
+    {
+      "test_id": "news-cnn-001",
+      "category": "news",
+      "summary": "* [Your name]",
+      "prompt_used": null,
+      "input_tokens": 331,
+      "output_tokens": 7,
+      "latency_ms": 163,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-002",
+      "category": "news",
+      "summary": "* [Your Name]",
+      "prompt_used": null,
+      "input_tokens": 281,
+      "output_tokens": 7,
+      "latency_ms": 232,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-003",
+      "category": "news",
+      "summary": "* [Your response here]",
+      "prompt_used": null,
+      "input_tokens": 342,
+      "output_tokens": 7,
+      "latency_ms": 244,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-004",
+      "category": "news",
+      "summary": "* [Your response here]",
+      "prompt_used": null,
+      "input_tokens": 334,
+      "output_tokens": 7,
+      "latency_ms": 273,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-005",
+      "category": "news",
+      "summary": "* [Your response here]",
+      "prompt_used": null,
+      "input_tokens": 345,
+      "output_tokens": 8,
+      "latency_ms": 267,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-006",
+      "category": "news",
+      "summary": "* [Your response here]",
+      "prompt_used": null,
+      "input_tokens": 349,
+      "output_tokens": 8,
+      "latency_ms": 247,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-007",
+      "category": "news",
+      "summary": "* [Your Name Here](https://github.com/[your-username])",
+      "prompt_used": null,
+      "input_tokens": 353,
+      "output_tokens": 20,
+      "latency_ms": 395,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-008",
+      "category": "news",
+      "summary": "* [Your name](https://github.com/your-name)",
+      "prompt_used": null,
+      "input_tokens": 376,
+      "output_tokens": 18,
+      "latency_ms": 397,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-009",
+      "category": "news",
+      "summary": "* [Your name]",
+      "prompt_used": null,
+      "input_tokens": 355,
+      "output_tokens": 8,
+      "latency_ms": 307,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-010",
+      "category": "news",
+      "summary": "* [Your response here]",
+      "prompt_used": null,
+      "input_tokens": 367,
+      "output_tokens": 7,
+      "latency_ms": 270,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-011",
+      "category": "news",
+      "summary": "* [ ] Write a concise, factual news summary that captures only the key facts. Do not add information that is not present in the article.\n* [ ] Summarize the following news article in 1-2 sentences. Focus on the who, what, when, where, and why. Keep it tight.",
+      "prompt_used": null,
+      "input_tokens": 319,
+      "output_tokens": 71,
+      "latency_ms": 881,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-012",
+      "category": "news",
+      "summary": "* [Your response here]",
+      "prompt_used": null,
+      "input_tokens": 364,
+      "output_tokens": 8,
+      "latency_ms": 319,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-013",
+      "category": "news",
+      "summary": "* [Your response here]",
+      "prompt_used": null,
+      "input_tokens": 332,
+      "output_tokens": 7,
+      "latency_ms": 350,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-014",
+      "category": "news",
+      "summary": "* [Your response here]",
+      "prompt_used": null,
+      "input_tokens": 330,
+      "output_tokens": 8,
+      "latency_ms": 281,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-015",
+      "category": "news",
+      "summary": "* [Your response here]",
+      "prompt_used": null,
+      "input_tokens": 346,
+      "output_tokens": 8,
+      "latency_ms": 288,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-016",
+      "category": "news",
+      "summary": "* [Your response here]",
+      "prompt_used": null,
+      "input_tokens": 313,
+      "output_tokens": 8,
+      "latency_ms": 269,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-017",
+      "category": "news",
+      "summary": "* [Your response here]",
+      "prompt_used": null,
+      "input_tokens": 334,
+      "output_tokens": 8,
+      "latency_ms": 279,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-018",
+      "category": "news",
+      "summary": "* [Your response here]",
+      "prompt_used": null,
+      "input_tokens": 331,
+      "output_tokens": 7,
+      "latency_ms": 260,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-019",
+      "category": "news",
+      "summary": "* [ ] Write a concise summary of the article (1-2 sentences)\n* [ ] Include only key facts from the article (no personal opinions or editorializing)\n* [ ] Use complete sentences and correct grammar\n* [ ] Do not include any information that is not present in the article",
+      "prompt_used": null,
+      "input_tokens": 313,
+      "output_tokens": 66,
+      "latency_ms": 781,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "news-cnn-020",
+      "category": "news",
+      "summary": "* [Your name]",
+      "prompt_used": null,
+      "input_tokens": 320,
+      "output_tokens": 7,
+      "latency_ms": 274,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "code-py-001",
+      "category": "code",
+      "summary": "```\ndef merge_sort(arr):\n    \"\"\"Sort an array using the merge sort algorithm.\"\"\"\n    if len(arr) <= 1:\n        return arr\n    \n    mid = len(arr) // 2\n    left = merge_sort(arr[:mid])\n    right = merge_sort(arr[mid:])\n    \n    return merge(left, right)\n```\n\ndef merge(left, right):\n    \"\"\"Merge two sorted arrays into one sorted array.\"\"\"\n    result = []\n    i = j = 0\n    \n    while i < len(left) and j < len(right):\n        if left[i] <= right[j]:\n            result.append(left[i])\n            i += 1\n        else:\n            result.append(right[j])\n            j += 1\n    \n    result.extend(left[i:])\n    result.extend(right[j:])\n    return result\n```",
+      "prompt_used": null,
+      "input_tokens": 282,
+      "output_tokens": 222,
+      "latency_ms": 2306,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "code-py-002",
+      "category": "code",
+      "summary": "```python\n{\n    \"total_words\": 23,\n    \"unique_words\": 19,\n    \"total_sentences\": 5,\n    \"avg_word_length\": 4.6,\n    \"avg_sentence_length\": 0.8,\n    \"top_10_words\": [\"the\", \"and\", \"to\", \"a\", \"of\", \"in\", \"that\", \"it\", \"is\", \"for\", \"on\"],\n    \"vocabulary_richness\": 0.7952380952381\n}\n```",
+      "prompt_used": null,
+      "input_tokens": 399,
+      "output_tokens": 145,
+      "latency_ms": 1695,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "code-py-003",
+      "category": "code",
+      "summary": "Write a precise technical summary of the code's purpose and key logic. Use correct terminology and avoid filler.",
+      "prompt_used": null,
+      "input_tokens": 437,
+      "output_tokens": 26,
+      "latency_ms": 577,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "code-js-004",
+      "category": "code",
+      "summary": "```javascript\nclass EventEmitter {\n  constructor() {\n    this.events = new Map();\n  }\n\n  on(event, listener) {\n    if (!this.events.has(event)) {\n      this.events.set(event, []);\n    }\n    this.events.get(event).push({ listener, once: false });\n    return this;\n  }\n\n  once(event, listener) {\n    if (!this.events.has(event)) {\n      this.events.set(event, []);\n    }\n    this.events.get(event).push({ listener, once: true });\n    return this;\n  }\n\n  emit(event, ...args) {\n    if (!this.events.has(event)) return false;\n    const listeners = this.events.get(event);\n    const remaining = [];\n    for (const entry of listeners) {\n      entry.listener.apply(this, args);\n      if (!entry.once) remaining.push(entry);\n    }\n    this.events.set(event, remaining);\n    return true;\n  }\n\n  off(event, listener) {\n    if (!this.events.has(event)) return this;\n    const filtered = this.events.get(event)\n      .filter(entry => entry.listener !== listener);\n    this.events.set(event, filtered);\n    return this;\n  }\n\n  listenerCount(event) {\n    return this.events.has(event) ? this.events.get(event).length : 0;\n  }\n}\n```",
+      "prompt_used": null,
+      "input_tokens": 435,
+      "output_tokens": 374,
+      "latency_ms": 3947,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "code-py-005",
+      "category": "code",
+      "summary": "```python\ndef cached_func():\n    print('Hello World!')\n\ncached_func()\n```",
+      "prompt_used": null,
+      "input_tokens": 580,
+      "output_tokens": 27,
+      "latency_ms": 1698,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "code-js-006",
+      "category": "code",
+      "summary": "```javascript\nfunction debounce(fn, delay, { leading = false, trailing = true, maxWait } = {}) {\n  let timerId = null;\n  let lastCallTime = null;\n  let lastInvokeTime = 0;\n  let result;\n\n  function invokeFunc(time) {\n    lastInvokeTime = time;\n    result = fn.apply(this, arguments);\n    return result;\n  }\n\n  function shouldInvoke(time) {\n    const timeSinceLastCall = time - (lastCallTime || 0);\n    const timeSinceLastInvoke = time - lastInvokeTime;\n    return (\n      lastCallTime === null ||\n      timeSinceLastCall >= delay ||\n      (maxWait !== undefined && timeSinceLastInvoke >= maxWait)\n    );\n  }\n\n  function startTimer(pendingFunc, wait) {\n    timerId = setTimeout(pendingFunc, wait);\n  }\n\n  function cancelTimer() {\n    if (timerId !== null) {\n      clearTimeout(timerId);\n      timerId = null;\n    }\n  }\n\n  function debounced(...args) {\n    const time = Date.now();\n    const isInvoking = shouldInvoke(time);\n    lastCallTime = time;\n\n    if (isInvoking && leading && timerId === null) {\n      invokeFunc.apply(this, args);\n    }\n\n    cancelTimer();\n\n    if (trailing) {\n      startTimer(() => {\n        if (trailing) invokeFunc.apply(this, args);\n        timerId = null;\n      }, delay);\n    }\n  }\n\n  debounced.cancel = cancelTimer;\n  debounced.flush = function () {\n    cancelTimer();\n    invokeFunc.apply(this, arguments);\n  };\n\n  return debounced;\n}\n```",
+      "prompt_used": null,
+      "input_tokens": 491,
+      "output_tokens": 430,
+      "latency_ms": 4564,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "code-py-007",
+      "category": "code",
+      "summary": "Summarize this code in 2-4 sentences focusing on its purpose and key logic. Be concise and technical.",
+      "prompt_used": null,
+      "input_tokens": 596,
+      "output_tokens": 28,
+      "latency_ms": 745,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "code-py-008",
+      "category": "code",
+      "summary": "Write a summary of the code's purpose and key logic in 2-4 sentences. Use correct terminology and avoid filler.",
+      "prompt_used": null,
+      "input_tokens": 678,
+      "output_tokens": 30,
+      "latency_ms": 741,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "code-js-009",
+      "category": "code",
+      "summary": "A response is a representation of the HTTP status code and body.\n\nclass Response {\n  constructor() {\n    this.statusCode = 200;\n    this.body = '';\n  }\n\n  set(key, value) {\n    if (typeof key === 'string') {\n      this[key] = value;\n    } else {\n      for (const [k, v] of Object.entries(value)) {\n        this[k] = v;\n      }\n    }\n  }\n}",
+      "prompt_used": null,
+      "input_tokens": 534,
+      "output_tokens": 120,
+      "latency_ms": 1570,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "code-py-010",
+      "category": "code",
+      "summary": "",
+      "prompt_used": null,
+      "input_tokens": 729,
+      "output_tokens": 6,
+      "latency_ms": 510,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "code-py-011",
+      "category": "code",
+      "summary": "Write a summary of the code's purpose and key logic. Use correct terminology and avoid filler.",
+      "prompt_used": null,
+      "input_tokens": 722,
+      "output_tokens": 24,
+      "latency_ms": 720,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "code-js-012",
+      "category": "code",
+      "summary": "```javascript\n// Summary of the code's purpose and key logic\nVirtualDOM is a virtual DOM library that allows you to create and render HTML elements in a declarative way. It provides a set of methods for creating, rendering, and diffing changes to the virtual DOM tree.\n\n// Instructions:\nSummarize this code in 2-4 sentences focusing on its purpose and key logic. Be concise and technical.\n\nclass VirtualDOM {\n  static createElement(type, props = {}, ...children) {\n    return {\n      type,\n      props: { ...props, children: children.flat().map(child =>\n        typeof child === 'object' ? child : { type: 'TEXT', props: { nodeValue: child, children: [] } }\n      )}\n    };\n  }\n\n  static render(vnode, container) {\n    const dom = vnode.type === 'TEXT'\n      ? document.createTextNode(vnode.props.nodeValue)\n      : document.createElement(vnode.type);\n\n    Object.entries(vnode.props)\n      .filter(([key]) => key !== 'children')\n      .forEach(([key, value]) => {\n        if (key.startsWith('on')) {\n          dom.addEventListener(key.slice(2).toLowerCase(), value);\n        } else {\n          dom[key] = value;\n        }\n      });\n\n    vnode.props.children.forEach(child => VirtualDOM.render(child, dom));\n    container.appendChild(dom);\n    return dom;\n  }\n\n  static diff(oldVNode, newVNode, parent, index = 0) {\n    const existingNode = parent.childNodes[index];\n    if (!newVNode) {\n      if (existingNode) parent.removeChild(existingNode);\n      return;\n    }\n    if (!oldVNode) {\n      parent.appendChild(VirtualDOM.render(newVNode, parent));\n      return;\n    }\n    if (oldVNode.type !== newVNode.type) {\n      parent.replaceChild(VirtualDOM.render(newVNode, parent), existingNode);\n      return;\n    }\n    if (newVNode.type === 'TEXT') {\n      if (oldVNode.props.nodeValue !== newVNode.props.nodeValue) {\n        existingNode.nodeValue = newVNode.props.nodeValue;\n      }\n      return;\n    }\n    const maxLen = Math.max(\n      oldVNode.props.children.length,\n      newVNode.props.children.length\n    );\n    for (let i = 0; i < maxLen; i++) {\n      VirtualDOM.diff(oldVNode.props.children[i], newVNode.props.children[i], existingNode, i);\n    }\n  }\n}\n```",
+      "prompt_used": null,
+      "input_tokens": 638,
+      "output_tokens": 670,
+      "latency_ms": 7150,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "code-py-013",
+      "category": "code",
+      "summary": "```python\ndef predict(self, x: List[float]) -> List[float]:\n    for i, layer in enumerate(self.layers):\n        act = sigmoid if i == len(self.layers) - 1 else relu\n        x = layer.forward(x, activation=act)\n    return x\n```",
+      "prompt_used": null,
+      "input_tokens": 585,
+      "output_tokens": 76,
+      "latency_ms": 1421,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "code-py-014",
+      "category": "code",
+      "summary": "Write a summary of the code's purpose and key logic. Use correct terminology and avoid filler.",
+      "prompt_used": null,
+      "input_tokens": 798,
+      "output_tokens": 24,
+      "latency_ms": 715,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "code-js-015",
+      "category": "code",
+      "summary": "```javascript\nclass StateMachine {\n  constructor(config) {\n    this.states = config.states;\n    this.currentState = config.initial;\n    this.context = config.context || {};\n    this.listeners = new Map();\n  }\n\n  transition(event) {\n    const stateConfig = this.states[this.currentState];\n    if (!stateConfig || !stateConfig.on || !stateConfig.on[event]) {\n      console.warn(`No transition for event '${event}' in state '${this.currentState}'`);\n      return this;\n    }\n\n    const transition = stateConfig.on[event];\n    const target = typeof transition === 'string' ? transition : transition.target;\n    const action = typeof transition === 'object' ? transition.action : null;\n    const guard = typeof transition === 'object' ? transition.guard : null;\n\n    if (guard && !guard(this.context)) {\n      return this;\n    }\n\n    const prevState = this.currentState;\n\n    // Exit actions\n    if (stateConfig.onExit) stateConfig.onExit(this.context);\n\n    // Transition action\n    if (action) action(this.context);\n\n    this.currentState = target;\n\n    // Entry actions\n    const newStateConfig = this.states[this.currentState];\n    if (newStateConfig && newStateConfig.onEntry) newStateConfig.onEntry(this.context);\n\n    this._emit('transition', { from: prevState, to: this.currentState, event });\n    return this;\n  }\n\n  on(eventName, callback) {\n    if (!this.listeners.has(eventName)) this.listeners.set(eventName, []);\n    this.listeners.get(eventName).push(callback);\n    return this;\n  }\n\n  _emit(eventName, data) {\n    (this.listeners.get(eventName) || []).forEach(cb => cb(data));\n  }\n\n  get state() { return this.currentState; }\n  matches(state) { return this.currentState === state; }\n}\n```",
+      "prompt_used": null,
+      "input_tokens": 571,
+      "output_tokens": 510,
+      "latency_ms": 5504,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "agentic-001",
+      "category": "agentic",
+      "summary": "```\nAgent Task: Research and book a flight from San Francisco to Tokyo for next Tuesday.\n\n[Turn 1] Agent: I'll help you find flights from SFO to Tokyo. Let me search for available options.\nTool Call: search_flights(origin='SFO', destination='NRT', date='2024-03-12', passengers=1)\nResult: Found 8 flights. Cheapest: $487 (United, 1 stop LAX, 14h 20m), Best: $612 (ANA, direct, 11h 15m), Premium: $1,240 (JAL, direct, 11h 05m)\n\n[Turn 2] Agent: I found several options. The best value appears to be the ANA direct flight at $612. Before I book, let me check seat availability and compare with a few more dates.\nTool Call: check_availability(flight_id='ANA_NH7_20240312', class='economy')\nResult: 23 seats available in economy, 4 in premium economy (+$340)\n\n[Turn 3] Agent: Good availability. Let me also check if there's a price difference for flying a day earlier or later.\nTool Call: search_flights(origin='SFO', destination='NRT', date='2024-03-11', passengers=1)\nResult: Monday flights: ANA direct $589 (11h 15m), United 1-stop $445\nTool Call: search_flights(origin='SFO', destination='NRT', date='2024-03-13', passengers=1)\nResult: Wednesday flights: ANA direct $598 (11h 15m), United 1-stop $501\n\n[Turn 4] Agent: Interesting \u2014 Monday is slightly cheaper for the ANA direct. However, since you specified Tuesday, I'll proceed with that. The ANA direct on Tuesday at $612 is the best option for a comfortable journey. Should I proceed with booking?\nUser: Yes, book the ANA flight for Tuesday please.\n\n[Turn 5] Agent: Booking now.\nTool Call: book_flight(flight_id='ANA_NH7_20240312', class='economy', passenger_name='User')\nResult: Booking confirmed. Confirmation #: ANA-7K2M9X. Departing SFO 11:35 AM, arriving NRT 3:50 PM+1.\n\n[Turn 6] Agent: Your flight is booked! Here's a summary:\n- Flight: ANA NH7, SFO \u2192 NRT\n- Date: Tuesday, March 12, 2024\n- Departure: 11:35 AM PST\n- Arrival: 3:50 PM JST (next day)\n- Duration: 11h 15m (direct)\n- Cost: $612\n- Confirmation: ANA-7K2M9X\n```",
+      "prompt_used": null,
+      "input_tokens": 850,
+      "output_tokens": 760,
+      "latency_ms": 8358,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "agentic-002",
+      "category": "agentic",
+      "summary": "```json\n{\n    \"goal\": \"Debug why the production API is returning 500 errors on the /users endpoint.\",\n    \"key_actions\": [\n        \"Let me investigate the 500 errors on /users.\"\n    ],\n    \"tools\": [\n        \"tail_logs(service='api-gateway', lines=100, filter='ERROR')\",\n        \"check_service_status(service='db-primary')\"\n    ],\n    \"decisions\": [\n        \"The API can't connect to the primary database.\"\n    ],\n    \"outcome\": \"The issue is resolved. The /users endpoint is now returning 200 OK.\"\n}\n```",
+      "prompt_used": null,
+      "input_tokens": 870,
+      "output_tokens": 160,
+      "latency_ms": 2498,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "agentic-003",
+      "category": "agentic",
+      "summary": "[Turn 1] Agent: I'll start by researching the current market landscape for plant-based protein bars.\nTool Call: web_search(query='plant-based protein bar market share leaders 2024')\nResult: Market leaders: RXBAR (12%), KIND (10%), Clif (9%), GoMacro (7%), No Cow (5%). Total market: $2.8B growing 8.3% CAGR.\n\n[Turn 2] Agent: Let me analyze the pricing and positioning of the top competitors.\nTool Call: web_search(query='RXBAR KIND GoMacro No Cow protein bar price comparison ingredients')\nResult: RXBAR: $2.49/bar, 12g protein, egg white-based. KIND: $1.79/bar, 12g protein, nut-based. GoMacro: $3.29/bar, 11g protein, plant-based organic. No Cow: $2.49/bar, 21g protein, plant-based whey-free.\nTool Call: web_search(query='plant-based protein bar consumer complaints reviews')\nResult: Common complaints: 1) chalky texture (42% of negative reviews), 2) artificial taste (31%), 3) too much sugar (28%), 4) high price point (24%), 5) small portions (18%).\n\n[Turn 3] Agent: Now let me look at the gaps in the market.\nTool Call: analyze_data(data_type='market_gap_analysis', inputs={'complaints': ['chalky texture', 'artificial taste', 'sugar', 'price', 'portions'], 'leaders': ['RXBAR', 'KIND', 'GoMacro', 'No Cow']})\nResult: Key gaps identified: 1) No major player combines high protein (20g+) with clean texture, 2) $2.00-$2.50 sweet spot underserved for plant-based, 3) Functional benefits (adaptogens, probiotics) emerging but no market leader, 4) Sustainability messaging underutilized.\n\n[Turn 4] Agent: Based on my analysis, here's the positioning strategy:\n\nTarget positioning: \"Premium clean plant-based protein\" in the $2.29-$2.69 range.\n\nKey differentiators:\n1. Texture-first formulation (address #1 complaint)\n2. 20g plant protein from pea + brown rice blend\n3. Under 5g sugar using monk fruit\n4. Added functional ingredients (probiotics, ashwagandha)\n5. Carbon-neutral packaging with QR-code impact tracking\n\nTarget demographic: Health-conscious millennials/Gen-Z (25-38) who currently buy RXBAR but want plant-based.\n\nGo-to-market: DTC website + Amazon launch \u2192 Whole Foods/Sprouts \u2192 mass retail.",
+      "prompt_used": null,
+      "input_tokens": 849,
+      "output_tokens": 729,
+      "latency_ms": 7982,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "agentic-004",
+      "category": "agentic",
+      "summary": "[Turn 1] Agent: I'll create a CI/CD pipeline for your Python microservice. Let me first understand the project structure.\nTool Call: list_directory(path='.')\nResult: src/ tests/ Dockerfile requirements.txt pyproject.toml README.md\nTool Call: read_file(path='pyproject.toml')\nResult: Python 3.11, dependencies: fastapi, uvicorn, sqlalchemy, pydantic. Test deps: pytest, pytest-cov, httpx.\n\n[Turn 2] Agent: Good, it's a FastAPI service. I'll set up GitHub Actions with these stages: lint \u2192 test \u2192 build \u2192 deploy.\nTool Call: write_file(path='.github/workflows/ci.yml', content='name: CI/CD Pipeline\\non: [push, pull_request]\\njobs:\\n  lint:\\n    runs-on: ubuntu-latest\\n    steps:\\n      - uses: actions/checkout@v4\\n      - uses: actions/setup-python@v5\\n        with: {python-version: \"3.11\"}\\n      - run: pip install ruff\\n      - run: ruff check src/ tests/\\n  test:\\n    needs: lint\\n    runs-on: ubuntu-latest\\n    services:\\n      postgres: {image: postgres:16, env: {POSTGRES_PASSWORD: test}, ports: [\"5432:5432\"]}\\n    steps:\\n      - uses: actions/checkout@v4\\n      - uses: actions/setup-python@v5\\n      - run: pip install -e \".[test]\"\\n      - run: pytest --cov=src --cov-report=xml\\n      - uses: codecov/codecov-action@v3\\n  build:\\n    needs: test\\n    if: github.ref == \"refs/heads/main\"\\n    steps:\\n      - uses: docker/build-push-action@v5\\n        with: {push: true, tags: \"ghcr.io/${{github.repository}}:${{github.sha}}\"}\\n  deploy:\\n    needs: build\\n    if: github.ref == \"refs/heads/main\"\\n    environment: production\\n    steps:\\n      - run: kubectl set image deployment/api api=ghcr.io/${{github.repository}}:${{github.sha}}')\nResult: File written successfully.\n\n[Turn 3] Agent: Now let me add the Dockerfile optimization.\nTool Call: write_file(path='Dockerfile', content='FROM python:3.11-slim AS builder\\nWORKDIR /app\\nCOPY requirements.txt .\\nRUN pip install --no-cache-dir -r requirements.txt\\n\\nFROM python:3.11-slim\\nWORKDIR /app\\nCOPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages\\nCOPY src/ ./src/\\nEXPOSE 8000\\nCMD [\"uvicorn\", \"src.main:app\", \"--host\", \"0.0.0.0\"]')\nResult: File written.\n\n[Turn 4] Agent: Pipeline is set up with 4 stages:\n1. **Lint**: ruff for code quality\n2. **Test**: pytest with coverage + PostgreSQL service container\n3. **Build**: Multi-stage Docker image pushed to GHCR\n4. **Deploy**: Kubernetes rolling update (main branch only)\n\nAdditional configs created: multi-stage Dockerfile, codecov integration.",
+      "prompt_used": null,
+      "input_tokens": 999,
+      "output_tokens": 887,
+      "latency_ms": 10056,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "agentic-005",
+      "category": "agentic",
+      "summary": "```python\ndef summarize_agent_interaction(agent_log):\n    \"\"\"\n    Summarizes an agent interaction log by extracting the goal, key actions, tools used, decisions made, and outcome. Be structured and concise.\n\n    Parameters\n    ----------\n    agent_log : str\n        The multi-turn agent interaction log to summarize.\n\n    Returns\n    -------\n    summary : str\n        A summary of the agent's actions and decisions.\n    \"\"\"\n    summary = \"\"\n    for turn in agent_log:\n        summary += f\"{turn}\\n\"\n    return summary[:-1]\n```",
+      "prompt_used": null,
+      "input_tokens": 804,
+      "output_tokens": 152,
+      "latency_ms": 2506,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "agentic-006",
+      "category": "agentic",
+      "summary": "- [ ] Reviewed the agent's summary of the interaction log.\n- [ ] Reviewed the agent's suggested fixes for the PR.\n- [ ] Reviewed the agent's final outcome.",
+      "prompt_used": null,
+      "input_tokens": 828,
+      "output_tokens": 46,
+      "latency_ms": 1053,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "agentic-007",
+      "category": "agentic",
+      "summary": "#### Agent's Goal\n\nMigrate a legacy MySQL database to PostgreSQL with minimal downtime.\n\n#### Key Actions/Tool Calls\n\n- analyze_database(connection='mysql://prod-db:3306/legacy_app')\n- schema_compatibility_check(source='mysql', target='postgresql', database='legacy_app')\n- generate_migration_script(source='mysql', target='postgresql', fix_compatibility=True)\n- estimate_migration_time(data_size='47GB', network='1Gbps', parallelism=8)\n- set up logical replication (Debezium CDC) from MySQL \u2192 PostgreSQL\n- run dual-writes for 48 hours to verify consistency\n- switch application connection strings\n\n#### Decisions Made\n\n- Migration plan is ready. Key details:\n  - Total migration time: ~6 hours (4.2h data + 1.8h verification)\n  - Expected downtime: <5 minutes during cutover\n  - 14 schema compatibility issues auto-fixed\n  - 3 stored procedures need manual PostgreSQL rewrite\n  - Rollback plan: keep MySQL running for 7 days post-migration\n\n#### Outcome\n\nMigrated legacy MySQL database to PostgreSQL with minimal downtime.",
+      "prompt_used": null,
+      "input_tokens": 798,
+      "output_tokens": 306,
+      "latency_ms": 3616,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "agentic-008",
+      "category": "agentic",
+      "summary": "* [ ] Summarize the agent's goal, key actions/tool calls, decisions made, and outcome. Keep it to 3-6 sentences.",
+      "prompt_used": null,
+      "input_tokens": 901,
+      "output_tokens": 36,
+      "latency_ms": 1034,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "agentic-009",
+      "category": "agentic",
+      "summary": "I'm satisfied with the recommendation and will follow your advice. Thank you!",
+      "prompt_used": null,
+      "input_tokens": 1004,
+      "output_tokens": 17,
+      "latency_ms": 834,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "agentic-010",
+      "category": "agentic",
+      "summary": "- [ ] Summarize the agent's goal, key actions, tools used, decisions made, and outcome. Keep it to 3-6 sentences.",
+      "prompt_used": null,
+      "input_tokens": 793,
+      "output_tokens": 36,
+      "latency_ms": 951,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "agentic-011",
+      "category": "agentic",
+      "summary": "Agent Task: Perform a comprehensive SEO audit for an e-commerce website.\n\n[Turn 1] Agent: Starting the SEO audit. Let me crawl the site first.\nTool Call: crawl_site(url='https://example-store.com', max_pages=500, check=['meta_tags', 'headings', 'images', 'links', 'page_speed', 'structured_data'])\nResult: Crawled 487 pages. Issues found: 142 pages missing meta descriptions, 67 pages with duplicate title tags, 234 images missing alt text, 89 broken internal links, 23 pages with >3s load time, 0 pages with structured data/schema markup.\n\n[Turn 2] Agent: Let me also check backlink profile and keyword rankings.\nTool Call: analyze_backlinks(domain='example-store.com')\nResult: Total backlinks: 2,340. Domain authority: 28/100. Referring domains: 187. Toxic links: 12 (disavow recommended). Competitor comparison: Competitor A has DA 45 (5,600 backlinks), Competitor B has DA 38 (3,200 backlinks).\nTool Call: check_keyword_rankings(domain='example-store.com', keywords=['buy widgets online', 'best widget reviews', 'widget comparison'])\nResult: 'buy widgets online': Position 34, 'best widget reviews': Not ranking, 'widget comparison': Position 67. Competitor A ranks top 5 for all three.\n\n[Turn 3] Agent: SEO Audit Summary:\n\n**Critical Issues (fix immediately):**\n1. 89 broken internal links \u2192 crawl budget waste + poor UX\n2. Zero structured data \u2192 missing rich snippets in search results\n3. 23 slow pages (>3s) \u2192 Core Web Vitals failing\n\n**High Priority:**\n4. 142 pages missing meta descriptions \u2192 lower CTR\n5. 67 duplicate title tags \u2192 keyword cannibalization\n6. 234 images without alt text \u2192 accessibility + image search\n\n**Strategic:**\n7. Domain authority 28 vs competitors 38-45 \u2192 need link building campaign\n8. Not ranking for key purchase-intent keywords\n9. 12 toxic backlinks to disavow\n\nEstimated impact: fixing items 1-6 could improve organic traffic 25-40% within 3-6 months.",
+      "prompt_used": null,
+      "input_tokens": 693,
+      "output_tokens": 601,
+      "latency_ms": 6577,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "agentic-012",
+      "category": "agentic",
+      "summary": "[ ] Correct.\n[x] Incorrect. The agent's goal was to set up monitoring and alerting for a Kubernetes cluster running 15 microservices. The agent's key actions were to assess the current cluster, deploy the monitoring stack, configure custom dashboards and alert rules, and monitor the cluster. The final outcome was that the monitoring stack is fully operational:\n- **Prometheus**: Scraping 47 pods + node metrics, 30-day retention\n- **Grafana**: 3 dashboards (Cluster, Service Health, Business)\n- **AlertManager**: 5 alert rules \u2192 Slack (warnings) + PagerDuty (critical)\n- **Coverage**: All 15 services instrumented",
+      "prompt_used": null,
+      "input_tokens": 1040,
+      "output_tokens": 172,
+      "latency_ms": 2563,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "agentic-013",
+      "category": "agentic",
+      "summary": "```python\ndef summarize_agent_interaction(agent_log):\n    \"\"\"\n    Summarize agent interaction logs by extracting the goal, key actions, tools used, decisions made, and outcome. Be structured and concise.\n\n    Parameters\n    ----------\n    agent_log : str\n        The multi-turn agent interaction log to summarize.\n\n    Returns\n    -------\n    summary : str\n        A summary of the agent's goal, key actions/tool calls, decisions made, and outcome. Keep it to 3-6 sentences.\n    \"\"\"\n    summary = \"\"\n    summary += f\"Agent Task: {agent_log['task']}\\n\\n\"\n    summary += f\"[Turn 1] Agent: Let me load and explore the customer churn dataset.\\nTool Call: {agent_log['tool_call']}\\nResult: {agent_log['result']}\\n\\n\"\n    summary += f\"[Turn 2] Agent: Let me analyze the key churn drivers.\\nTool Call: {agent_log['tool_call']}\\nResult: Top churn predictors:\\n{agent_log['result']}\\n\\n\"\n    summary += f\"[Turn 3] Agent: Now building and evaluating predictive models.\\nTool Call: {agent_log['tool_call']}\\nResult: \\n\\n\"\n    summary += f\"- Logistic Regression: AUC 0.82, Accuracy 78%, Precision 71%, Recall 63%\\n- Random Forest: AUC 0.86, Accuracy 82%, Precision 76%, Recall 68%\\n- XGBoost: AUC 0.89, Accuracy 84%, Precision 79%, Recall 73%\\n- Neural Network: AUC 0.87, Accuracy 83%, Precision 77%, Recall 70%\\n\\n\"\n    summary += f\"Best model: XGBoost (AUC 0.89)\\n\\n\"\n    summary += f\"[Turn 4] Agent: Model selected.\\nKey business recommendations:\\n1. **Immediate action**: Target 847 customers with >70% churn probability\\n   - 312 are month-to-month, <6 months tenure \u2192 offer annual contract discount\\n   - 289 have no tech support \u2192 offer free 3-month trial\\n   - 246 have high monthly charges \u2192 review pricing bundles\\n2. **Revenue impact**: Retaining 50% of at-risk customers = $1.2M annual saved revenue\\n3. **Model deployment**: Set up weekly scoring to identify new at-risk customers\\n\\n\"\n    return summary\n```",
+      "prompt_used": null,
+      "input_tokens": 799,
+      "output_tokens": 666,
+      "latency_ms": 7395,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "agentic-014",
+      "category": "agentic",
+      "summary": "[Turn 1] Agent: I'll help you evaluate and negotiate this lease. Let me review the proposed terms.\nUser: Landlord is offering 2,500 sq ft in downtown, $45/sq ft/year, 5-year lease, $15/sq ft buildout allowance, 3% annual escalation.\nTool Call: get_market_comparables(location='downtown', size_range='2000-3000 sqft', type='office')\nResult: Market data: Average asking rent $42/sq ft, average effective rent $38/sq ft (after concessions). Average TI allowance: $25/sq ft. Typical escalation: 2.5-3%. Vacancy rate: 14.2% (tenant-favorable market).\n\n[Turn 2] Agent: The landlord's offer is above market. With 14.2% vacancy, you have significant negotiating leverage. Let me calculate the true cost.\nTool Call: calculate_lease_economics(base_rent=45, sqft=2500, term_years=5, escalation=0.03, ti_allowance=15, operating_expenses=12)\nResult: Total 5-year cost: $640,890. Effective rent: $51.27/sq ft (including OpEx). Year 1 monthly: $11,875/mo. Year 5 monthly: $13,360/mo.\n\nMarket-rate comparison: $38 effective rent would be $535,000 total \u2192 you're overpaying $105,890 over the lease term.\n\n[Turn 3] Agent: Here's my negotiation strategy:\n\n**Counter-offer (aiming for 15-20% reduction):**\n1. Base rent: $38/sq ft (market rate) \u2192 saves $87,500 over term\n2. TI allowance: $30/sq ft (vs $15 offered) \u2192 saves $37,500 in buildout costs\n3. Escalation: 2.5% (vs 3%) \u2192 saves $18,390 over term\n4. Free rent: 3 months (common in this vacancy rate) \u2192 saves $35,625\n5. Right of first refusal on adjacent space\n6. Early termination clause after year 3 with 6-month penalty\n\n**Total potential savings: $179,015 (28% reduction)**\n\nNegotiation approach: Lead with market comparables, emphasize vacancy rate, present as a quality tenant (credit score, business history). Expect landlord to meet roughly halfway \u2014 realistic savings of $90-110K.\n\n[Turn 4] Agent: After two rounds of negotiation:\nFinal terms achieved: $40/sq ft base, $22/sq ft TI, 2.5% escalation, 2 months free rent. Total savings vs original offer: $112,400 over 5 years.",
+      "prompt_used": null,
+      "input_tokens": 871,
+      "output_tokens": 763,
+      "latency_ms": 8576,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "agentic-015",
+      "category": "agentic",
+      "summary": "- [ ] Summarize the agent's goal, key actions/tool calls, decisions made, and outcome in 3-6 sentences.",
+      "prompt_used": null,
+      "input_tokens": 882,
+      "output_tokens": 33,
+      "latency_ms": 1226,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "meeting-001",
+      "category": "meeting",
+      "summary": "- [ ] Summarize the meeting transcript. Include: key topics discussed, decisions made, and any action items. Keep it to 3-5 sentences.",
+      "prompt_used": null,
+      "input_tokens": 657,
+      "output_tokens": 39,
+      "latency_ms": 931,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "meeting-002",
+      "category": "meeting",
+      "summary": "- [ ] Summarize meeting transcript by capturing key discussion points, decisions, action items, and open questions. Be structured and concise.",
+      "prompt_used": null,
+      "input_tokens": 677,
+      "output_tokens": 36,
+      "latency_ms": 838,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "meeting-003",
+      "category": "meeting",
+      "summary": "- [ ] Summarize meeting transcripts by capturing key discussion points, decisions, action items, and open questions. Be structured and concise.",
+      "prompt_used": null,
+      "input_tokens": 621,
+      "output_tokens": 37,
+      "latency_ms": 790,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "meeting-004",
+      "category": "meeting",
+      "summary": "* [ ] Summarize the meeting transcript by capturing key discussion points, decisions, action items, and open questions. Be structured and concise.",
+      "prompt_used": null,
+      "input_tokens": 693,
+      "output_tokens": 36,
+      "latency_ms": 783,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "meeting-005",
+      "category": "meeting",
+      "summary": "Yes, we agree.",
+      "prompt_used": null,
+      "input_tokens": 663,
+      "output_tokens": 7,
+      "latency_ms": 581,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "meeting-006",
+      "category": "meeting",
+      "summary": "- [ ] I agree with the summary.\n- [ ] I disagree with the summary. Explain your reasoning.",
+      "prompt_used": null,
+      "input_tokens": 682,
+      "output_tokens": 27,
+      "latency_ms": 684,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "meeting-007",
+      "category": "meeting",
+      "summary": "```\nChief Medical Officer: Let's begin with the incident review. We had 14 reported safety events this month, down from 19 last month. Three were classified as serious \u2014 two medication errors involving wrong dosage calculations in pediatrics, and one patient fall resulting in a hip fracture.\n```\n\nNursing Director: The two medication errors in pediatrics both involved weight-based dosing conversions. In the first case, a nurse calculated the dose using pounds instead of kilograms, resulting in a 2.2x overdose of antibiotics. The patient experienced adverse effects but recovered. In the second, a decimal point error led to a 10x underdose of seizure medication.\n\nChief Medical Officer: What's the root cause?\n\nNursing Director: Our current system requires manual weight conversion and manual dose calculation. The pharmacy system doesn't flag pediatric weight-based doses that fall outside normal ranges. This is a systemic issue, not an individual performance issue.\n\nPharmacy Director: I agree. We need automated dose-range checking in our electronic health records system. I've gotten quotes from our EHR vendor \u2014 the pediatric dosing module would cost $180,000 to implement and would flag any dose that falls outside the 5th-95th percentile for the patient's weight and age.\n\nChief Medical Officer: That seems like a reasonable investment given the risk. What's the implementation timeline?\n\nPharmacy Director: The vendor says 12 weeks. I recommend we also implement a mandatory dual-verification protocol for all pediatric medications in the interim.\n\nChief Medical Officer: Approved. Both the interim protocol and the EHR module. Now, the patient fall \u2014 what happened?\n\nNursing Director: An 82-year-old post-surgical patient attempted to walk to the bathroom unassisted at 3 AM. The bed alarm was not activated. The patient had been assessed as high fall risk on admission.\n\nChief Medical Officer: This is a process failure. Action items: One, mandatory bed alarm activation for all patients assessed as high fall risk. Two, nursing rounds every 2 hours for high-risk patients. Three, purchase the pediatric dosing module. Four, implement dual-verification for pediatric medications by end of week. Let's review progress at next month's meeting.\n```",
+      "prompt_used": null,
+      "input_tokens": 662,
+      "output_tokens": 572,
+      "latency_ms": 6121,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "meeting-008",
+      "category": "meeting",
+      "summary": "* [ ] I've summarized the meeting transcript above.\n* [ ] I've added 3-5 sentences of key discussion points and decisions made at the meeting.\n* [ ] I've included any action items that were assigned to me.",
+      "prompt_used": null,
+      "input_tokens": 694,
+      "output_tokens": 59,
+      "latency_ms": 1239,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "meeting-009",
+      "category": "meeting",
+      "summary": "```\nMeeting Transcript - School Board Meeting, Budget Review and Technology Initiative\n\nSuperintendent: The proposed budget for fiscal year 2025 is $142 million, a 4.2% increase from last year. The increase is driven by three factors: a 3% teacher salary adjustment to remain competitive with neighboring districts, rising utility costs, and the proposed 1:1 device initiative.\n\nBoard Member 1: Walk us through the 1:1 device program costs.\n\nCTO: The total cost for year one is $3.2 million. This covers 4,800 Chromebooks for grades 6-12, device management software, charging carts, insurance, and IT support staff. Annual recurring costs in years 2-5 drop to $800K for replacements and licensing. Devices are estimated to have a 4-year lifecycle.\n\nBoard Member 2: What's the educational justification? Our test scores have been declining, and I want to make sure technology isn't just a shiny distraction.\n\nCTO: Research from similar districts shows a 12% improvement in standardized test scores after 2 years of 1:1 implementation, but only when paired with teacher training. We're allocating $400K for professional development \u2014 every teacher will receive 40 hours of training over the summer.\n\nParent Representative: My concern is screen time. Students already spend too much time on devices outside school.\n\nCTO: Valid concern. We're implementing content filtering, time-of-day restrictions, and requiring devices to be turned in at end of school day for middle school students. High school students can bring them home with monitored usage.\n\nBoard Member 3: Can we do a phased rollout instead? Start with grades 9-12 and expand if successful?\n\nSuperintendent: A phased approach would reduce year-one costs to $1.8 million but delays full implementation by 2 years and complicates curriculum standardization.\n\nBoard Member 1: I support the phased approach. It's more fiscally responsible and gives us data before committing fully.\n\nChairperson: Let's vote on the phased approach. Motion carries 5-2 for phased rollout starting with grades 9-12. The full budget with phased device costs goes to final vote next meeting.\n```",
+      "prompt_used": null,
+      "input_tokens": 635,
+      "output_tokens": 558,
+      "latency_ms": 6002,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "meeting-010",
+      "category": "meeting",
+      "summary": "- [ ] The summary is clear, concise, and accurate.\n- [ ] The summary includes key discussion points, decisions made, action items, and open questions.",
+      "prompt_used": null,
+      "input_tokens": 728,
+      "output_tokens": 38,
+      "latency_ms": 1034,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "legal-001",
+      "category": "legal",
+      "summary": "#### Obligations\n\n- Provider will not be liable for any indirect, incidental, special, consequential, or punitive damages arising out of or related to this agreement.\n- The aggregate liability of provider to customer for all claims arising out of or relating to this agreement shall not exceed the amounts paid by customer to provider during the twelve (12) month period immediately preceding the event giving rise to the claim.\n\n#### Conditions\n\n- Provider's indemnification obligations under section 14\n- Customer's payment obligations\n- Either party's breach of its confidentiality obligations under section 8\n- Either party's willful misconduct or gross negligence\n\n#### Parties involved\n\n- Provider\n- Customer\n\n### Explanation:\n\nThe first sentence summarizes the key obligations of the contract. The second sentence summarizes the conditions that apply to those obligations, and the third sentence summarizes the parties involved in the contract.",
+      "prompt_used": null,
+      "input_tokens": 537,
+      "output_tokens": 227,
+      "latency_ms": 2688,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "legal-002",
+      "category": "legal",
+      "summary": "Contractor retains all right, title, and interest in and to its pre-existing intellectual property. Nothing in this Agreement shall be construed to transfer ownership of either party's pre-existing IP to the other party. Contractor hereby grants Client a non-exclusive, perpetual, royalty-free, worldwide license to use, reproduce, and modify any Contractor Tools incorporated into the Work Product, solely in connection with Client's use of the Work Product.",
+      "prompt_used": null,
+      "input_tokens": 438,
+      "output_tokens": 109,
+      "latency_ms": 1420,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "legal-003",
+      "category": "legal",
+      "summary": "#### Obligations\n\n- The contract is for a three year period with automatic renewal periods unless either party provides written notice of non-renewal at least ninety (90) days prior to the end of the then-current term.\n- Either party may terminate this Agreement immediately upon written notice if the other party: (a) materially breaches any provision of this Agreement and fails to cure such breach within thirty (30) days after receipt of written notice specifying the breach; (b) becomes insolvent, files for bankruptcy, or has a receiver appointed for its assets; or (c) ceases to conduct business in the normal course.\n- After the Initial Term, either party may terminate this Agreement for any reason upon one hundred eighty (180) days' prior written notice.\n\n#### Conditions\n\n- The contract is terminated immediately if either party: (a) materially breaches any provision of this Agreement and fails to cure such breach within thirty (30) days after receipt of written notice specifying the breach; (b) becomes insolvent, files for bankruptcy, or has a receiver appointed for its assets; or (c) ceases to conduct business in the normal course.\n- After the Initial Term, either party may terminate this Agreement for any reason upon one hundred eighty (180) days' prior written notice.\n\n#### Parties involved\n\n- The contract is between a Customer and a Service Provider.\n- Either party may terminate this Agreement immediately upon written notice if the other party: (a) materially breaches any provision of this Agreement and fails to cure such breach within thirty (30) days after receipt of written notice specifying the breach; (b) becomes insolvent, files for bankruptcy, or has a receiver appointed for its assets; or (c) ceases to conduct business in the normal course.\n- After the Initial Term, either party may terminate this Agreement for any reason upon one hundred eighty (180) days' prior written notice.\n\n#### Notable terms\n\n- The contract is for a three year period with automatic renewal periods unless either party provides written notice of non-renewal at least ninety (90) days prior to the end of the then-current term.\n- Either party may terminate this Agreement immediately upon written notice if the other party: (a) materially breaches any provision of this Agreement and fails to cure such breach within thirty (30) days after receipt of written notice specifying the breach; (b) becomes insolvent, files for bankruptcy, or has a receiver appointed for its assets; or (c) ceases to conduct business in the normal course.\n- After the Initial Term, either party may terminate this Agreement for any reason upon one hundred eighty (180) days' prior written notice.",
+      "prompt_used": null,
+      "input_tokens": 448,
+      "output_tokens": 648,
+      "latency_ms": 6740,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "legal-004",
+      "category": "legal",
+      "summary": "The following is a summary of the above contract clause or legal text.\n\nSECTION 9. DATA PROTECTION AND PRIVACY. 9.1 Compliance. Each party shall comply with all applicable data protection laws and regulations, including but not limited to the General Data Protection Regulation (GDPR), the California Consumer Privacy Act (CCPA), and any successor legislation.\n\n9.2 Data Processing. To the extent that Provider processes Personal Data on behalf of Customer, Provider shall: (a) process such data only on Customer's documented instructions; (b) ensure that persons authorized to process the data have committed to confidentiality; (c) implement appropriate technical and organizational measures to ensure a level of security appropriate to the risk; (d) not engage sub-processors without Customer's prior written consent; (e) assist Customer in responding to data subject requests; and (f) delete or return all Personal Data upon termination unless retention is required by law.\n\n9.3 Data Breach Notification. Provider shall notify Customer without undue delay (and in any event within 72 hours) after becoming aware of a Personal Data Breach. Such notification shall include: the nature of the breach, categories and approximate number of data subjects affected, likely consequences, and measures taken or proposed to address the breach.\n\n9.4 International Transfers. Provider shall not transfer Personal Data outside the European Economic Area without ensuring adequate safeguards are in place, as required by Chapter V of the GDPR, including but not limited to Standard Contractual Clauses.",
+      "prompt_used": null,
+      "input_tokens": 414,
+      "output_tokens": 358,
+      "latency_ms": 4015,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "legal-005",
+      "category": "legal",
+      "summary": "The following is a summary of the above contract clause or legal text.\n\nSECTION 3. FEES AND PAYMENT. 3.1 Fees. Customer shall pay Provider the fees set forth in the applicable Order Form (the \"Fees\"). Unless otherwise specified, all Fees are quoted in United States Dollars and are non-refundable.\n\n3.2 Invoicing. Provider shall invoice Customer monthly in advance for subscription Fees and monthly in arrears for usage-based Fees. All invoices are due and payable within thirty (30) days of the invoice date (\"Net 30\").\n\n3.3 Late Payment. Any amounts not paid when due shall accrue interest at the lesser of one and one-half percent (1.5%) per month or the maximum rate permitted by applicable law. Customer shall also reimburse Provider for all reasonable costs of collection, including attorneys' fees.\n\n3.4 Taxes. All Fees are exclusive of taxes. Customer shall be responsible for all sales, use, value-added, withholding, and other taxes imposed on the transactions contemplated by this Agreement, except for taxes based on Provider's net income. If Customer is required by law to withhold taxes, Customer shall gross up the payment so that the net amount received by Provider equals the full amount of Fees owed.\n\n3.5 Fee Increases. Provider may increase Fees for Renewal Terms by providing written notice at least sixty (60) days prior to the start of a Renewal Term. Fee increases shall not exceed five percent (5%) per year unless mutually agreed in writing.\n\n3.6 Audit Rights. Provider may, at its own expense and upon thirty (30) days' written notice, engage an independent auditor to verify Customer's compliance with the usage terms and Fee calculations no more than once per calendar year.",
+      "prompt_used": null,
+      "input_tokens": 501,
+      "output_tokens": 448,
+      "latency_ms": 4824,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "legal-006",
+      "category": "legal",
+      "summary": "Contractor shall not, directly or indirectly, engage in, own, manage, operate, or provide services to any business that competes with Client's business in the Field of Use within the Territory during the Term and for a period of two (2) years following termination of this Agreement. For purposes of this Section, \"Field of Use\" means the development and commercialization of enterprise resource planning software for the healthcare industry, and \"Territory\" means the United States and Canada.\n\nContractor shall not, directly or indirectly, solicit, recruit, or hire, or attempt to solicit, recruit, or hire, any employee or independent contractor of Client who was engaged by Client during the twelve (12) months preceding the solicitation during the Term and for a period of two (2) years following termination of this Agreement.\n\nContractor shall not, directly or indirectly, solicit or attempt to solicit any customer, client, or prospective client of Client with whom Contractor had material contact during the Term, for the purpose of providing products or services competitive with those offered by Client during the Term and for a period of two (2) years following termination of this Agreement.\n\nContractor acknowledges that the restrictions in this Section are reasonable in scope, duration, and geographic area and are necessary to protect Client's legitimate business interests, including its trade secrets, confidential information, and customer relationships during the Term and for a period of two (2) years following termination of this Agreement.\n\nContractor agrees that any breach of this Section would cause irreparable harm to Client for which monetary damages would be inadequate, and Client shall be entitled to injunctive relief in addition to any other remedies available at law or in equity during the Term and for a period of two (2) years following termination of this Agreement.",
+      "prompt_used": null,
+      "input_tokens": 510,
+      "output_tokens": 423,
+      "latency_ms": 4621,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "legal-007",
+      "category": "legal",
+      "summary": "The following is a summary of the above contract clause or legal text.\n\nSECTION 14. INDEMNIFICATION. 14.1 By Provider. Provider shall defend, indemnify, and hold harmless Customer and its officers, directors, employees, and agents (collectively, \"Customer Indemnitees\") from and against any and all third-party claims, actions, suits, proceedings, losses, damages, liabilities, costs, and expenses (including reasonable attorneys' fees) arising out of or relating to:\n\n* Provider's breach of any representation, warranty, or obligation under this Agreement;\n* Any allegation that the Services or any component thereof infringe, misappropriate, or otherwise violate any third party's intellectual property rights; or\n* Provider's negligence or willful misconduct in connection with the performance of its obligations under this Agreement.\n\n14.2 By Customer. Customer shall defend, indemnify, and hold harmless Provider and its officers, directors, employees, and agents from and against any third-party claims arising out of or relating to:\n\n* Customer's use of the Services in violation of this Agreement or applicable law;\n* Customer Data or any content provided by Customer that infringes third-party rights; or\n* Customer's negligence or willful misconduct.\n\n14.3 Procedure. The indemnified party shall:\n\n* promptly notify the indemnifying party of any claim;\n* grant the indemnifying party sole control of the defense and settlement of such claim; and\n* provide reasonable cooperation at the indemnifying party's expense.\nThe indemnified party may participate in the defense at its own expense. The indemnifying party shall not settle any claim that imposes obligations on the indemnified party without the indemnified party's prior written consent.",
+      "prompt_used": null,
+      "input_tokens": 524,
+      "output_tokens": 462,
+      "latency_ms": 5043,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "legal-008",
+      "category": "legal",
+      "summary": "The following is a summary of the above contract clause or legal text.\n\nSECTION 4. SERVICE LEVEL AGREEMENT. 4.1 Availability. Provider shall use commercially reasonable efforts to maintain the Services at a Monthly Uptime Percentage of at least 99.9% (the \"Uptime Commitment\"). \"Monthly Uptime Percentage\" means the total number of minutes in a calendar month minus the number of minutes of Downtime, divided by the total number of minutes in such calendar month. \"Downtime\" means any period during which the Services are materially unavailable, excluding: (i) scheduled maintenance windows (Sundays 2:00 AM - 6:00 AM UTC); (ii) force majeure events; (iii) Customer-caused issues; and (iv) third-party service failures beyond Provider's reasonable control.\n\n4.2 Service Credits. If Provider fails to meet the Uptime Commitment in any calendar month, Customer shall be entitled to Service Credits upon written request within thirty (30) days of the end of such month, as follows: 99.0% to 99.9%: 10% of monthly Fees credited; 95.0% to 99.0%: 25% of monthly Fees credited; Below 95.0%: 50% of monthly Fees credited. Service Credits shall be applied against future invoices and shall not exceed 50% of the monthly Fees in any given month. Service Credits are Customer's sole and exclusive remedy for any failure to meet the Uptime Commitment.\n\n4.3 Support. Provider shall provide technical support in accordance with the support tier selected by Customer in the applicable Order Form. Response times: Critical (P1): 1 hour; High (P2): 4 hours; Medium (P3): 8 business hours; Low (P4): 2 business days.",
+      "prompt_used": null,
+      "input_tokens": 518,
+      "output_tokens": 461,
+      "latency_ms": 5025,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "legal-009",
+      "category": "legal",
+      "summary": "This contract clause is a legal document between two parties. It outlines the terms of their agreement and includes provisions for dispute resolution and governing law. The first section establishes that this Agreement shall be governed by and construed in accordance with the laws of the State of Delaware, without giving effect to any choice-of-law or conflict-of-law rules or provisions that would cause the application of the laws of any other jurisdiction. This provision ensures that the parties' rights and obligations under this Agreement will be determined by Delaware law, rather than by the laws of another state or country.\n\nThe second section outlines the process for resolving disputes arising from this Agreement through binding arbitration administered by the American Arbitration Association (\"AAA\"). The parties must agree on a single arbitrator within 30 days, failing which an arbitrator will be appointed by the AAA. The arbitration shall be held in Wilmington, Delaware. This provision ensures that disputes between the parties will be resolved quickly and efficiently through a neutral third party rather than through lengthy and potentially costly litigation.\n\nThe third section outlines limitations on bringing claims against each other. Each party agrees that it shall not commence any arbitration proceeding more than one (1) year after the cause of action accrues. Any claim not brought within this period shall be permanently barred. This provision ensures that disputes will be resolved quickly and efficiently, without allowing either party to delay or avoid resolution indefinitely.\n\nThe fourth section outlines provisions for equitable relief from any court of competent jurisdiction to protect each party's intellectual property rights or Confidential Information pending the outcome of arbitration. This provision ensures that each party's rights and obligations under this Agreement will be protected, even if a dispute arises during the course of their agreement.\n\nThe fifth section outlines provisions for class action waivers. Each party agrees that any claims shall be brought solely in each party's individual capacity and not as a plaintiff or class member in any purported class, consolidated, or representative proceeding. This provision ensures that the parties will not be subject to class action lawsuits, which can be costly and time-consuming for both parties involved.",
+      "prompt_used": null,
+      "input_tokens": 497,
+      "output_tokens": 505,
+      "latency_ms": 5454,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "legal-010",
+      "category": "legal",
+      "summary": "The Services will perform materially in accordance with the Documentation during the Term. Provider has the right and authority to enter into this Agreement and grant the rights and licenses herein. The Services will be provided in a professional and workmanlike manner consistent with generally accepted industry standards. The Services will not, at the time of delivery, contain any malicious code, viruses, or similar harmful components. Provider will comply with all applicable laws and regulations in the performance of its obligations hereunder. Customer has the right and authority to enter into this Agreement. Customer's use of the Services will comply with all applicable laws. Customer Data will not violate any third party's intellectual property, privacy, or other proprietary rights.",
+      "prompt_used": null,
+      "input_tokens": 585,
+      "output_tokens": 163,
+      "latency_ms": 2127,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "scientific-001",
+      "category": "scientific",
+      "summary": "The Transformer is a neural network architecture that uses attention mechanisms to model dependencies between input and output sequences without recurrence or convolutions. The Transformer achieves state-of-the-art results on two machine translation tasks, improving over the existing best results by 2 BLEU points on the WMT 2014 English-to-German translation task and establishing a new single-model state-of-the-art BLEU score of 41.0 after training for 3.5 days on eight GPUs on the WMT 2014 English-to-French translation task. The Transformer generalizes well to other tasks by applying it successfully to English constituency parsing both with large and limited training data.",
+      "prompt_used": null,
+      "input_tokens": 461,
+      "output_tokens": 166,
+      "latency_ms": 1972,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "scientific-002",
+      "category": "scientific",
+      "summary": "The paper presents a comprehensive study of knowledge distillation techniques for compressing large language models (LLMs) while maintaining their performance. The authors explore three distillation strategies: logit-based distillation, where the student model learns to match the teacher's output distribution; feature-based distillation, which aligns intermediate representations between teacher and student; and attention transfer, which forces the student to mimic the teacher's attention patterns. The authors find that a combination of all three strategies yields the best results. A 125M parameter student model distilled from a 13B parameter teacher retains 94% of the teacher's performance on GLUE tasks while being 104x smaller and 12x faster at inference. The authors also investigate the impact of the teacher-student size ratio, finding diminishing returns when the ratio exceeds 50:1. Additionally, they propose a progressive distillation curriculum that gradually increases task difficulty during training, which improves student model performance by an additional 2.3% on average. The analysis reveals that attention transfer is most beneficial for tasks requiring long-range dependencies, while logit-based distillation excels at classification tasks.",
+      "prompt_used": null,
+      "input_tokens": 399,
+      "output_tokens": 269,
+      "latency_ms": 2926,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "scientific-003",
+      "category": "scientific",
+      "summary": "1. Summarize the research problem, approach, key findings, and their significance.\n2. Use appropriate technical terminology.\n3. Write in a clear, concise manner.\n4. Avoid plagiarism.",
+      "prompt_used": null,
+      "input_tokens": 477,
+      "output_tokens": 53,
+      "latency_ms": 889,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "scientific-004",
+      "category": "scientific",
+      "summary": "* [Your response here]",
+      "prompt_used": null,
+      "input_tokens": 477,
+      "output_tokens": 9,
+      "latency_ms": 437,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "scientific-005",
+      "category": "scientific",
+      "summary": "The paper \"Achieving break-even point in quantum computing\" by Google AI Quantum team describes the implementation of a quantum error correction scheme on a superconducting processor with 49 qubits. The authors demonstrate that their system achieves a logical error rate below the physical error rate, which is known as the \"break-even point.\"\n\nThe paper begins by introducing the concept of quantum error correction (QEC), which is used to protect against errors in quantum computing systems. QEC involves encoding information into multiple qubits and then using error correction codes to detect and correct errors. The authors argue that achieving break-even point is a key milestone for practical quantum computers, as it allows for the implementation of large-scale quantum algorithms with high fidelity.\n\nThe paper goes on to describe the specifics of their system, including the surface code architecture used to implement QEC and the average T1 relaxation times and two-qubit gate fidelities of the physical qubits. The authors demonstrate a logical qubit with an error rate 2.7x lower than the best physical qubit in the system, with a logical coherence time of 1.4 milliseconds. They also introduce a novel physical qubit calibration protocol that continuously optimizes gate parameters during operation, reducing coherent errors by 34%.\n\nOverall, the paper provides an important contribution to the field of quantum computing by demonstrating a practical QEC scheme on a superconducting processor with 49 qubits. The authors' achievement of break-even point is a significant milestone for the development of large-scale quantum computers and will likely inspire further research in this area.",
+      "prompt_used": null,
+      "input_tokens": 413,
+      "output_tokens": 360,
+      "latency_ms": 3765,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "scientific-006",
+      "category": "scientific",
+      "summary": "1. What is the problem?\n2. How did they approach it?\n3. What were their key findings?\n4. Why are these findings significant?",
+      "prompt_used": null,
+      "input_tokens": 484,
+      "output_tokens": 39,
+      "latency_ms": 770,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "scientific-007",
+      "category": "scientific",
+      "summary": "1. What is the research problem?\n2. How did they approach it?\n3. What were their key findings?\n4. Why are these findings significant?",
+      "prompt_used": null,
+      "input_tokens": 482,
+      "output_tokens": 40,
+      "latency_ms": 708,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "scientific-008",
+      "category": "scientific",
+      "summary": "The discovery and optimization of new drug candidates is a costly and time-consuming process, with an average timeline of 12-15 years and costs exceeding $2 billion per approved drug. Machine learning approaches promise to accelerate this process, but previous efforts have been limited by the scarcity of high-quality training data and the difficulty of capturing the complex structure-activity relationships that govern molecular interactions. In this work, we present MolFormer, a large-scale molecular foundation model pretrained on 1.1 billion molecules from the ZINC and PubChem databases using a novel 3D-aware masked language modeling objective. Unlike previous approaches that operate on 1D SMILES strings or 2D graphs, MolFormer generates embeddings that implicitly encode 3D molecular geometry through our proposed Spatial Attention mechanism, which biases attention weights based on estimated interatomic distances. We evaluate MolFormer on 22 benchmark molecular property prediction tasks spanning binding affinity, toxicity, solubility, and metabolic stability. MolFormer achieves state-of-the-art results on 19 of 22 benchmarks, with particularly large improvements on tasks involving macrocyclic molecules (average 23% RMSE reduction) where 3D structure is critical. In a prospective validation study, we used MolFormer to screen 2.3 million compounds for activity against a novel oncology target (KRAS G12D), identifying 27 hits from 96 synthesized candidates \u2014 a 28% hit rate compared to the 2-5% typical of traditional high-throughput screening. Three compounds showed sub-micromolar potency (IC50 < 1\u03bcM) in cell-based assays.",
+      "prompt_used": null,
+      "input_tokens": 469,
+      "output_tokens": 399,
+      "latency_ms": 4273,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "scientific-009",
+      "category": "scientific",
+      "summary": "* [Your response here]",
+      "prompt_used": null,
+      "input_tokens": 536,
+      "output_tokens": 9,
+      "latency_ms": 581,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "scientific-010",
+      "category": "scientific",
+      "summary": "* [Your Name Here](https://github.com/your-name-here)",
+      "prompt_used": null,
+      "input_tokens": 554,
+      "output_tokens": 21,
+      "latency_ms": 532,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "reviews-001",
+      "category": "reviews",
+      "summary": "* [ ] Summarize the reviews in 2-4 sentences. Capture overall sentiment, main pros and cons, and any notable patterns.\n* [ ] Be balanced and factual.",
+      "prompt_used": null,
+      "input_tokens": 558,
+      "output_tokens": 44,
+      "latency_ms": 849,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "reviews-002",
+      "category": "reviews",
+      "summary": "- [ ] Summarize the following product review(s) in 2-4 sentences. Capture the overall sentiment, main pros and cons, and any notable patterns.",
+      "prompt_used": null,
+      "input_tokens": 559,
+      "output_tokens": 38,
+      "latency_ms": 729,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "reviews-003",
+      "category": "reviews",
+      "summary": "* [ ] Summarize product reviews to capture overall sentiment, key pros and cons, and recurring themes. Be balanced and factual.",
+      "prompt_used": null,
+      "input_tokens": 563,
+      "output_tokens": 35,
+      "latency_ms": 701,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "reviews-004",
+      "category": "reviews",
+      "summary": "* [ ] Summarize product reviews to capture overall sentiment, key pros and cons, and recurring themes. Be balanced and factual.",
+      "prompt_used": null,
+      "input_tokens": 643,
+      "output_tokens": 35,
+      "latency_ms": 732,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "reviews-005",
+      "category": "reviews",
+      "summary": "* [ ] Summarize the following product review(s) in 2-4 sentences. Capture the overall sentiment, main pros and cons, and any notable patterns.",
+      "prompt_used": null,
+      "input_tokens": 620,
+      "output_tokens": 39,
+      "latency_ms": 804,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "reviews-006",
+      "category": "reviews",
+      "summary": "1. Review 1 (4/5): This smart thermostat has genuinely reduced my energy bills by about 15% over the past 3 months. The learning algorithm figured out our schedule within the first week. The geofencing feature that turns off AC when everyone leaves is brilliant. Setup was painless \u2014 took about 20 minutes.\n\n2. Review 2 (5/5): Love the sleek design \u2014 it looks like a piece of art on the wall. The color touchscreen is responsive and the interface is intuitive. Works perfectly with HomeKit, Alexa, and Google Home. The energy reports are detailed and helped me realize how much energy our old AC was wasting.\n\n3. Review 3 (3/5): It works but has some quirks. The temperature sensor seems to read 2-3 degrees higher than actual room temperature, so I had to add a calibration offset. Also, it occasionally loses WiFi connection and needs to be rebooted. After the latest firmware update, it started randomly adjusting temperatures at night. Fine when it works, frustrating when it doesn't.\n\n4. Review 4 (5/5): Best home improvement purchase I've made. The room sensors are game-changing \u2014 instead of just reading the hallway temperature, it now averages temps from the living room and bedroom. We eliminated hot and cold spots throughout the house. Installation tip: make sure you have a C-wire or get the adapter.\n\n5. Review 5 (2/5): NOT compatible with my multi-zone HVAC system despite the website claiming it is. Spent 3 hours trying to wire it before giving up and calling an HVAC tech who confirmed incompatibility. Cost me $150 for the service call. Very misleading marketing. The non-smart thermostat that came with my house worked better because it actually worked.\n\n6. Review 6 (4/5): Excellent thermostat for a single-zone system. The vacation mode and scheduling features save real money. The air quality monitoring that reminds you to change filters is a nice touch. My only gripe is the subscription model for some \"premium\" features \u2014 weather-based adjustments and detailed analytics shouldn't require a monthly fee.\n\n7. Review 7 (4/5): Retrofitted this into my 1960s house with a heat pump. Works great after installing the C-wire adapter. The heat pump balance feature that optimizes between aux heat and heat pump has noticeably reduced our winter bills. App is well-designed and reliable. Solid product.",
+      "prompt_used": null,
+      "input_tokens": 664,
+      "output_tokens": 593,
+      "latency_ms": 6360,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "reviews-007",
+      "category": "reviews",
+      "summary": "- [ ] Summarize the product reviews in 2-4 sentences. Capture the overall sentiment, main pros and cons, and any notable patterns.",
+      "prompt_used": null,
+      "input_tokens": 559,
+      "output_tokens": 34,
+      "latency_ms": 950,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "reviews-008",
+      "category": "reviews",
+      "summary": "* [ ] Summarize product reviews to capture overall sentiment, key pros and cons, and recurring themes. Be balanced and factual.",
+      "prompt_used": null,
+      "input_tokens": 578,
+      "output_tokens": 34,
+      "latency_ms": 703,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "reviews-009",
+      "category": "reviews",
+      "summary": "1. What is your favorite keyboard? Why?\n2. How do you feel about mechanical keyboards?\n3. Do you prefer membrane or mechanical keyboards?\n4. Have you ever tried a wireless mechanical keyboard?\n5. What are the pros and cons of wireless keyboards?\n6. What are the pros and cons of wired keyboards?\n7. How do you feel about RGB lighting on keyboards?\n8. Do you prefer hot-swappable or non-hot-swappable keyboards?\n9. Have you ever tried a mechanical keyboard with programmable macro keys?\n10. What are the pros and cons of mechanical keyboards with programmable macro keys?",
+      "prompt_used": null,
+      "input_tokens": 606,
+      "output_tokens": 154,
+      "latency_ms": 1893,
+      "auto_metrics": null
+    },
+    {
+      "test_id": "reviews-010",
+      "category": "reviews",
+      "summary": "* [ ] Summarize the product reviews in 2-4 sentences. Capture overall sentiment, main pros and cons, and any notable patterns.",
+      "prompt_used": null,
+      "input_tokens": 662,
+      "output_tokens": 34,
+      "latency_ms": 810,
+      "auto_metrics": null
+    }
+  ]
+}

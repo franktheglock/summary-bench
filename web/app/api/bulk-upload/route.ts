@@ -9,6 +9,115 @@ import { hasSupabaseAuthConfig } from "@/lib/supabase/server";
 
 export const runtime = "nodejs";
 
+type ResultsSourceFile = {
+  name: string;
+  readText: () => Promise<string>;
+};
+
+type ResultsSource = {
+  label: string;
+  files: ResultsSourceFile[];
+};
+
+const DEFAULT_RESULTS_REPO_API = "https://api.github.com/repos/franktheglock/summary-bench/contents/results?ref=master";
+
+async function loadLocalResultsSource(): Promise<ResultsSource | null> {
+  const candidates = [
+    join(process.cwd(), "..", "results"),
+    join(process.cwd(), "results"),
+  ];
+
+  for (const candidate of candidates) {
+    try {
+      const files = await readdir(candidate);
+      const jsonFiles = files.filter((file) => file.endsWith(".json"));
+
+      if (jsonFiles.length === 0) {
+        continue;
+      }
+
+      return {
+        label: candidate,
+        files: jsonFiles.map((file) => ({
+          name: file,
+          readText: () => readFile(join(candidate, file), "utf-8"),
+        })),
+      };
+    } catch {
+      continue;
+    }
+  }
+
+  return null;
+}
+
+async function loadRemoteResultsSource(): Promise<ResultsSource> {
+  const manifestUrl = process.env.SUMMARYARENA_RESULTS_API_URL?.trim() || DEFAULT_RESULTS_REPO_API;
+  const response = await fetch(manifestUrl, {
+    headers: {
+      Accept: "application/vnd.github+json",
+      "User-Agent": "summaryarena-bulk-import",
+    },
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    throw new Error(`Results manifest request failed (${response.status}) from ${manifestUrl}`);
+  }
+
+  const payload = await response.json();
+  if (!Array.isArray(payload)) {
+    throw new Error(`Results manifest at ${manifestUrl} did not return a directory listing.`);
+  }
+
+  const files = payload
+    .filter((entry): entry is { name: string; download_url: string; type: string } => {
+      return Boolean(
+        entry &&
+        typeof entry === "object" &&
+        entry.type === "file" &&
+        typeof entry.name === "string" &&
+        entry.name.endsWith(".json") &&
+        typeof entry.download_url === "string"
+      );
+    })
+    .map((entry) => ({
+      name: entry.name,
+      readText: async () => {
+        const fileResponse = await fetch(entry.download_url, {
+          headers: {
+            "User-Agent": "summaryarena-bulk-import",
+          },
+          cache: "no-store",
+        });
+
+        if (!fileResponse.ok) {
+          throw new Error(`Failed to fetch ${entry.name} (${fileResponse.status})`);
+        }
+
+        return fileResponse.text();
+      },
+    }));
+
+  if (files.length === 0) {
+    throw new Error(`No JSON result files were found at ${manifestUrl}`);
+  }
+
+  return {
+    label: manifestUrl,
+    files,
+  };
+}
+
+async function loadResultsSource(): Promise<ResultsSource> {
+  const localSource = await loadLocalResultsSource();
+  if (localSource) {
+    return localSource;
+  }
+
+  return loadRemoteResultsSource();
+}
+
 export async function POST() {
   let uploaderId: string | null = null;
 
@@ -26,19 +135,15 @@ export async function POST() {
     uploaderId = moderatorContext.user.id;
   }
 
-  // Look for results JSON files in the project root `results/` directory
-  const resultsDir = join(process.cwd(), "..", "results");
-  let files: string[];
+  let source: ResultsSource;
   try {
-    files = await readdir(resultsDir);
-  } catch {
+    source = await loadResultsSource();
+  } catch (error) {
     return NextResponse.json(
-      { error: `Results directory not found at ${resultsDir}` },
+      { error: error instanceof Error ? error.message : "Failed to locate result files." },
       { status: 404 }
     );
   }
-
-  const jsonFiles = files.filter((f) => f.endsWith(".json"));
 
   const outcomes: Array<{
     file: string;
@@ -47,12 +152,12 @@ export async function POST() {
     error?: string;
   }> = [];
 
-  for (const file of jsonFiles) {
+  for (const file of source.files) {
     let content: string;
     try {
-      content = await readFile(join(resultsDir, file), "utf-8");
+      content = await file.readText();
     } catch {
-      outcomes.push({ file, status: "error", error: "Failed to read file" });
+      outcomes.push({ file: file.name, status: "error", error: "Failed to read file" });
       continue;
     }
 
@@ -60,14 +165,14 @@ export async function POST() {
     try {
       json = JSON.parse(content);
     } catch {
-      outcomes.push({ file, status: "skipped", error: "Invalid JSON" });
+      outcomes.push({ file: file.name, status: "skipped", error: "Invalid JSON" });
       continue;
     }
 
     const parsed = benchmarkUploadSchema.safeParse(json);
     if (!parsed.success) {
       outcomes.push({
-        file,
+        file: file.name,
         status: "skipped",
         error: parsed.error.issues[0].message,
       });
@@ -76,10 +181,10 @@ export async function POST() {
 
     try {
       const count = await saveBenchmarkUpload(parsed.data, uploaderId);
-      outcomes.push({ file, status: "uploaded", results: count });
+      outcomes.push({ file: file.name, status: "uploaded", results: count });
     } catch (error) {
       outcomes.push({
-        file,
+        file: file.name,
         status: "error",
         error: error instanceof Error ? error.message : "Unknown error",
       });
@@ -92,7 +197,8 @@ export async function POST() {
 
   return NextResponse.json({
     ok: true,
-    total: jsonFiles.length,
+    source: source.label,
+    total: source.files.length,
     uploaded,
     errors,
     skipped,

@@ -59,6 +59,8 @@ If you also want a local copy while developing, keep `SUMMARYARENA_STORAGE=sqlit
 
 The upload endpoint is `web/app/api/upload/route.ts`.
 
+Moderators can also import every JSON file from the repository-level `results/` directory through the dashboard action backed by `web/app/api/bulk-upload/route.ts`. When Supabase auth is configured, that bulk import path requires a signed-in moderator.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

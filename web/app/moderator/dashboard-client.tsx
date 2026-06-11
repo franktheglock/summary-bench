@@ -1,6 +1,7 @@
 "use client";
 
-import { startTransition, useState } from "react";
+import { startTransition, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { CheckCircle2, Copy, Link2, Loader2, ShieldCheck, ShieldOff } from "lucide-react";
 
 type ModerationModel = {
@@ -24,6 +25,7 @@ export default function ModeratorDashboardClient({
   initialModels: ModerationModel[];
   moderatorLabel: string;
 }) {
+  const router = useRouter();
   const [models, setModels] = useState(initialModels);
   const [busyKey, setBusyKey] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
@@ -32,6 +34,11 @@ export default function ModeratorDashboardClient({
   const [temporaryUploadExpiresAt, setTemporaryUploadExpiresAt] = useState<string | null>(null);
   const [temporaryUploadBusy, setTemporaryUploadBusy] = useState(false);
   const [temporaryUploadCopied, setTemporaryUploadCopied] = useState(false);
+  const [localImportBusy, setLocalImportBusy] = useState(false);
+
+  useEffect(() => {
+    setModels(initialModels);
+  }, [initialModels]);
 
   async function toggleVerification(model: string, provider: string, verified: boolean) {
     const key = `${model}::${provider}`;
@@ -73,6 +80,35 @@ export default function ModeratorDashboardClient({
       setError(updateError instanceof Error ? updateError.message : "Verification update failed.");
     } finally {
       setBusyKey(null);
+    }
+  }
+
+  async function importLocalResults() {
+    setLocalImportBusy(true);
+    setError(null);
+    setMessage(null);
+
+    try {
+      const response = await fetch("/api/bulk-upload", {
+        method: "POST",
+      });
+      const result = await response.json().catch(() => null);
+
+      if (!response.ok) {
+        throw new Error(result?.error || "Failed to import local results.");
+      }
+
+      const uploaded = Number(result?.uploaded ?? 0);
+      const skipped = Number(result?.skipped ?? 0);
+      const errors = Number(result?.errors ?? 0);
+      const total = Number(result?.total ?? 0);
+
+      setMessage(`Imported ${uploaded} of ${total} local result files.${skipped ? ` Skipped ${skipped}.` : ""}${errors ? ` Errors ${errors}.` : ""}`);
+      router.refresh();
+    } catch (importError) {
+      setError(importError instanceof Error ? importError.message : "Failed to import local results.");
+    } finally {
+      setLocalImportBusy(false);
     }
   }
 
@@ -159,6 +195,14 @@ export default function ModeratorDashboardClient({
             </div>
           </div>
           <div className="flex flex-wrap gap-3 md:justify-end">
+            <button
+              onClick={importLocalResults}
+              className="btn-secondary inline-flex items-center gap-2"
+              disabled={localImportBusy}
+            >
+              {localImportBusy ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle2 className="w-4 h-4" />}
+              Import Local Results
+            </button>
             <button
               onClick={generateTemporaryUploadLink}
               className="btn-secondary inline-flex items-center gap-2"

@@ -49,7 +49,7 @@ export default function LeaderboardPage() {
       try {
         const response = await fetch(
           `/api/leaderboard?category=${encodeURIComponent(activeCategory)}`,
-          { cache: "no-store" }
+          { cache: "no-store" },
         );
         const data = await response.json().catch(() => null);
 
@@ -65,7 +65,11 @@ export default function LeaderboardPage() {
         }
       } catch (loadError) {
         if (mounted) {
-          setError(loadError instanceof Error ? loadError.message : "Failed to load leaderboard.");
+          setError(
+            loadError instanceof Error
+              ? loadError.message
+              : "Failed to load leaderboard.",
+          );
         }
       } finally {
         if (mounted) {
@@ -107,8 +111,12 @@ export default function LeaderboardPage() {
           </h1>
         </div>
         <div className="text-right">
-          <p className="text-xs text-stone-light uppercase tracking-wider">Updated hourly</p>
-          <p className="text-sm text-stone mt-1">{rows.length.toLocaleString()} models loaded</p>
+          <p className="text-xs text-stone-light uppercase tracking-wider">
+            Updated hourly
+          </p>
+          <p className="text-sm text-stone mt-1">
+            {rows.length.toLocaleString()} models loaded
+          </p>
         </div>
       </div>
 
@@ -120,9 +128,11 @@ export default function LeaderboardPage() {
               key={cat}
               onClick={() => setActiveCategory(cat)}
               className={`px-4 py-3 text-xs font-semibold uppercase tracking-wider transition-all border-b-2 -mb-px
-                ${cat === activeCategory
-                  ? "border-terracotta text-ink"
-                  : "border-transparent text-stone hover:text-ink hover:border-border"}
+                ${
+                  cat === activeCategory
+                    ? "border-terracotta text-ink"
+                    : "border-transparent text-stone hover:text-ink hover:border-border"
+                }
               `}
             >
               {CATEGORY_LABELS[cat] || cat}
@@ -169,27 +179,34 @@ export default function LeaderboardPage() {
       {/* Leaderboard List */}
       <div className="space-y-3">
         {sortedRows.map((model, idx) => {
-          const displayValue = metric === "elo" ? (model.elo ?? 0) : model.win_rate;
+          const displayValue =
+            metric === "elo" ? (model.elo ?? 0) : model.win_rate;
           const maxValue = metric === "elo" ? maxElo : maxWinRate;
           const barWidth = maxValue > 0 ? (displayValue / maxValue) * 100 : 0;
-          const rankClass = idx === 0 ? 'bg-terracotta text-white' :
-            idx === 1 ? 'bg-ink-light text-white' :
-            idx === 2 ? 'bg-stone text-white' :
-            'bg-paper-dark text-stone';
-          
+          const rankClass =
+            idx === 0
+              ? "bg-terracotta text-white"
+              : idx === 1
+                ? "bg-ink-light text-white"
+                : idx === 2
+                  ? "bg-stone text-white"
+                  : "bg-paper-dark text-stone";
+
           const isProvisional = model.votes < 20;
 
           return (
             <motion.div
-              key={model.model}
+              key={`${model.model}::${model.provider}`}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: isProvisional ? 0.6 : 1, x: 0 }}
               transition={{ delay: idx * 0.05, duration: 0.3 }}
-              className={`panel p-4 transition-colors ${isProvisional ? 'hover:opacity-100 border-transparent hover:border-border' : 'hover:border-terracotta'}`}
+              className={`panel p-4 transition-colors ${isProvisional ? "hover:opacity-100 border-transparent hover:border-border" : "hover:border-terracotta"}`}
             >
               {/* Mobile layout */}
               <div className="flex items-center gap-3 md:hidden">
-                <span className={`inline-flex items-center justify-center w-7 h-7 text-xs font-bold shrink-0 ${rankClass}`}>
+                <span
+                  className={`inline-flex items-center justify-center w-7 h-7 text-xs font-bold shrink-0 ${rankClass}`}
+                >
                   {idx + 1}
                 </span>
                 <div className="w-8 h-8 flex items-center justify-center shrink-0">
@@ -197,30 +214,48 @@ export default function LeaderboardPage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <h3 className="font-semibold text-ink text-sm leading-tight min-w-0">
-                    <Link href={`/model/${encodeURIComponent(model.model)}`} className="hover:text-terracotta hover:underline transition-colors block truncate">
+                    <Link
+                      href={`/model/${encodeURIComponent(model.model)}`}
+                      className="hover:text-terracotta hover:underline transition-colors block truncate"
+                    >
                       {model.model}
                     </Link>
                   </h3>
                   <div className="flex items-center gap-1.5 mt-0.5">
-                    <span className="text-stone text-xs capitalize">{model.provider}</span>
-                    {model.verified ? <VerificationBadge className="w-3.5 h-3.5 shrink-0" /> : null}
+                    <span className="text-stone text-xs capitalize">
+                      {model.provider}
+                    </span>
+                    {model.verified ? (
+                      <VerificationBadge className="w-3.5 h-3.5 shrink-0" />
+                    ) : null}
                     {isProvisional && (
-                      <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold tracking-wider uppercase bg-stone-100 text-stone-500 border border-stone-200 shrink-0" title="Provisional Score (Needs more votes)">
+                      <span
+                        className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold tracking-wider uppercase bg-stone-100 text-stone-500 border border-stone-200 shrink-0"
+                        title="Provisional Score (Needs more votes)"
+                      >
                         Prov
                       </span>
                     )}
                   </div>
                 </div>
                 <div className="text-right shrink-0">
-                  <span className="font-mono font-semibold text-ink">{(model.elo ?? 0).toLocaleString()}</span>
-                  <span className="block text-[10px] text-stone-light uppercase tracking-wide">ELO</span>
+                  <span className="font-mono font-semibold text-ink">
+                    {(model.elo ?? 0).toLocaleString()}
+                  </span>
+                  <span className="block text-[10px] text-stone-light uppercase tracking-wide">
+                    ELO
+                  </span>
                 </div>
               </div>
               <div className="mt-2.5 md:hidden">
                 <div className="flex justify-between text-xs mb-1">
-                  <span className="label">{metric === "elo" ? "ELO Score" : "Win Rate"}</span>
+                  <span className="label">
+                    {metric === "elo" ? "ELO Score" : "Win Rate"}
+                  </span>
                   <span className="font-mono text-ink">
-                    {metric === "elo" ? (model.elo ?? 0).toLocaleString() : `${model.win_rate}%`}
+                    {metric === "elo"
+                      ? (model.elo ?? 0).toLocaleString()
+                      : `${model.win_rate}%`}
                   </span>
                 </div>
                 <div className="h-1.5 bg-paper-dark overflow-hidden">
@@ -240,7 +275,9 @@ export default function LeaderboardPage() {
               {/* Desktop layout */}
               <div className="hidden md:flex items-center gap-4">
                 <div className="w-10 shrink-0">
-                  <span className={`inline-flex items-center justify-center w-8 h-8 text-sm font-bold ${rankClass}`}>
+                  <span
+                    className={`inline-flex items-center justify-center w-8 h-8 text-sm font-bold ${rankClass}`}
+                  >
                     {idx + 1}
                   </span>
                 </div>
@@ -249,15 +286,25 @@ export default function LeaderboardPage() {
                 </div>
                 <div className="w-52 shrink-0 min-w-0">
                   <h3 className="font-semibold text-ink text-sm leading-tight min-w-0">
-                    <Link href={`/model/${encodeURIComponent(model.model)}`} className="hover:text-terracotta hover:underline transition-colors block truncate">
+                    <Link
+                      href={`/model/${encodeURIComponent(model.model)}`}
+                      className="hover:text-terracotta hover:underline transition-colors block truncate"
+                    >
                       {model.model}
                     </Link>
                   </h3>
                   <div className="flex items-center gap-1.5 mt-0.5">
-                    <span className="text-stone text-xs capitalize">{model.provider}</span>
-                    {model.verified ? <VerificationBadge className="w-3.5 h-3.5 shrink-0" /> : null}
+                    <span className="text-stone text-xs capitalize">
+                      {model.provider}
+                    </span>
+                    {model.verified ? (
+                      <VerificationBadge className="w-3.5 h-3.5 shrink-0" />
+                    ) : null}
                     {isProvisional && (
-                      <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold tracking-wider uppercase bg-stone-100 text-stone-500 border border-stone-200 shrink-0" title="Provisional Score (Needs more votes)">
+                      <span
+                        className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold tracking-wider uppercase bg-stone-100 text-stone-500 border border-stone-200 shrink-0"
+                        title="Provisional Score (Needs more votes)"
+                      >
                         Prov
                       </span>
                     )}
@@ -266,13 +313,19 @@ export default function LeaderboardPage() {
                 <div className="flex-1 flex items-center gap-8">
                   <div className="w-24 shrink-0">
                     <span className="label block mb-1">ELO</span>
-                    <span className="font-mono font-semibold text-ink text-base">{(model.elo ?? 0).toLocaleString()}</span>
+                    <span className="font-mono font-semibold text-ink text-base">
+                      {(model.elo ?? 0).toLocaleString()}
+                    </span>
                   </div>
                   <div className="flex-1 min-w-[200px]">
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className="label">{metric === "elo" ? "ELO Score" : "Win Rate"}</span>
+                      <span className="label">
+                        {metric === "elo" ? "ELO Score" : "Win Rate"}
+                      </span>
                       <span className="font-mono text-ink text-sm">
-                        {metric === "elo" ? (model.elo ?? 0).toLocaleString() : `${model.win_rate}%`}
+                        {metric === "elo"
+                          ? (model.elo ?? 0).toLocaleString()
+                          : `${model.win_rate}%`}
                       </span>
                     </div>
                     <div className="h-2 bg-paper-dark overflow-hidden">
@@ -286,11 +339,15 @@ export default function LeaderboardPage() {
                   </div>
                   <div className="w-20 text-right shrink-0">
                     <span className="label block mb-1">Votes</span>
-                    <span className="font-mono text-stone text-sm">{model.votes.toLocaleString()}</span>
+                    <span className="font-mono text-stone text-sm">
+                      {model.votes.toLocaleString()}
+                    </span>
                   </div>
                   <div className="w-20 text-right shrink-0">
                     <span className="label block mb-1">Tests</span>
-                    <span className="font-mono text-stone text-sm">{model.tests.toLocaleString()}</span>
+                    <span className="font-mono text-stone text-sm">
+                      {model.tests.toLocaleString()}
+                    </span>
                   </div>
                 </div>
               </div>

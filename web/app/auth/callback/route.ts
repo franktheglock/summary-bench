@@ -1,6 +1,9 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-import { createSupabaseServerClient, hasSupabaseAuthConfig } from "@/lib/supabase/server";
+import {
+  createSupabaseServerClient,
+  hasSupabaseAuthConfig,
+} from "@/lib/supabase/server";
 
 export const runtime = "nodejs";
 
@@ -13,7 +16,9 @@ function getSafeNextPath(nextPath: string | null) {
 }
 
 export async function GET(request: NextRequest) {
-  const redirectPath = getSafeNextPath(request.nextUrl.searchParams.get("next"));
+  const redirectPath = getSafeNextPath(
+    request.nextUrl.searchParams.get("next"),
+  );
   const redirectUrl = new URL(redirectPath, request.url);
 
   if (!hasSupabaseAuthConfig()) {
@@ -27,8 +32,10 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(redirectUrl);
   }
 
-  const supabase = await createSupabaseServerClient();
-  const { data: sessionData, error } = await supabase.auth.exchangeCodeForSession(code);
+  const response = NextResponse.redirect(redirectUrl);
+  const supabase = await createSupabaseServerClient(response);
+  const { data: sessionData, error } =
+    await supabase.auth.exchangeCodeForSession(code);
 
   if (error) {
     // Detect email-conflict: user tried a second OAuth provider with same email
@@ -44,6 +51,7 @@ export async function GET(request: NextRequest) {
     } else {
       redirectUrl.searchParams.set("error", "oauth-exchange-failed");
     }
+    response.headers.set("Location", redirectUrl.toString());
   } else if (sessionData?.user) {
     const user = sessionData.user;
     const meta = user.user_metadata ?? {};
@@ -72,5 +80,5 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  return NextResponse.redirect(redirectUrl);
+  return response;
 }

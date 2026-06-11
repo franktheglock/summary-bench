@@ -4,7 +4,9 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getCanonicalOrigin } from "@/lib/site";
 
 function getSupabaseProxyConfig() {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() || process.env.SUPABASE_URL?.trim();
+  const supabaseUrl =
+    process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() ||
+    process.env.SUPABASE_URL?.trim();
   const supabasePublishableKey =
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY?.trim() ||
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim() ||
@@ -25,24 +27,40 @@ export async function updateSession(request: NextRequest) {
 
   const canonicalOrigin = getCanonicalOrigin();
   if (canonicalOrigin && request.nextUrl.origin !== canonicalOrigin) {
-    const redirectUrl = new URL(`${request.nextUrl.pathname}${request.nextUrl.search}`, canonicalOrigin);
+    const redirectUrl = new URL(
+      `${request.nextUrl.pathname}${request.nextUrl.search}`,
+      canonicalOrigin,
+    );
     return NextResponse.redirect(redirectUrl);
   }
 
   let response = NextResponse.next({ request });
 
-  const supabase = createServerClient(config.supabaseUrl, config.supabasePublishableKey, {
-    cookies: {
-      getAll() {
-        return request.cookies.getAll();
-      },
-      setAll(cookiesToSet) {
-        cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
-        response = NextResponse.next({ request });
-        cookiesToSet.forEach(({ name, value, options }) => response.cookies.set(name, value, options));
+  const supabase = createServerClient(
+    config.supabaseUrl,
+    config.supabasePublishableKey,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet, headers) {
+          cookiesToSet.forEach(({ name, value }) =>
+            request.cookies.set(name, value),
+          );
+          response = NextResponse.next({ request });
+          cookiesToSet.forEach(({ name, value, options }) =>
+            response.cookies.set(name, value, options),
+          );
+          if (headers) {
+            Object.entries(headers).forEach(([key, value]) => {
+              response.headers.set(key, value);
+            });
+          }
+        },
       },
     },
-  });
+  );
 
   await supabase.auth.getUser();
   return response;
